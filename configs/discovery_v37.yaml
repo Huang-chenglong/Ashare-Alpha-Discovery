@@ -1,0 +1,151 @@
+experiment_id: cash-lead-underattention-v37
+status: frozen_before_v37_bucket_e_return_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: >-
+  Exact cash-lead/positive-cash-ROA/low-announcement-attention interaction not
+  found in the bounded pre-outcome search. Cash profitability, earnings
+  surprises, post-announcement drift, and investor attention are prior art.
+
+candidate_registry: [clua_v37]
+expected_sign: positive
+
+formula:
+  cash_lead_improvement_yoy: >-
+    Year-over-year change in TTM operating-cash-flow-to-assets minus the
+    year-over-year change in TTM parent-profit-to-assets.
+  positive_cash_roa: positive part of current TTM operating cash flow divided by assets
+  announcement_attention_5: >-
+    Log of mean actual turnover during the first five tradable sessions on or
+    after the report announcement divided by median actual turnover over the
+    preceding 60 tradable sessions, clipped to [-3, 3].
+  transform: >-
+    Within-date positive percentile ranks for cash lead and cash ROA, and the
+    percentile rank of negative announcement attention.
+  candidate: >-
+    Positive cash-lead rank multiplied by positive cash-ROA rank multiplied by
+    low-announcement-attention rank.
+  interpretation: >-
+    Credible cash improvement that leads accounting profit but receives little
+    event-specific trading attention may diffuse slowly into prices.
+
+event_window:
+  sessions: 5
+  baseline_sessions: 60
+  minimum_baseline_observations: 40
+  maximum_first_trading_session_delay_days: 10
+  maximum_completion_delay_days: 20
+  availability_rule: >-
+    The report-derived signal is unavailable until the fifth post-announcement
+    tradable session has completed. No later turnover observation is used.
+
+financial_data:
+  source: TongdaXin professional quarterly GPCW packages
+  fields:
+    col40: total assets
+    col307: TTM operating cash flow
+    col308: TTM parent net profit in 10k CNY
+    col314: report announcement date
+  point_in_time_rule: announcement date plus completed five-session event window
+  maximum_signal_age_days: 90
+  excluded_shenwan_l1_codes: ["48", "49"]
+  pre_outcome_coverage_audit:
+    completed_event_rows: 48115
+    assets_in_bucket_e_history: 2134
+    positive_cash_lead_rows: 25654
+    positive_cash_roa_rows: 38151
+    both_positive_rows: 22306
+    median_announcement_attention_5: 0.1519299489127557
+    available_period: [2020-01-23, 2026-05-13]
+    note: calculated without loading or joining any future-return label
+  vintage_limitation: >-
+    Packages were downloaded in 2026 rather than archived at each formation.
+    Announcement gating is enforced, but later corrections or restatements
+    cannot be ruled out.
+
+neutralization:
+  minimum_rows: 250
+  known_price_volume_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_max_return_60
+    - anti_skewness_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - overnight_mean_60
+    - negative_intraday_mean_20
+    - negative_intraday_mean_60
+  financial_main_effects:
+    - positive_cash_lead_rank
+    - positive_cash_roa_rank
+    - low_announcement_attention_rank
+    - cash_lead_improvement_yoy
+    - cash_improvement_yoy
+    - profitability_improvement_yoy
+    - cash_flow_roa
+    - profitability_roa
+    - cash_accrual_spread
+    - asset_growth_yoy
+    - announcement_attention_5
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - https://doi.org/10.1016/j.jfineco.2016.03.002
+    - https://doi.org/10.3386/w8308
+    - https://doi.org/10.1111/j.1540-6261.2009.01510.x
+    - https://doi.org/10.1111/0022-1082.00330
+  bounded_search_result: >-
+    The primitives are established. The registered object is only the exact
+    directionally truncated interaction after its ranks, raw accounting
+    components, event attention, known factors, size, and industry are removed.
+    This is not proof of universal novelty.
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on discovery one-sided HAC p-values
+  prior_tests_included: 89
+  current_tests: 1
+  total_tests_after_v37: 90
+  additional_guard: validation one-sided HAC p must be no greater than 0.05
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+adaptive_reuse_disclosure: >-
+  For the exact V37 formula, 2023-2024 is outside construction. At the project
+  level E has been repeatedly inspected through V36 and is adaptively reused
+  internal validation, not a pristine holdout. V37 remains in the cumulative
+  90-test family.
+data_reuse_limitation: >-
+  F remains sealed and may be opened once under a separately frozen protocol
+  only if V37 passes every research gate without a post-outcome change.
+failure_rule: >-
+  Reject V37 without changing the sign, fields, five-session window, baseline,
+  ranks, age, exclusions, controls, periods, gates, portfolio, or costs and
+  keep F sealed if any research gate fails.

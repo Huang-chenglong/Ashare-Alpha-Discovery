@@ -46,6 +46,7 @@ FIELDS_V36 = {
     **FIELDS_V32,
     **FIELDS_V35,
 }
+FIELDS_V37 = dict(FIELDS_V33)
 
 
 @dataclass(frozen=True)
