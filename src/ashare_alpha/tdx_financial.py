@@ -27,6 +27,12 @@ FIELDS_V32 = {
     266: "free_float_shares",
     314: "report_announcement_date",
 }
+FIELDS_V33 = {
+    40: "total_assets",
+    307: "ttm_operating_cash_flow",
+    308: "ttm_parent_net_profit_10k",
+    314: "report_announcement_date",
+}
 
 
 @dataclass(frozen=True)

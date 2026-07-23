@@ -1,4 +1,4 @@
-# Research ledger: V7–V31
+# Research ledger: V7–V32
 
 ## Status codes
 
@@ -36,9 +36,10 @@
 | V29 | Tail-shadow rejection asymmetry | 2 | FAILED RESEARCH | Discovery IC near zero/negative; costs negative. |
 | V30 | Shallow nonlinear structural model | 1 | FAILED RESEARCH | Validation IC `0.01647`, net `+0.2043%`, but HAC p=`0.05352`. |
 | V31 | Ridge pairwise interaction model | 1 | FAILED RESEARCH | Validation IC `0.00283`, net `-0.3421%`. |
-| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V31 produced no eligible candidate. |
+| V32 | Distributed institutional breadth absorption | 1 | FAILED RESEARCH | Discovery IC `0.00523`, BH q `0.5359`; validation net `-0.1388%`. |
+| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V32 produced no eligible candidate. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **84 unique directional tests**.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **85 unique directional tests**.
 
 ## Original precise constructs introduced in this branch
 
@@ -69,6 +70,10 @@ TSRA compares next-session lower-shadow recovery after bottom residual tails wit
 ### NSIM/RPSI learned factors
 
 V30 and V31 fit only 2020–2022 residual labels and evaluate 2023–2024 out of training. Known factors are removed from both the training target and final score. V30 used a fixed shallow boosted model; V31 used all fixed pairwise rank interactions with Ridge. Neither earned access to F.
+
+### DIBA — Distributed Institutional Breadth Absorption
+
+V32 multiplied positive cross-sectional ranks of free-float expansion, institutional-breadth growth, and falling top-ten float-holder concentration. It removed all three ranked main effects, eight additional ownership changes, fourteen known price/volume factors, size, squared size, and industry. The score was exposure-clean but failed the discovery, cumulative-FDR, validation-HAC, net-return, and IR gates. Current-vintage GPCW data were gated by report announcement date; possible later corrections remain a disclosed limitation.
 
 ## Prior-art boundary
 

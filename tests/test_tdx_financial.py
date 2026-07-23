@@ -9,6 +9,7 @@ import pytest
 
 from ashare_alpha.tdx_financial import (
     FIELDS_V32,
+    FIELDS_V33,
     FinancialPackage,
     parse_financial_manifest,
     parse_financial_package,
@@ -80,6 +81,7 @@ def test_parse_financial_package_reads_registered_fields(tmp_path) -> None:
     for field_number, column in FIELDS_V32.items():
         if field_number != 314:
             assert pd.notna(frame.loc[0, column])
+    assert set(FIELDS_V33).issubset(range(1, 321))
 
 
 def test_parse_financial_package_accepts_a_generic_field_map(tmp_path) -> None:

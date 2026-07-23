@@ -4,7 +4,7 @@
 
 The current research verdict is **NO NEW CONFIRMED FACTOR**.
 
-Eighty-four directional candidate tests are retained in the cumulative ledger. No V20–V31 candidate passed every registered discovery, temporal-validation, yearly-consistency, cost, and information-ratio gate. Formula-new confirmation bucket F therefore remains sealed.
+Eighty-five directional candidate tests are retained in the cumulative ledger. No V20–V32 candidate passed every registered discovery, temporal-validation, yearly-consistency, cost, and information-ratio gate. Formula-new confirmation bucket F therefore remains sealed.
 
 V19 is also invalid: it passed research bucket C but failed the one-shot asset-disjoint D confirmation with mean rank IC `-0.00093`, mean net active return `-0.1841%` per month, and IR `-0.280`.
 
@@ -13,12 +13,13 @@ V19 is also invalid: it passed research bucket C but failed the one-shot asset-d
 - Every evaluated direction is retained; rejected-before-outcome ideas consume zero tests.
 - Benjamini–Hochberg is recomputed over the entire cumulative family.
 - V30 and V31 are learned models. Their in-training discovery statistics are optimistic by construction, so both additionally require a one-sided HAC test on the untouched-by-training 2023–2024 period.
+- V32 was a frozen accounting/ownership interaction. It failed with discovery IC `0.00523`, cumulative BH q=`0.5359`, validation HAC p=`0.1781`, and negative cost-adjusted return.
 - V30 missed that additional gate: validation HAC p=`0.05352` versus the frozen `0.05` limit.
 - No sign reversal, weight optimization, alpha search, or threshold relaxation was performed after seeing a result.
 
 ## Exposure controls
 
-All current candidate scores are cross-sectionally residualized against point-in-time log float market capitalization, its centered square, and point-in-time Shenwan L1 industry. V20–V31 additionally remove eleven or more registered liquidity, reversal, volatility, lottery, momentum, overnight/intraday, or mechanism-specific controls.
+All current candidate scores are cross-sectionally residualized against point-in-time log float market capitalization, its centered square, and point-in-time Shenwan L1 industry. V20–V32 additionally remove eleven or more registered liquidity, reversal, volatility, lottery, momentum, overnight/intraday, accounting, ownership, or mechanism-specific controls.
 
 The learned V30/V31 target is residualized against fourteen known factors before fitting. Model predictions are residualized against the same fourteen factors again before IC and portfolio evaluation. Their reported validation IC therefore does not come directly from those known main effects.
 
@@ -35,7 +36,7 @@ Coverage: **11/11 checked**.
 | Base-rate neglect | Not applicable; this is not a diagnostic classifier. |
 | Regression to the mean | Addressed with temporal and asset-disjoint stages, but adaptive reuse of E remains a limitation. |
 | Survivorship bias | Historical monthly membership and available delisted histories are used; vendor and ST-history gaps remain. |
-| Look-elsewhere effect | Addressed with a cumulative 84-test family and retained failures, not erased. |
+| Look-elsewhere effect | Addressed with a cumulative 85-test family and retained failures, not erased. |
 | Garden of forking paths | Each version is committed before outcomes; adaptive motivation is disclosed. |
 | Correlation versus causation | No causal claim is made. |
 | Reverse causality | Formation variables precede labels, but latent state can drive both and remains a limitation. |
@@ -47,6 +48,7 @@ Coverage: **11/11 checked**.
 - Flat 20bp one-way cost omits nonlinear impact, limit queues, capacity, and the full fee/tax schedule.
 - The equal-weight eligible-universe benchmark is not an official index.
 - Tencent HFQ prices and reconstructed TongdaXin float history are vendor-derived rather than exchange-certified point-in-time databases.
+- GPCW quarterly packages were downloaded in 2026. Announcement-date gating is enforced, but archived vintage values are unavailable, so later corrections/restatements cannot be excluded.
 - The repeated 2023–2024 inspections mean it is now adaptive research data, not a pristine holdout for new manual variants.
 
 ## Why research stops here

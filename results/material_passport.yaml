@@ -1,11 +1,11 @@
 artifact: Ashare-Alpha-Discovery
-result_version: v31
+result_version: v32
 verification_status: VERIFIED_NEGATIVE_RESULT
 verified_date: 2026-07-23
 
 primary_claim: >-
-  Eighty-four directional candidate tests were retained under cumulative
-  multiplicity control. No new V20-V31 factor passed every frozen research gate,
+  Eighty-five directional candidate tests were retained under cumulative
+  multiplicity control. No new V20-V32 factor passed every frozen research gate,
   so formula-new asset-disjoint bucket F remained sealed.
 
 claim_boundary:
@@ -24,13 +24,14 @@ data:
   asset_intersection_count: 0
   prices: Tencent backward-adjusted OHLC
   structural_data: TongdaXin actual volume, amount, and gbbq float-share history
+  quarterly_financial_data: TongdaXin GPCW current-vintage history gated by report announcement date
   industry: point-in-time Shenwan L1 as-of alignment
 
 research:
-  cumulative_directional_tests: 84
+  cumulative_directional_tests: 85
   pre_outcome_rejections_v13_v15_v23_v28: 4
   confirmation_v19_status: failed
-  bucket_f_opened_for_v20_v31: false
+  bucket_f_opened_for_v20_v32: false
 
 closest_candidate:
   name: nsim_v30
@@ -47,3 +48,4 @@ limitations:
   - Historical ST status is incomplete and represented as zero in the current panel.
   - Flat costs omit nonlinear impact, price-limit queues, capacity, and full fees/taxes.
   - Exact-formula novelty was not established by an exhaustive global literature search.
+  - Historical GPCW packages were downloaded in 2026; later corrections or restatements cannot be excluded.
