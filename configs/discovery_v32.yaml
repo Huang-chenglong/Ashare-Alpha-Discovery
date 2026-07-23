@@ -1,0 +1,145 @@
+experiment_id: distributed-institutional-breadth-absorption-v32
+status: frozen_before_v32_bucket_e_return_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: >-
+  Exact positive-supply/positive-institutional-breadth/falling-concentration
+  interaction not found in the bounded pre-outcome search; every primitive
+  component and the broad demand-versus-supply mechanism are prior art.
+
+candidate_registry: [diba_v32]
+expected_sign: positive
+
+formula:
+  reporting_frequency: quarterly
+  current_and_lagged_records: consecutive fiscal quarters only
+  float_supply_growth: log change in TongdaXin free-float shares
+  institutional_breadth_growth: log1p change in TongdaXin institution count
+  top10_concentration: top-ten float A-share holdings divided by listed float A shares
+  diffusion_change: negative change in top-ten concentration
+  component_transform: >-
+    Within each formation date, each strictly positive component is mapped to
+    its percentile rank among positive observations; nonpositive observations
+    receive zero.
+  candidate: >-
+    positive-float-expansion rank multiplied by positive-institutional-breadth
+    rank multiplied by positive-diffusion rank
+  interpretation: >-
+    A nonlinear complementarity test: newly tradable supply is accompanied by
+    more institutional holders without greater top-ten concentration.
+
+financial_data:
+  source: TongdaXin professional financial-data quarterly GPCW packages
+  official_cdn: http://data.tdx.com.cn/tdxfin/
+  package_period: [2018-03-31, 2026-03-31]
+  package_count: 33
+  package_validation: manifest byte size, MD5, ZIP CRC, and exactly one DAT member
+  fields:
+    col239: listed float A shares
+    col242: shareholder count
+    col246: institution count
+    col247: institution shares
+    col264: top-ten float holders' A shares
+    col266: free-float shares
+    col314: financial-report announcement date stored as YYMMDD
+  point_in_time_rule: >-
+    A report becomes usable on col314 and is selected only when it is the latest
+    fiscal report announced by the formation date. Later-announced older reports
+    cannot roll the state backward.
+  filters:
+    current_and_lagged_raw_fields_strictly_positive: true
+    announcement_lag_days: [0, 365]
+    maximum_signal_age_days: 183
+    top10_and_institution_ownership_ratios: [0.0, 1.05]
+    free_float_no_more_than_105_percent_of_listed_float: true
+  vintage_limitation: >-
+    The packages were downloaded on 2026-07-23 rather than archived on each
+    historical formation date. Announcement gating prevents ordinary release-date
+    look-ahead, but later vendor corrections or restatements cannot be ruled out.
+
+neutralization:
+  minimum_rows: 100
+  known_price_volume_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_max_return_60
+    - anti_skewness_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - overnight_mean_60
+    - negative_intraday_mean_20
+    - negative_intraday_mean_60
+  financial_main_effects:
+    - positive_float_expansion_rank
+    - positive_breadth_growth_rank
+    - positive_diffusion_rank
+    - float_supply_growth
+    - listed_float_growth
+    - institution_breadth_growth
+    - institution_holding_growth
+    - top10_holding_growth
+    - top10_concentration_change
+    - institution_ownership_change
+    - shareholder_growth
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - https://doi.org/10.1016/S0304-405X(02)00223-4
+    - https://doi.org/10.1093/rof/rfs026
+    - https://doi.org/10.1016/j.jfineco.2008.09.009
+    - https://doi.org/10.1016/j.jfineco.2011.08.007
+    - https://doi.org/10.1080/00036846.2026.2629462
+  bounded_search_result: >-
+    The search found return studies of ownership breadth and issuance, and a
+    joint level study of institutional ownership/free float for beta. It did not
+    find this directionally truncated triple interaction, residualized against
+    all component main effects, as a return predictor. This is not proof of
+    universal novelty.
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on discovery one-sided HAC p-values
+  prior_tests_included: 84
+  current_tests: 1
+  total_tests_after_v32: 85
+  additional_guard: validation one-sided HAC p must be no greater than 0.05
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+adaptive_reuse_disclosure: >-
+  V32 was designed after V20-V31 outcomes were known, but uses a new quarterly
+  ownership-data mechanism. E is adaptively reused, all 84 prior tests remain in
+  the BH family, and the exact V32 formula was frozen before reading its returns.
+data_reuse_limitation: >-
+  E/F were used by an earlier repository for a different formula. V32 is exact-formula
+  new to both buckets; F remains sealed unless every frozen research gate passes.
+failure_rule: >-
+  Reject V32 without changing transforms, filters, sign, or controls and keep F
+  sealed if any research gate fails.
