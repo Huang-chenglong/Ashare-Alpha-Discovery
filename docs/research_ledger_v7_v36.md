@@ -1,4 +1,4 @@
-# Research ledger: V7–V35
+# Research ledger: V7–V36
 
 ## Status codes
 
@@ -40,9 +40,10 @@
 | V33 | Cash-synchronized profitability improvement | 1 | FAILED RESEARCH | Discovery IC `0.01487`; validation IC reversed to `-0.00715`. |
 | V34 | Cash-led profitability improvement | 1 | FAILED RESEARCH | Discovery IC `0.01114`; validation IC `-0.00127`, IR `0.216`. |
 | V35 | Self-financed growth release | 1 | FAILED RESEARCH | Discovery IC `-0.00383`; validation IC `0.01504`, but net `-0.2073%`/month and HAC p=`0.1255`. |
-| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V35 produced no eligible candidate. |
+| V36 | Cross-fitted fundamental-structural model | 1 | FAILED RESEARCH | Asset-fold discovery IC `-0.00172`; validation IC `0.01011`, but 2023 was negative, net `-0.0872%`/month, and HAC p=`0.1556`. |
+| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V36 produced no eligible candidate. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **88 unique directional tests**.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **89 unique directional tests**.
 
 ## Original precise constructs introduced in this branch
 
@@ -81,6 +82,10 @@ V32 multiplied positive cross-sectional ranks of free-float expansion, instituti
 ### SFGR — Self-Financed Growth Release
 
 V35 multiplied the positive ranks of revenue growth, year-over-year release of receivables-plus-inventory intensity, and operating-cash margin. It removed every component and related accounting level, fourteen registered price/volume factors, size, squared size, and industry. The validation IC was positive but the discovery direction, validation HAC test, yearly consistency, cost-adjusted return, and IR all failed. This is retained as the eighty-eighth negative test; bucket F was not read.
+
+### FSIM — Fundamental-Structural Interaction Model
+
+V36 used five deterministic asset folds so every 2020–2022 discovery prediction came from a model trained without that asset's labels. A final 2020–2022 model predicted 2023–2024. The score then removed linear and quadratic ranks of all 52 model inputs, 38 missingness effects, size, squared size, and industry. The asset-fold discovery IC was negative and the validation portfolio was cost-negative; the clean exposure diagnostics do not rescue the failed economic and statistical gates.
 
 ## Prior-art boundary
 
