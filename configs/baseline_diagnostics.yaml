@@ -1,0 +1,11 @@
+experiment_id: known-baseline-diagnostics
+status: frozen_before_baseline_evaluation
+frozen_date: 2026-07-23
+purpose: pipeline calibration only; no baseline is eligible for novel-factor confirmation
+candidate_count: 14
+prior_directional_tests: 24
+cumulative_tests_after_diagnostic: 38
+neutralization: size, size-squared, and Shenwan L1 industry only
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  validation: [2023-01-01, 2024-12-31]

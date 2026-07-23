@@ -1,0 +1,76 @@
+experiment_id: temporal-participation-discovery-v1
+frozen_before_candidate_evaluation: true
+frozen_date: 2026-07-23
+
+research_question: >-
+  Does the temporal concentration and return direction of within-stock trading
+  participation predict next-month A-share returns beyond known turnover,
+  reversal, volatility, size, and industry effects?
+
+candidate_registry:
+  - diffuse_turnover_20
+  - diffuse_turnover_60
+  - turnover_burst_reversal_20
+  - turnover_burst_reversal_60
+  - attention_normalization_20_60
+  - float_supply_days_120
+
+data:
+  formation_prices: Tencent hfq OHLC, downloaded before this experiment
+  turnover: TongdaXin daily volume divided by point-in-time float shares
+  float_shares: TongdaXin gbbq categories 5 and 9, backward effective-date aligned
+  industry: official Shenwan historical classification, backward-as-of start_date
+  outcome: Tencent hfq next-market-open to 21st-market-session open
+  maximum_execution_delay_sessions: 5
+
+universes:
+  research: liquid bucket A, stable asset-hash partition, 500 stocks per month
+  confirmation: liquid bucket B, disjoint assets, 500 stocks per month
+  excluded: same-month CSI 300 and CSI 500 constituents
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+  untouched_confirmation: [2020-01-01, 2026-05-31]
+
+neutralization:
+  winsorization: 3-MAD monthly cross-section
+  controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - Shenwan_L1_dummies
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+  regression: equal-weight monthly OLS residual, then z-score
+  common_sample: candidate plus every control and industry must be observed
+  outcome_may_select_formation_rows: false
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+  selection: highest validation net information ratio, then validation mean IC, then name
+
+confirmation_gate:
+  selected_candidate_only: true
+  minimum_months: 75
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 5
+  require_2025_positive: true
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  benchmark: equal-weight common formation universe
+  cost_bps_one_way: 20

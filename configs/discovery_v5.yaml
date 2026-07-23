@@ -1,0 +1,61 @@
+experiment_id: defensive-bottleneck-residual-discovery-v5
+status: frozen_before_v5_candidate_evaluation
+frozen_date: 2026-07-23
+adaptive_after_prior_rounds: true
+
+candidate_registry:
+  - joint_lottery_liquidity
+  - joint_lottery_intraday
+  - joint_liquidity_intraday
+  - joint_lottery_liquidity_intraday
+  - joint_defensive_fourway
+  - joint_reversal_fourway
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 38
+  total_tests_after_v5: 44
+
+constituent_main_effects:
+  - anti_max_return_20
+  - low_turnover_20
+  - negative_intraday_mean_20
+  - low_volatility_60
+  - reversal_20
+
+joint_operator:
+  transform: monthly eligible-universe 3-MAD winsorization then z-score and clip [-5,5]
+  formula: negative log of mean exp(-z) across registered constituents
+
+neutralization:
+  controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - Shenwan_L1_dummies
+    - anti_max_return_20
+    - low_turnover_20
+    - negative_intraday_mean_20
+    - low_volatility_60
+    - reversal_20
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+  selection: highest validation net information ratio, then validation mean IC, then name
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  benchmark: equal-weight common formation universe
+  cost_bps_one_way: 20

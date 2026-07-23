@@ -1,0 +1,63 @@
+experiment_id: supply-aware-defensive-attention-v6
+status: frozen_before_v6_candidate_evaluation
+frozen_date: 2026-07-23
+claim_type: new engineered composite, not a new primitive anomaly
+
+candidate_registry:
+  - supply_aware_defensive_attention
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 44
+  total_tests_after_v6: 45
+
+formula:
+  core_components:
+    - anti_max_return_20
+    - low_turnover_20
+    - negative_intraday_mean_20
+    - low_volatility_60
+    - reversal_20
+  core_weights: equal, 0.20 each
+  component_transform: eligible-universe 3-MAD winsorization, z-score, clip [-5,5]
+  supply_state: remaining_float_inventory_days_025_v6
+  supply_penalty: 0.25 * max(-z_supply_state, 0)
+  candidate: mean(core_z_scores) minus supply_penalty
+
+neutralization:
+  controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - Shenwan_L1_dummies
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+  untouched_asset_disjoint_confirmation: [2020-01-01, 2026-05-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+confirmation_gate:
+  selected_candidate_only: true
+  minimum_months: 75
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 5
+  require_2025_positive: true
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  benchmark: equal-weight common formation universe
+  cost_bps_one_way: 20

@@ -1,0 +1,83 @@
+artifact: Ashare-Alpha-Discovery
+result_version: v6
+verification_status: VERIFIED_WITH_LIMITATIONS
+verified_date: 2026-07-23
+
+primary_claim: >-
+  The frozen SADA engineered composite passed its registered A research gate and
+  its one-candidate, asset-disjoint B historical replication gate under the stated
+  point-in-time data, execution, cost, and portfolio rules.
+
+claim_boundary:
+  novel_primitive_anomaly: false
+  new_engineered_formula_in_repository: true
+  causal_claim: false
+  live_trading_claim: false
+  globally_pristine_holdout: false
+  holdout_note: >-
+    Bucket B was first evaluated for frozen SADA after selection, but the same universe
+    had been inspected for other factors in an earlier project.
+
+data:
+  research_bucket_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  confirmation_bucket_sha256: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  industry_history_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+  research_assets: 2149
+  confirmation_assets: 2124
+  asset_intersection_count: 0
+  prices: Tencent backward-adjusted OHLC
+  structural_data: TongdaXin volume, float-share events, trading state
+  industry: Shenwan historical L1, backward as-of aligned
+
+research_result:
+  total_directional_tests: 45
+  discovery_months: 36
+  discovery_mean_rank_ic: 0.12069729742279572
+  cumulative_bh_q: 6.17355204287967e-14
+  validation_months: 24
+  validation_mean_rank_ic: 0.14145710537689804
+  validation_mean_net_active_return: 0.006826400546929169
+  validation_net_information_ratio: 1.0854726833539137
+
+confirmation_result:
+  months: 77
+  mean_rank_ic: 0.12220404452635877
+  hac_p_one_sided: 5.719144284627884e-22
+  positive_years: 6
+  mean_net_active_return: 0.005373423990446857
+  net_information_ratio: 0.8719991985190738
+  passes_registered_gate: true
+  warning_2026_partial_mean_rank_ic: -0.003024066804700953
+  warning_2026_partial_mean_net_active_return: -0.016747086108168406
+
+execution:
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+  entry: next market-session open, maximum five-session delay
+  exit: twenty-first market-session open, maximum five-session delay
+  return_coverage: 1.0
+
+environment:
+  operating_system: Windows 10.0.22631
+  python: 3.10.5
+  numpy: 1.26.4
+  pandas: 2.3.3
+  pyarrow: 16.1.0
+  scipy: 1.15.3
+  pyyaml: 6.0.2
+
+repro_lock:
+  classification: deterministic
+  stochasticity_declaration: no random element in factor, neutralization, portfolio, or test
+  research_output_files_byte_identical: 5/5
+  confirmation_output_files_byte_identical: 5/5
+  hash_manifest: results/reproducibility_sha256.csv
+
+limitations:
+  - Bucket B is asset-disjoint but not globally pristine from all prior projects.
+  - January-May 2026 is negative and is only a partial year.
+  - The liquid ex-index universe limits generalization to all A-shares.
+  - Historical ST coverage and reconstructed industry history may be imperfect.
+  - Flat costs omit nonlinear impact, price-limit queues, capacity, and taxes/fees detail.
+  - Historical association does not establish causality or future live profitability.

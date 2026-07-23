@@ -1,0 +1,56 @@
+experiment_id: upside-tail-concentration-discovery-v4
+status: frozen_before_v4_candidate_evaluation
+frozen_date: 2026-07-23
+adaptive_after_v1_v2_v3: true
+
+candidate_registry:
+  - diffuse_upside_variance_20
+  - diffuse_upside_variance_60
+  - low_active_upside_variance_share_20
+  - low_active_upside_variance_share_60
+  - low_turnover_upside_amplification_20
+  - low_turnover_upside_amplification_60
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_candidates_included: 18
+  total_candidates_after_v4: 24
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+neutralization:
+  winsorization: 3-MAD monthly cross-section
+  controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - Shenwan_L1_dummies
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - max_excess_return_20
+    - max_excess_return_60
+    - realized_skewness_20
+    - realized_skewness_60
+    - diffuse_turnover_20
+    - diffuse_turnover_60
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+  selection: highest validation net information ratio, then validation mean IC, then name
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  benchmark: equal-weight common formation universe
+  cost_bps_one_way: 20

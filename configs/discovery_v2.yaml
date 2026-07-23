@@ -1,0 +1,65 @@
+experiment_id: active-gap-discovery-v2
+status: frozen_before_v2_candidate_evaluation
+frozen_date: 2026-07-23
+adaptive_after_v1: true
+
+candidate_registry:
+  - active_positive_gap_reversal_20
+  - active_positive_gap_reversal_60
+  - active_negative_gap_recovery_20
+  - active_negative_gap_recovery_60
+  - burst_close_strength_20
+  - burst_close_strength_60
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_candidates_included: 6
+  total_candidates_after_v2: 12
+  family: every directional candidate evaluated in V1 and V2 discovery
+
+data:
+  research: liquid bucket A, stable asset-hash partition, 500 stocks per month
+  confirmation: liquid bucket B, asset-disjoint and unopened
+  formation_ohlc: Tencent hfq
+  turnover: TongdaXin daily volume divided by point-in-time float shares
+  industry: official Shenwan historical classification, backward as-of start_date
+  outcome: Tencent hfq next-market-open to 21st-market-session open
+  maximum_execution_delay_sessions: 5
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+neutralization:
+  winsorization: 3-MAD monthly cross-section
+  controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - Shenwan_L1_dummies
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - diffuse_turnover_20
+    - diffuse_turnover_60
+    - turnover_burst_reversal_20
+    - turnover_burst_reversal_60
+  regression: equal-weight monthly OLS residual, then z-score
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+  selection: highest validation net information ratio, then validation mean IC, then name
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  benchmark: equal-weight common formation universe
+  cost_bps_one_way: 20

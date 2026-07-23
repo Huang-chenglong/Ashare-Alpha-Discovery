@@ -1,0 +1,2 @@
+candidate,discovery_months,discovery_mean_ic,discovery_hac_t,discovery_p_one_sided,discovery_q_bh,multiplicity_family_size,validation_months,validation_mean_ic,validation_mean_net_active_return,validation_net_information_ratio,validation_2023_2024_positive,passes_research_gate
+supply_aware_defensive_attention,36,0.12069729742279572,7.815199560704384,2.74380090794652e-15,6.17355204287967e-14,45,24,0.14145710537689804,0.006826400546929169,1.0854726833539137,True,True

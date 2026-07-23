@@ -1,0 +1,28 @@
+experiment_id: supply-aware-defensive-attention-confirmation-v6
+status: frozen_before_bucket_b_open
+frozen_date: 2026-07-23
+selected_candidate: supply_aware_defensive_attention
+research_bucket: A
+confirmation_bucket: B
+require_asset_intersection_count: 0
+period: [2020-01-01, 2026-05-31]
+
+gate:
+  minimum_months: 75
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 5
+  require_2025_positive: true
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  benchmark: equal-weight common bucket-B formation universe
+  cost_bps_one_way: 20
+
+failure_rule: >-
+  If any gate fails, V6 is rejected. No replacement candidate, sign change,
+  formula change, threshold change, or second use of bucket B is permitted.

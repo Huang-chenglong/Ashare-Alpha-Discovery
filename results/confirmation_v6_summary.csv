@@ -1,0 +1,2 @@
+candidate,months,mean_rank_ic,hac_t,hac_p_one_sided,positive_years,required_positive_year,required_year_positive,mean_net_active_return,net_information_ratio,mean_monthly_traded_notional,minimum_monthly_return_coverage,minimum_selected_return_coverage,passes_confirmation_gate
+supply_aware_defensive_attention,77,0.12220404452635877,9.563008014204435,5.719144284627884e-22,6,2025,True,0.005373423990446857,0.8719991985190738,1.1150649350649353,1.0,1.0,True
