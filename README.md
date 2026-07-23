@@ -6,7 +6,7 @@
 
 **截至 2026-07-23，本项目没有发现一个可以诚实称为“新的、通过全部预注册门槛的有效因子”。**
 
-项目累计记录 91 个方向性候选检验。V19 曾通过研究样本，但在一次性资产隔离确认集 D 上方向失效，因此正式作废。V20–V38 在公式新鲜的开发样本 E 上继续研究；没有候选通过完整研究门槛，所以确认集 F 始终未被打开。
+项目累计记录 92 个方向性候选检验。V19 曾通过研究样本，但在一次性资产隔离确认集 D 上方向失效，因此正式作废。V20–V39 在公式新鲜的开发样本 E 上继续研究；没有候选通过完整研究门槛，所以确认集 F 始终未被打开。
 
 这是刻意保留的负结果，不是未完成的回测。仓库拒绝以下做法：
 
@@ -96,10 +96,10 @@ python scripts/run_adaptive_discovery.py `
 
 ## 可核查证据
 
-- [完整研究账本](docs/research_ledger_v7_v38.md)
-- [V32–V38 专业财务数据与因子审计](docs/financial_factors_v32_v38.md)
+- [完整研究账本](docs/research_ledger_v7_v39.md)
+- [V32–V39 专业财务数据与因子审计](docs/financial_factors_v32_v39.md)
 - [统计与偏差审计](docs/statistical_audit.md)
-- [91 个候选统一表](results/all_candidate_tests.csv)
+- [92 个候选统一表](results/all_candidate_tests.csv)
 - [最终研究状态](results/research_status.yaml)
 - [材料护照](results/material_passport.yaml)
 

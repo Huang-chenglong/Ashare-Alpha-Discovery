@@ -1,4 +1,4 @@
-# Research ledger: V7–V38
+# Research ledger: V7–V39
 
 ## Status codes
 
@@ -43,9 +43,10 @@
 | V36 | Cross-fitted fundamental-structural model | 1 | FAILED RESEARCH | Asset-fold discovery IC `-0.00172`; validation IC `0.01011`, but 2023 was negative, net `-0.0872%`/month, and HAC p=`0.1556`. |
 | V37 | Cash-lead underattention | 1 | FAILED RESEARCH | Only 25/18 eligible months; validation IC `-0.01976`, net `-0.5024%`/month, and IR `-1.90`. |
 | V38 | Cash-confirmed reporting acceleration | 1 | FAILED RESEARCH | Discovery IC `0.00666`; validation IC `0.00304`, net `-0.4366%`/month, and IR `-1.47`. |
-| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V38 produced no eligible candidate. |
+| V39 | Customer-funding/working-capital alignment | 1 | FAILED RESEARCH | Discovery IC `0.01098`, q `0.1875`; validation IC `0.00512`, net `-0.2160%`/month. |
+| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V39 produced no eligible candidate. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **91 unique directional tests**.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **92 unique directional tests**.
 
 ## Original precise constructs introduced in this branch
 

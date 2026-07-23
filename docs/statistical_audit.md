@@ -4,7 +4,7 @@
 
 The current research verdict is **NO NEW CONFIRMED FACTOR**.
 
-Ninety-one directional candidate tests are retained in the cumulative ledger. No V20–V38 candidate passed every registered discovery, temporal-validation, yearly-consistency, cost, and information-ratio gate. Formula-new confirmation bucket F therefore remains sealed.
+Ninety-two directional candidate tests are retained in the cumulative ledger. No V20–V39 candidate passed every registered discovery, temporal-validation, yearly-consistency, cost, and information-ratio gate. Formula-new confirmation bucket F therefore remains sealed.
 
 V19 is also invalid: it passed research bucket C but failed the one-shot asset-disjoint D confirmation with mean rank IC `-0.00093`, mean net active return `-0.1841%` per month, and IR `-0.280`.
 
@@ -20,6 +20,7 @@ V19 is also invalid: it passed research bucket C but failed the one-shot asset-d
 - V36 used deterministic five-fold asset cross-fitting in discovery and still failed: discovery IC `-0.00172`, cumulative BH q=`0.8182`, validation IC `0.01011`, HAC p=`0.1556`, a negative 2023 IC, and negative cost-adjusted return.
 - V37 failed coverage and direction gates: only 25 discovery and 18 validation months met the complete-sample requirement; validation IC was `-0.01976`, HAC p=`0.9602`, and IR `-1.90`.
 - V38 had full month coverage but failed magnitude, yearly, HAC, cost, and IR gates: discovery IC `0.00666`, validation IC `0.00304`, HAC p=`0.2726`, and IR `-1.47`.
+- V39 was positive but insufficient: discovery IC `0.01098`, cumulative BH q=`0.1875`, validation IC `0.00512`, HAC p=`0.2796`, and negative cost-adjusted return.
 - V30 missed that additional gate: validation HAC p=`0.05352` versus the frozen `0.05` limit.
 - No sign reversal, weight optimization, alpha search, or threshold relaxation was performed after seeing a result.
 
@@ -42,7 +43,7 @@ Coverage: **11/11 checked**.
 | Base-rate neglect | Not applicable; this is not a diagnostic classifier. |
 | Regression to the mean | Addressed with temporal and asset-disjoint stages, but adaptive reuse of E remains a limitation. |
 | Survivorship bias | Historical monthly membership and available delisted histories are used; vendor and ST-history gaps remain. |
-| Look-elsewhere effect | Addressed with a cumulative 91-test family and retained failures, not erased. |
+| Look-elsewhere effect | Addressed with a cumulative 92-test family and retained failures, not erased. |
 | Garden of forking paths | Each version is committed before outcomes; adaptive motivation is disclosed. |
 | Correlation versus causation | No causal claim is made. |
 | Reverse causality | Formation variables precede labels, but latent state can drive both and remains a limitation. |

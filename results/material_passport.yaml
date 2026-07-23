@@ -1,11 +1,11 @@
 artifact: Ashare-Alpha-Discovery
-result_version: v38
+result_version: v39
 verification_status: VERIFIED_NEGATIVE_RESULT
 verified_date: 2026-07-23
 
 primary_claim: >-
-  Ninety-one directional candidate tests were retained under cumulative
-  multiplicity control. No new V20-V38 factor passed every frozen research gate,
+  Ninety-two directional candidate tests were retained under cumulative
+  multiplicity control. No new V20-V39 factor passed every frozen research gate,
   so formula-new asset-disjoint bucket F remained sealed.
 
 claim_boundary:
@@ -28,10 +28,10 @@ data:
   industry: point-in-time Shenwan L1 as-of alignment
 
 research:
-  cumulative_directional_tests: 91
+  cumulative_directional_tests: 92
   pre_outcome_rejections_v13_v15_v23_v28: 4
   confirmation_v19_status: failed
-  bucket_f_opened_for_v20_v38: false
+  bucket_f_opened_for_v20_v39: false
 
 closest_candidate:
   name: nsim_v30

@@ -1,9 +1,9 @@
 status: no_new_confirmed_factor
 as_of: 2026-07-23
-cumulative_candidate_tests: 91
-latest_version: V38
+cumulative_candidate_tests: 92
+latest_version: V39
 formula_new_confirmation_bucket_f_opened: false
-reason: no V20-V38 candidate passed every frozen research gate
+reason: no V20-V39 candidate passed every frozen research gate
 
 notable_results:
   fsid_120:
@@ -74,6 +74,14 @@ notable_results:
     validation_hac_p_one_sided: 0.272570809573658
     validation_mean_net_active_return: -0.004365526802876542
     validation_net_information_ratio: -1.4653305424995597
+    passes: false
+  cfwa_v39:
+    discovery_mean_ic: 0.010977740248741842
+    discovery_bh_q: 0.18748060908092677
+    validation_mean_ic: 0.005123154646917287
+    validation_hac_p_one_sided: 0.27956978483476935
+    validation_mean_net_active_return: -0.002160063585304398
+    validation_net_information_ratio: -0.6178335160025302
     passes: false
 
 required_for_credible_continuation:
