@@ -4,5 +4,6 @@ __pycache__/
 *.py[cod]
 data/
 reports/
+artifacts/
 dist/
 *.egg-info/

@@ -1,0 +1,27 @@
+status: no_new_confirmed_factor
+as_of: 2026-07-23
+cumulative_candidate_tests: 84
+latest_version: V31
+formula_new_confirmation_bucket_f_opened: false
+reason: no V20-V31 candidate passed every frozen research gate
+
+notable_results:
+  fsid_120:
+    discovery_mean_ic: 0.017445167636492225
+    discovery_bh_q: 0.19529061705460285
+    validation_mean_ic: 0.0168367287863
+    validation_mean_net_active_return: 0.001433
+    validation_net_information_ratio: 0.776118
+    passes: false
+  nsim_v30:
+    validation_mean_ic: 0.0164701433435
+    validation_hac_p_one_sided: 0.053523
+    validation_mean_net_active_return: 0.002043
+    validation_net_information_ratio: 0.513499
+    passes: false
+
+required_for_credible_continuation:
+  - fresh asset-and-formula-unseen history
+  - point-in-time fundamentals or shareholder data
+  - intraday or order-book history
+  - or a prospectively frozen paper-trading period

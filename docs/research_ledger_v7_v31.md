@@ -1,0 +1,75 @@
+# Research ledger: V7–V31
+
+## Status codes
+
+- **REJECTED PRE-OUTCOME**: prior art conflict found before looking at returns; zero tests consumed.
+- **FAILED RESEARCH**: evaluated on the active research bucket but missed at least one frozen gate.
+- **FAILED CONFIRMATION**: passed research but failed the one-shot asset-disjoint confirmation.
+- **SEALED**: data not opened because no candidate earned confirmation access.
+
+## Decision ledger
+
+| Version | Mechanism | Tests | Decision | Key evidence |
+|---|---|---:|---|---|
+| V7 | Directional impact survival | 4 | FAILED RESEARCH | No candidate passed C gates. |
+| V8 | Participation-distribution dominance | 3 | FAILED RESEARCH | `pds_120` was positive but cost-negative and below gates. |
+| V9 | Directional participation dispersion | 2 | FAILED RESEARCH | Both candidates failed. |
+| V10 | Joint return/participation path reversibility | 2 | FAILED RESEARCH | Both frozen horizons failed. |
+| V11 | Pre-frozen 90-session midpoint | 1 | FAILED RESEARCH | Adaptive midpoint failed. |
+| V12 | Directional range conversion | 2 | FAILED RESEARCH | Both candidates failed. |
+| V13 | Close–VWAP tail asymmetry | 0 | REJECTED PRE-OUTCOME | WorldQuant Alpha#42 directly uses VWAP minus close. |
+| V14 | VWAP state transitions | 2 | FAILED RESEARCH | Both candidates failed. |
+| V15 | VWAP reclaim with volume | 0 | REJECTED PRE-OUTCOME | Exact mechanism is established trading prior art. |
+| V16 | Directional volume clock | 2 | FAILED RESEARCH | Both candidates failed. |
+| V17 | Consecutive range acceptance | 2 | FAILED RESEARCH | Both candidates failed. |
+| V18 | PDS/path-reversibility equal consensus | 1 | FAILED RESEARCH | Positive validation but cumulative q failed. |
+| V19 | Multiscale participation consensus | 1 | FAILED CONFIRMATION | C passed; D IC `-0.00093`, net `-0.1841%`/month. |
+| V20 | Signed tail response quality | 2 | FAILED RESEARCH | Discovery and validation IC were negative. |
+| V21 | Directional range relaxation | 2 | FAILED RESEARCH | `drra_90` validation IC `0.01581`, but discovery and IR gates failed. |
+| V22 | Participation-weighted range relaxation | 2 | FAILED RESEARCH | Both discovery ICs were negative. |
+| V23 | Size×turnover cohort breadth pressure | 0 | REJECTED PRE-OUTCOME | Peer Return Gap and Net Peer Momentum are direct mechanism conflicts. |
+| V24 | Matched-excursion participation imbalance | 2 | FAILED RESEARCH | Validation direction reversed strongly. |
+| V25 | Active stress-resilience tilt | 2 | FAILED RESEARCH | Positive IC, but q/coverage/cost gates failed. |
+| V26 | Float-supply impact decay | 2 | FAILED RESEARCH | Best economic result; neither horizon passed every gate. |
+| V27 | Multiscale FSID rank consensus | 1 | FAILED RESEARCH | Discovery IC `0.03615`; validation IC `-0.00235`. |
+| V28 | Directional price-volume lead/lag | 0 | REJECTED PRE-OUTCOME | Direct Granger/transfer-entropy prior art. |
+| V29 | Tail-shadow rejection asymmetry | 2 | FAILED RESEARCH | Discovery IC near zero/negative; costs negative. |
+| V30 | Shallow nonlinear structural model | 1 | FAILED RESEARCH | Validation IC `0.01647`, net `+0.2043%`, but HAC p=`0.05352`. |
+| V31 | Ridge pairwise interaction model | 1 | FAILED RESEARCH | Validation IC `0.00283`, net `-0.3421%`. |
+| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V31 produced no eligible candidate. |
+
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **84 unique directional tests**.
+
+## Original precise constructs introduced in this branch
+
+### MEPI — Matched-Excursion Participation Imbalance
+
+For adjacent opposite-signed market-residual returns whose net displacement is no more than 25% of total absolute displacement, MEPI compares turnover on the positive and negative legs. The event score is weighted by cancellation quality and averaged over 60/90 sessions. V24 failed temporal validation.
+
+### ASRT — Active Stress-Resilience Tilt
+
+Market stress is identified only from the prior 60-session distribution. ASRT measures whether a stock's positive abnormal participation concentrates on its relatively resilient stress observations, after removing ordinary stress resilience, activity, downside beta, size, industry, and known factors. V25 did not pass the complete gate.
+
+### FSID — Float-Supply Impact Decay
+
+After a float-share increase completes a 20-market-session observation path:
+
+```text
+early impact = sum(residual return, days 1–5) / sum(turnover, days 1–5)
+late impact  = sum(residual return, days 6–20) / sum(turnover, days 6–20)
+event score  = clip(late impact - early impact, -5, 5)
+```
+
+Completed event scores are supply-fraction weighted over 100/120 sessions. Controls include remaining float inventory, event size, total residual return, total turnover, raw return slope, event age, size, industry, and eleven known factors. V26 showed positive time-out behavior but did not pass every statistical gate.
+
+### TSRA — Tail-Shadow Rejection Asymmetry
+
+TSRA compares next-session lower-shadow recovery after bottom residual tails with next-session upper-shadow rejection after top residual tails. It controls unconditional wick geometry and V21 range relaxation. V29 failed discovery.
+
+### NSIM/RPSI learned factors
+
+V30 and V31 fit only 2020–2022 residual labels and evaluate 2023–2024 out of training. Known factors are removed from both the training target and final score. V30 used a fixed shallow boosted model; V31 used all fixed pairwise rank interactions with Ridge. Neither earned access to F.
+
+## Prior-art boundary
+
+Exact-formula novelty is not globally provable. The repository therefore uses bounded language: “exact construct not found in the documented pre-outcome search.” Related mechanisms include [Style Investing](https://doi.org/10.3386/w8039), [Comovement](https://doi.org/10.3386/w8895), [Momentum, Reversals, and Investor Clientele](https://doi.org/10.3386/w29453), [Trading Volume and Time Varying Betas](https://doi.org/10.1093/rof/rfab014), and [Peer Return Gap in China](https://doi.org/10.1016/j.finr.2025.100088).

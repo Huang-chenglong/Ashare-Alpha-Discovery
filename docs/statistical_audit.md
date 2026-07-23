@@ -2,24 +2,25 @@
 
 ## Verdict
 
-The registered SADA implementation passes both the adaptive A research gate and the
-asset-disjoint B historical replication gate. The numerical result is reproducible and
-economically positive after the registered 20 bp one-way cost. Overall deployment
-confidence remains **CAUTION**, not SOLID, because the B universe was used in an earlier
-project, the sample is conditioned on liquidity/ex-index status, and January-May 2026 is
-negative.
+The current research verdict is **NO NEW CONFIRMED FACTOR**.
 
-## Numerical checks
+Eighty-four directional candidate tests are retained in the cumulative ledger. No V20–V31 candidate passed every registered discovery, temporal-validation, yearly-consistency, cost, and information-ratio gate. Formula-new confirmation bucket F therefore remains sealed.
 
-- 45 directional tests were included in cumulative BH-FDR; SADA discovery q=`6.17e-14`.
-- B mean rank IC=`0.12220`; Bartlett-HAC(3) t=`9.563`; one-sided p=`5.72e-22`.
-- B top-100 mean net active return=`0.5373%`/month; annualized monthly IR=`0.872`.
-- Return coverage and selected-return coverage are both 100%.
-- Mean traded notional is `1.1151` per month (approximately 55.8% conventional one-way
-  turnover when buys and sells are halved).
-- At 50 bp one-way cost, mean net active return remains `0.2028%`/month and IR=`0.329`.
-- Maximum B absolute size/size-squared/industry residual is `2.14e-14`.
-- A and B output bundles each reproduced byte-for-byte in a full rerun (10/10 files).
+V19 is also invalid: it passed research bucket C but failed the one-shot asset-disjoint D confirmation with mean rank IC `-0.00093`, mean net active return `-0.1841%` per month, and IR `-0.280`.
+
+## Multiple testing
+
+- Every evaluated direction is retained; rejected-before-outcome ideas consume zero tests.
+- Benjamini–Hochberg is recomputed over the entire cumulative family.
+- V30 and V31 are learned models. Their in-training discovery statistics are optimistic by construction, so both additionally require a one-sided HAC test on the untouched-by-training 2023–2024 period.
+- V30 missed that additional gate: validation HAC p=`0.05352` versus the frozen `0.05` limit.
+- No sign reversal, weight optimization, alpha search, or threshold relaxation was performed after seeing a result.
+
+## Exposure controls
+
+All current candidate scores are cross-sectionally residualized against point-in-time log float market capitalization, its centered square, and point-in-time Shenwan L1 industry. V20–V31 additionally remove eleven or more registered liquidity, reversal, volatility, lottery, momentum, overnight/intraday, or mechanism-specific controls.
+
+The learned V30/V31 target is residualized against fourteen known factors before fitting. Model predictions are residualized against the same fourteen factors again before IC and portfolio evaluation. Their reported validation IC therefore does not come directly from those known main effects.
 
 ## Fallacy scan
 
@@ -27,33 +28,32 @@ Coverage: **11/11 checked**.
 
 | Fallacy | Assessment |
 |---|---|
-| Simpson's paradox | CAUTION. Six years are positive, but the pooled result hides a negative partial 2026; yearly results are reported explicitly. |
-| Ecological fallacy | Clear. Unit of analysis and inference is the stock-month; no investor-level inference is made. |
-| Berkson's paradox | CAUTION. Both buckets condition on top trailing liquidity and ex-index status. |
-| Collider bias | CAUTION. Eligibility can depend on liquidity and trading state related to both signals and returns; no causal interpretation is made. |
-| Base-rate neglect | Not applicable; this is not a classification or diagnostic-accuracy study. |
-| Regression to the mean | CAUTION. Asset-disjoint replication helps, but adaptive A research and a reused B universe cannot eliminate favorable-period selection. |
-| Survivorship bias | CAUTION. Monthly historical universes and available delisted histories are retained, but historical ST coverage and vendor availability are imperfect. |
-| Look-elsewhere effect | Addressed but not erased. All 45 viewed directional tests enter cumulative BH; every failed round is retained; B evaluates one selected formula only. |
-| Garden of forking paths | CAUTION. V1-V6 are adaptive, but each round has a time-ordered frozen protocol. Formula and gates did not change after SADA saw B. |
-| Correlation versus causation | Clear boundary. Results are described as historical prediction/association, not a causal effect. |
-| Reverse causality | CAUTION. Formation inputs precede returns, but latent risk, attention, and market regimes can affect both. |
+| Simpson's paradox | Year-level results are required and reported; pooled means cannot override a negative required year. |
+| Ecological fallacy | Inference is limited to stock-month ranking, not investors or firms' causal behavior. |
+| Berkson's paradox | CAUTION: the liquid ex-index universe is selected on trading availability and liquidity. |
+| Collider bias | CAUTION: eligibility and complete-control filtering can depend on variables related to signals and returns. |
+| Base-rate neglect | Not applicable; this is not a diagnostic classifier. |
+| Regression to the mean | Addressed with temporal and asset-disjoint stages, but adaptive reuse of E remains a limitation. |
+| Survivorship bias | Historical monthly membership and available delisted histories are used; vendor and ST-history gaps remain. |
+| Look-elsewhere effect | Addressed with a cumulative 84-test family and retained failures, not erased. |
+| Garden of forking paths | Each version is committed before outcomes; adaptive motivation is disclosed. |
+| Correlation versus causation | No causal claim is made. |
+| Reverse causality | Formation variables precede labels, but latent state can drive both and remains a limitation. |
 
-## Holdout-purity amendment
+## Data and execution limitations
 
-The frozen confirmation configuration used the phrase “untouched confirmation.” That was
-true only with respect to evaluating the frozen SADA formula in this repository. The same
-bucket-B universe had been inspected for other factors in an earlier project. The frozen
-file and its original SHA are preserved for provenance; this audit supersedes the overly
-broad wording. The correct evidence label is **asset-disjoint historical replication of a
-pre-specified formula**, not a globally pristine external holdout.
+- E/F are asset-disjoint but were used by an earlier project for a different formula.
+- Historical `is_st` is incomplete; the reconstructed panel currently uses `is_st=0`.
+- Flat 20bp one-way cost omits nonlinear impact, limit queues, capacity, and the full fee/tax schedule.
+- The equal-weight eligible-universe benchmark is not an official index.
+- Tencent HFQ prices and reconstructed TongdaXin float history are vendor-derived rather than exchange-certified point-in-time databases.
+- The repeated 2023–2024 inspections mean it is now adaptive research data, not a pristine holdout for new manual variants.
 
-## Remaining implementation limits
+## Why research stops here
 
-- The benchmark is an equal-weight eligible-universe benchmark, not an official index.
-- Flat transaction cost does not model nonlinear market impact, price-limit queues,
-  capacity, or a full Chinese fee/tax schedule.
-- A stale-close exit rule is explicit but simplified; 16 of 38,466 B outcomes used it.
-- 2025 IC remained positive but that year's net active return was slightly negative.
-- January-May 2026 had negative IC and sharply negative net active return.
-- Exact-formula novelty was not established by an exhaustive global literature search.
+Continuing to alter formulas against the same E validation interval would convert validation into training and invalidate nominal p-values. A credible next stage requires at least one of:
+
+1. new asset- and formula-unseen history;
+2. point-in-time fundamentals/shareholder data with a new frozen hypothesis;
+3. intraday or order-book data, which are absent from the current TongdaXin installation;
+4. a prospective paper-trading period fixed before observations arrive.
