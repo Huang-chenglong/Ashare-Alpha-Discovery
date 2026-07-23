@@ -1,0 +1,37 @@
+experiment_id: multiscale-structural-participation-consensus-confirmation-v19
+status: frozen_before_first_bucket_d_outcome_evaluation
+frozen_date: 2026-07-23
+candidate: mspc_equal_weight
+confirmation_bucket: D/hash-1
+period: [2020-01-01, 2026-05-31]
+required_asset_overlap_with_C: 0
+
+freeze:
+  research_code_commit: 97d7fec564951ccf1a3ef5460a2063b50c42b28d
+  factor_source_sha256: 376f1bbc599a656f58160f657f4ebf5689f133a57398eb0bdae52c1e255f3724
+  research_protocol_sha256: 4743fb572950702fa2a48de6b649a24071b793c52650fe8c9f782d9adb4f2bed
+  research_selection_sha256: e4cee01bbe447061470e151a908d783a599ab2f3d5fa46088921de49e3296a5d
+  research_summary_sha256: 2a6d976c8651b332fec10870480b71f2efef4bc6def07026f521c464daa270ac
+  research_data_sha256: 0d9c871954ab0a57f174009a639c4d29ff8175bc316725d772df91a5088bb19e
+  confirmation_data_sha256: dec90f3fa41c04b7e864b4c98d164cef8b8f411c9358f1675d0b1c1b49a9b704
+
+gate:
+  minimum_months: 75
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 5
+  require_2025_positive: true
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  benchmark: equal-weight common bucket-D formation universe
+  cost_bps_one_way: 20
+
+failure_rule: >-
+  Open bucket D exactly once for mspc_equal_weight. If any gate fails, reject the
+  factor. No sign, component, horizon, weight, threshold, control, or formula change
+  is allowed after this file is frozen.
