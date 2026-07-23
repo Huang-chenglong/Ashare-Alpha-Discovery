@@ -1,4 +1,4 @@
-# Research ledger: V7–V33
+# Research ledger: V7–V34
 
 ## Status codes
 
@@ -38,9 +38,10 @@
 | V31 | Ridge pairwise interaction model | 1 | FAILED RESEARCH | Validation IC `0.00283`, net `-0.3421%`. |
 | V32 | Distributed institutional breadth absorption | 1 | FAILED RESEARCH | Discovery IC `0.00523`, BH q `0.5359`; validation net `-0.1388%`. |
 | V33 | Cash-synchronized profitability improvement | 1 | FAILED RESEARCH | Discovery IC `0.01487`; validation IC reversed to `-0.00715`. |
-| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V33 produced no eligible candidate. |
+| V34 | Cash-led profitability improvement | 1 | FAILED RESEARCH | Discovery IC `0.01114`; validation IC `-0.00127`, IR `0.216`. |
+| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V34 produced no eligible candidate. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **86 unique directional tests**.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **87 unique directional tests**.
 
 ## Original precise constructs introduced in this branch
 
