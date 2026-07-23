@@ -1,4 +1,4 @@
-# TongdaXin financial-data extension: V32–V39
+# TongdaXin financial-data extension: V32–V40
 
 ## Data contract
 
@@ -29,6 +29,7 @@ fundamental data.
 | V37 `clua_v37` | cash improvement leading profit × positive cash ROA × low five-session announcement attention | IC 0.00730; only 25 months | IC −0.01976; net −0.5024%/month; IR −1.90 | Failed |
 | V38 `cora_v38` | faster same-quarter reporting × positive cash improvement × positive cash ROA | IC 0.00666; BH q 0.3531 | IC 0.00304; net −0.4366%/month; IR −1.47 | Failed |
 | V39 `cfwa_v39` | customer-financing growth × receivables/inventory release × revenue growth | IC 0.01098; BH q 0.1875 | IC 0.00512; net −0.2160%/month; HAC p 0.280 | Failed |
+| V40 `cfma_v40` | customer-financing growth × quarterly acceleration × revenue growth | IC 0.01616; BH q 0.1018 | IC 0.00277; net +0.1732%/month; HAC p 0.411 | Failed |
 
 All four scores remove their ranked components, raw component changes, related
 levels and ratios, fourteen registered price/volume factors, log float market
@@ -54,7 +55,7 @@ Relevant primary sources:
 
 ## Decision
 
-None of V32–V39 passed every frozen gate. Confirmation bucket F was never read.
+None of V32–V40 passed every frozen gate. Confirmation bucket F was never read.
 Further manual variants against the already inspected 2023–2024 interval would
 turn validation into training. A statistically credible continuation needs
 archived-vintage fundamentals, a new prospective period, or genuinely new
