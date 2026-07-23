@@ -1,0 +1,232 @@
+experiment_id: fundamental-structural-interaction-model-v36
+status: frozen_before_v36_bucket_e_return_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: >-
+  Original fixed learned composite over established primitive variables. The
+  project does not claim that accounting, ownership, or trading-structure
+  primitives are new, nor that global exact-formula novelty is proven.
+
+candidate_registry: [fsim_v36]
+expected_sign: positive
+
+training:
+  discovery_period: [2020-01-01, 2022-12-31]
+  asset_crossfit_folds: 5
+  fold_assignment: first 64 bits of SHA-256 of the zero-padded asset code modulo 5
+  discovery_prediction_rule: >-
+    Each 2020-2022 stock-month is predicted only by a model trained on the
+    other four asset folds. No held-out asset label enters that fold model's
+    target residualization or estimator.
+  validation_prediction_rule: >-
+    One final model trained on all 2020-2022 rows predicts 2023-2024. No
+    2023-2024 label is used in fitting, feature selection, or hyperparameters.
+  target: >-
+    Next-20-session active return residual after cross-sectional removal of
+    fourteen known baselines, log float size, squared log float size, and
+    point-in-time Shenwan L1 industry.
+  estimator: sklearn.ensemble.HistGradientBoostingRegressor
+  fixed_hyperparameters:
+    loss: squared_error
+    learning_rate: 0.03
+    max_iter: 100
+    max_leaf_nodes: 7
+    min_samples_leaf: 100
+    l2_regularization: 10.0
+    max_bins: 63
+    early_stopping: false
+    random_state: 0
+  hyperparameter_search: none
+
+features:
+  transform: within-formation-date percentile rank
+  missing_rule: 0.5 rank plus an explicit missing indicator for every non-baseline feature
+  known_features:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_max_return_60
+    - anti_skewness_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - overnight_mean_60
+    - negative_intraday_mean_20
+    - negative_intraday_mean_60
+  structural_features:
+    - mepi_60
+    - mepi_90
+    - matched_event_frequency_60
+    - matched_event_frequency_90
+    - asrt_60
+    - asrt_90
+    - mean_stress_resilience_60
+    - mean_stress_resilience_90
+    - fsid_100
+    - fsid_120
+    - mean_completed_residual_return_120
+    - mean_raw_absorption_slope_120
+    - remaining_float_inventory_days_025_control
+    - drra_60
+    - drra_90
+    - tsra_60
+    - tsra_90
+    - mean_lower_shadow_share_60
+    - mean_upper_shadow_share_60
+  financial_features:
+    - float_supply_growth
+    - listed_float_growth
+    - institution_breadth_growth
+    - institution_holding_growth
+    - top10_holding_growth
+    - top10_concentration_change
+    - institution_ownership_change
+    - shareholder_growth
+    - working_capital_release_yoy
+    - receivables_release_yoy
+    - inventory_release_yoy
+    - revenue_growth_yoy
+    - cash_margin
+    - receivables_intensity
+    - inventory_intensity
+    - profitability_roa
+    - cash_flow_roa
+    - cash_accrual_spread
+    - asset_growth_yoy
+  all_model_features:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_max_return_60
+    - anti_skewness_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - overnight_mean_60
+    - negative_intraday_mean_20
+    - negative_intraday_mean_60
+    - mepi_60
+    - mepi_90
+    - matched_event_frequency_60
+    - matched_event_frequency_90
+    - asrt_60
+    - asrt_90
+    - mean_stress_resilience_60
+    - mean_stress_resilience_90
+    - fsid_100
+    - fsid_120
+    - mean_completed_residual_return_120
+    - mean_raw_absorption_slope_120
+    - remaining_float_inventory_days_025_control
+    - drra_60
+    - drra_90
+    - tsra_60
+    - tsra_90
+    - mean_lower_shadow_share_60
+    - mean_upper_shadow_share_60
+    - float_supply_growth
+    - listed_float_growth
+    - institution_breadth_growth
+    - institution_holding_growth
+    - top10_holding_growth
+    - top10_concentration_change
+    - institution_ownership_change
+    - shareholder_growth
+    - working_capital_release_yoy
+    - receivables_release_yoy
+    - inventory_release_yoy
+    - revenue_growth_yoy
+    - cash_margin
+    - receivables_intensity
+    - inventory_intensity
+    - profitability_roa
+    - cash_flow_roa
+    - cash_accrual_spread
+    - asset_growth_yoy
+
+financial_data:
+  source: TongdaXin professional quarterly GPCW packages
+  fields: union of the frozen V32 and V35 field maps
+  point_in_time_rule: announcement-date as-of join; maximum age 183 days
+  excluded_shenwan_l1_codes: ["48", "49"]
+  pre_outcome_coverage_audit:
+    package_count: 33
+    parsed_rows: 159246
+    complete_joint_quarterly_rows: 122385
+    assets: 5388
+    report_period: [2019-03-31, 2026-03-31]
+    note: calculated without loading or joining any future-return label
+  vintage_limitation: >-
+    Packages were downloaded in 2026 rather than archived at each formation.
+    Announcement gating is enforced, but later corrections or restatements
+    cannot be ruled out.
+
+evaluation_neutralization:
+  minimum_rows: 300
+  controls: >-
+    Linear and quadratic terms of all 52 ranked model inputs, 38 explicit
+    missing indicators, log float size, centered squared log float size, and
+    point-in-time Shenwan L1 dummies.
+  interpretation_boundary: >-
+    A surviving score is incremental to linear and quadratic ranked marginal
+    effects. It is not claimed to remove every possible univariate nonlinear
+    function.
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on discovery one-sided HAC p-values
+  prior_tests_included: 88
+  current_tests: 1
+  total_tests_after_v36: 89
+  additional_guard: validation one-sided HAC p must be no greater than 0.05
+
+periods:
+  cross_fitted_discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+prior_art_boundary:
+  related_primitives:
+    - https://doi.org/10.1016/j.jfineco.2016.03.002
+    - https://doi.org/10.1016/j.jfineco.2023.103746
+    - https://doi.org/10.1016/j.jom.2013.05.002
+    - https://doi.org/10.3386/w8308
+  bounded_claim: >-
+    V36 is an original pre-frozen learned mapping in this repository, not a
+    claim that no equivalent mapping exists anywhere. All primitive families
+    and prior failed internal constructions are disclosed.
+
+adaptive_reuse_disclosure: >-
+  For this exact frozen model, 2023-2024 is outside model fitting. At the
+  project level E has been repeatedly inspected through V35 and is therefore
+  adaptively reused internal validation, not a pristine holdout. V36 remains in
+  the cumulative 89-test family.
+data_reuse_limitation: >-
+  F is asset-disjoint and remains sealed. It can be opened once, with a
+  separately frozen confirmation protocol, only if V36 passes every research
+  gate without any post-outcome change.
+failure_rule: >-
+  Reject V36 without changing signs, features, folds, transforms,
+  hyperparameters, controls, periods, gates, portfolio, or costs and keep F
+  sealed if any research gate fails.

@@ -42,6 +42,10 @@ FIELDS_V35 = {
     308: "ttm_parent_net_profit_10k",
     314: "report_announcement_date",
 }
+FIELDS_V36 = {
+    **FIELDS_V32,
+    **FIELDS_V35,
+}
 
 
 @dataclass(frozen=True)
