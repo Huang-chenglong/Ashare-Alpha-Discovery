@@ -53,6 +53,15 @@ FIELDS_V39 = {
     45: "advance_receipts",
     434: "contract_liabilities_10k",
 }
+FIELDS_V40 = {
+    40: "total_assets",
+    45: "advance_receipts",
+    283: "ttm_revenue_10k",
+    307: "ttm_operating_cash_flow",
+    308: "ttm_parent_net_profit_10k",
+    314: "report_announcement_date",
+    434: "contract_liabilities_10k",
+}
 
 
 @dataclass(frozen=True)
