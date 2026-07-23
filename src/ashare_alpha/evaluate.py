@@ -166,6 +166,13 @@ def evaluate_research(
     portfolio_holdings: int = 100,
     retention_percentile: float = 0.60,
     cost_bps_one_way: float = 20.0,
+    discovery_minimum_months: int = 34,
+    discovery_mean_ic_minimum: float = 0.015,
+    discovery_q_maximum: float = 0.10,
+    validation_minimum_months: int = 23,
+    validation_mean_ic_minimum: float = 0.010,
+    validation_mean_net_return_minimum: float = 0.0,
+    validation_net_information_ratio_minimum: float = 0.30,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     monthly = pd.concat(
         [
@@ -240,14 +247,18 @@ def evaluate_research(
     summary["discovery_q_bh"] = all_q.iloc[offset:].to_numpy()
     summary["multiplicity_family_size"] = len(all_p)
     summary["passes_research_gate"] = (
-        summary["discovery_months"].ge(34)
-        & summary["discovery_mean_ic"].ge(0.015)
-        & summary["discovery_q_bh"].le(0.10)
-        & summary["validation_months"].ge(23)
-        & summary["validation_mean_ic"].ge(0.010)
+        summary["discovery_months"].ge(discovery_minimum_months)
+        & summary["discovery_mean_ic"].ge(discovery_mean_ic_minimum)
+        & summary["discovery_q_bh"].le(discovery_q_maximum)
+        & summary["validation_months"].ge(validation_minimum_months)
+        & summary["validation_mean_ic"].ge(validation_mean_ic_minimum)
         & summary["validation_2023_2024_positive"]
-        & summary["validation_mean_net_active_return"].gt(0.0)
-        & summary["validation_net_information_ratio"].ge(0.30)
+        & summary["validation_mean_net_active_return"].gt(
+            validation_mean_net_return_minimum
+        )
+        & summary["validation_net_information_ratio"].ge(
+            validation_net_information_ratio_minimum
+        )
     )
     summary = summary.sort_values(
         [

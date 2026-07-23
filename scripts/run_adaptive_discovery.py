@@ -48,6 +48,7 @@ def main() -> None:
     protocol = yaml.safe_load(protocol_path.read_text(encoding="utf-8"))
     minimum_rows = int(protocol.get("neutralization", {}).get("minimum_rows", 60))
     portfolio = protocol.get("portfolio", {})
+    gate = protocol.get("research_gate", {})
     holdings = int(portfolio.get("holdings", 20))
     retention_percentile = float(portfolio.get("retention_percentile", 0.60))
     cost_bps_one_way = float(portfolio.get("cost_bps_one_way", 20.0))
@@ -98,6 +99,17 @@ def main() -> None:
         portfolio_holdings=holdings,
         retention_percentile=retention_percentile,
         cost_bps_one_way=cost_bps_one_way,
+        discovery_minimum_months=int(gate.get("discovery_minimum_months", 34)),
+        discovery_mean_ic_minimum=float(gate.get("discovery_mean_rank_ic_min", 0.015)),
+        discovery_q_maximum=float(gate.get("discovery_bh_fdr_max", 0.10)),
+        validation_minimum_months=int(gate.get("validation_minimum_months", 23)),
+        validation_mean_ic_minimum=float(gate.get("validation_mean_rank_ic_min", 0.010)),
+        validation_mean_net_return_minimum=float(
+            gate.get("validation_mean_net_active_return_min", 0.0)
+        ),
+        validation_net_information_ratio_minimum=float(
+            gate.get("validation_net_information_ratio_min", 0.30)
+        ),
     )
     exposures = pd.concat(
         [
@@ -119,7 +131,7 @@ def main() -> None:
     exposures.to_csv(output / "exposure_diagnostics.csv", index=False, encoding="utf-8-sig")
     metadata = {
         "experiment_id": protocol["experiment_id"],
-        "research_bucket": "C/hash-0",
+        "research_bucket": protocol.get("research_bucket", "C/hash-0"),
         "adaptive_reuse_disclosed": True,
         "prior_test_count": len(prior),
         "current_test_count": len(candidate_columns),
