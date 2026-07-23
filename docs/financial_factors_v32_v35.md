@@ -1,4 +1,4 @@
-# TongdaXin financial-data extension: V32–V34
+# TongdaXin financial-data extension: V32–V35
 
 ## Data contract
 
@@ -24,11 +24,12 @@ fundamental data.
 | V32 `diba_v32` | positive free-float expansion × institutional-breadth growth × falling top-ten concentration | IC 0.00523; BH q 0.5359 | IC 0.01133; net −0.1388%/month; HAC p 0.178 | Failed |
 | V33 `cspi_v33` | positive profit-ROA YoY improvement × positive operating-cash-ROA YoY improvement | IC 0.01487; BH q 0.0623 | IC −0.00715; net −0.1677%/month; HAC p 0.813 | Failed |
 | V34 `clpi_v34` | positive prior-quarter cash-ROA improvement × positive current profit-ROA improvement | IC 0.01114; BH q 0.1985 | IC −0.00127; net +0.0564%/month; IR 0.216 | Failed |
+| V35 `sfgr_v35` | positive revenue growth × working-capital-intensity release × positive cash margin | IC −0.00383; BH q 0.8961 | IC 0.01504; net −0.2073%/month; HAC p 0.125 | Failed |
 
-All three scores remove their ranked components, raw component changes, related
+All four scores remove their ranked components, raw component changes, related
 levels and ratios, fourteen registered price/volume factors, log float market
 capitalization, centered squared size, and point-in-time Shenwan L1 industry.
-V33 and V34 exclude financial-industry codes 48 and 49 before ranking.
+V33–V35 exclude financial-industry codes 48 and 49 before ranking.
 
 ## Prior-art boundary
 
@@ -49,7 +50,7 @@ Relevant primary sources:
 
 ## Decision
 
-None of V32–V34 passed every frozen gate. Confirmation bucket F was never read.
+None of V32–V35 passed every frozen gate. Confirmation bucket F was never read.
 Further manual variants against the already inspected 2023–2024 interval would
 turn validation into training. A statistically credible continuation needs
 archived-vintage fundamentals, a new prospective period, or genuinely new

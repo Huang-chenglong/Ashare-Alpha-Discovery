@@ -1,4 +1,4 @@
-# Research ledger: V7–V34
+# Research ledger: V7–V35
 
 ## Status codes
 
@@ -39,9 +39,10 @@
 | V32 | Distributed institutional breadth absorption | 1 | FAILED RESEARCH | Discovery IC `0.00523`, BH q `0.5359`; validation net `-0.1388%`. |
 | V33 | Cash-synchronized profitability improvement | 1 | FAILED RESEARCH | Discovery IC `0.01487`; validation IC reversed to `-0.00715`. |
 | V34 | Cash-led profitability improvement | 1 | FAILED RESEARCH | Discovery IC `0.01114`; validation IC `-0.00127`, IR `0.216`. |
-| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V34 produced no eligible candidate. |
+| V35 | Self-financed growth release | 1 | FAILED RESEARCH | Discovery IC `-0.00383`; validation IC `0.01504`, but net `-0.2073%`/month and HAC p=`0.1255`. |
+| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V35 produced no eligible candidate. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **87 unique directional tests**.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **88 unique directional tests**.
 
 ## Original precise constructs introduced in this branch
 
@@ -76,6 +77,10 @@ V30 and V31 fit only 2020–2022 residual labels and evaluate 2023–2024 out of
 ### DIBA — Distributed Institutional Breadth Absorption
 
 V32 multiplied positive cross-sectional ranks of free-float expansion, institutional-breadth growth, and falling top-ten float-holder concentration. It removed all three ranked main effects, eight additional ownership changes, fourteen known price/volume factors, size, squared size, and industry. The score was exposure-clean but failed the discovery, cumulative-FDR, validation-HAC, net-return, and IR gates. Current-vintage GPCW data were gated by report announcement date; possible later corrections remain a disclosed limitation.
+
+### SFGR — Self-Financed Growth Release
+
+V35 multiplied the positive ranks of revenue growth, year-over-year release of receivables-plus-inventory intensity, and operating-cash margin. It removed every component and related accounting level, fourteen registered price/volume factors, size, squared size, and industry. The validation IC was positive but the discovery direction, validation HAC test, yearly consistency, cost-adjusted return, and IR all failed. This is retained as the eighty-eighth negative test; bucket F was not read.
 
 ## Prior-art boundary
 
