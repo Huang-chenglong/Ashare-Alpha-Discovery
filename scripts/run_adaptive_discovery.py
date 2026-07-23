@@ -46,6 +46,11 @@ def main() -> None:
     compute = getattr(module, f"compute_candidates_v{args.version}")
     protocol_path = Path(args.protocol)
     protocol = yaml.safe_load(protocol_path.read_text(encoding="utf-8"))
+    minimum_rows = int(protocol.get("neutralization", {}).get("minimum_rows", 60))
+    portfolio = protocol.get("portfolio", {})
+    holdings = int(portfolio.get("holdings", 20))
+    retention_percentile = float(portfolio.get("retention_percentile", 0.60))
+    cost_bps_one_way = float(portfolio.get("cost_bps_one_way", 20.0))
     if list(protocol["candidate_registry"]) != list(candidate_columns):
         raise ValueError("Protocol candidate registry does not match the factor module")
     expected_prior = int(protocol["multiplicity"]["prior_tests_included"])
@@ -68,7 +73,7 @@ def main() -> None:
                 aligned,
                 candidate_columns=[candidate],
                 control_columns=controls[candidate],
-                minimum_rows=60,
+                minimum_rows=minimum_rows,
             )
             for candidate in candidate_columns
         ],
@@ -90,7 +95,9 @@ def main() -> None:
         candidate_columns=candidate_columns,
         candidate_definitions=candidates,
         prior_discovery_p_values=prior["discovery_p_one_sided"],
-        portfolio_holdings=20,
+        portfolio_holdings=holdings,
+        retention_percentile=retention_percentile,
+        cost_bps_one_way=cost_bps_one_way,
     )
     exposures = pd.concat(
         [

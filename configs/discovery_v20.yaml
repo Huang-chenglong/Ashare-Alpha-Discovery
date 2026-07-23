@@ -1,0 +1,67 @@
+experiment_id: signed-tail-response-quality-v20
+status: frozen_before_v20_bucket_e_evaluation
+frozen_date: 2026-07-23
+claim_type: exact completed-event stock characteristic; asymmetric shock response is prior art
+
+candidate_registry: [strq_60, strq_90]
+
+data_reuse_limitation: >-
+  Buckets E and F are asset-disjoint and V20 has never been evaluated on either.
+  However, the underlying panels were used by an earlier repository to study SADA,
+  so they are formula-new holdouts rather than globally untouched data. Bucket F
+  remains sealed until a V20 candidate passes E.
+
+formula:
+  residual_return: daily log return minus eligible-universe daily median
+  tail_definition: bottom and top cross-sectional residual-return quintiles on each date
+  completion_rule: response to an event at t is first recorded at t+1
+  response_ratio: clip(residual_return_t_plus_1 / absolute(residual_return_t), -2, 2)
+  downside_repair: mean response ratio after bottom-quintile events
+  upside_persistence: mean response ratio after top-quintile events
+  candidate: downside_repair + upside_persistence
+  minimum_completed_events_per_tail: 8
+  horizons: [60, 90]
+  expected_sign: positive
+
+neutralization:
+  minimum_rows: 100
+  common_controls: eleven known liquidity, reversal, volatility, lottery, momentum, and overnight/intraday baselines
+  candidate_specific_controls:
+    - completed bottom-versus-top event-count balance
+    - downside-repair minus upside-persistence response asymmetry
+    - unconditional lag-one residual-return correlation
+    - mean completed tail-event magnitude
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+adaptive_reuse_disclosure: prior C/D experiments are fully disclosed; E is adaptive research and F remains unopened for V20
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 67
+  current_tests: 2
+  total_tests_after_v20: 69
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain negative result and keep F closed if no candidate passes
