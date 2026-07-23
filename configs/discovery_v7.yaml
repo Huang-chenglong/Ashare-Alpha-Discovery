@@ -1,0 +1,86 @@
+experiment_id: directional-impact-survival-asymmetry-v7
+status: frozen_before_bucket_c_candidate_evaluation
+frozen_date: 2026-07-23
+claim_type: new primitive candidate; exact-formula prior-art search found no close match
+
+candidate_registry:
+  - disa_60_5
+  - disa_60_10
+  - disa_120_5
+  - disa_120_10
+
+formula:
+  daily_return: log HFQ close-to-close minus eligible-universe daily median
+  activity_state: current log turnover minus prior-60-session mean, divided by prior-60-session standard deviation
+  event_rule:
+    minimum_activity_z: 0.75
+    minimum_absolute_excess_return: 0.005
+  survival: >-
+    Fraction of offsets j=0..K for which the signed cumulative excess return from
+    the event remains strictly above zero, stopped permanently at the first crossing.
+  candidate: weighted mean positive-event survival minus weighted mean negative-event survival
+  event_weight: activity z clipped to [0.75, 3.0]
+  minimum_events: two positive and two negative events in the completed-event window
+  no_future_rule: an event first enters the factor at event date plus K sessions
+
+neutralization:
+  common_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - negative_intraday_mean_20
+    - diffuse_turnover_60
+  candidate_specific_control: completed-event weighted positive-minus-negative direction balance
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+  transform: cross-sectional 3-MAD winsorization followed by OLS residual z-score
+
+universe:
+  research: bucket C, SHA256 hash bucket 0
+  confirmation: bucket D, SHA256 hash bucket 1; unopened during discovery
+  exclusion: every asset appearing in any prior real experiment panel
+  required_asset_overlap: 0
+  data_period: [2020-01-01, 2026-05-31]
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 45
+  current_tests: 4
+  total_tests_after_v7: 49
+
+selection_rule: >-
+  Candidates must pass every research gate. If more than one passes, select the
+  highest internal-validation mean rank IC, breaking an exact tie by candidate name.
+
+research_periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  benchmark: equal-weight common formation universe
+  cost_bps_one_way: 20
+
+failure_rule: >-
+  If no candidate passes, V7 is a retained negative experiment. Bucket D remains
+  unopened. No sign reversal or parameter edit may be called V7.

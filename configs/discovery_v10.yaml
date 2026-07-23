@@ -1,0 +1,65 @@
+experiment_id: joint-path-reversibility-v10
+status: frozen_before_v10_bucket_c_evaluation
+frozen_date: 2026-07-23
+claim_type: exact joint-motif factor candidate; time-irreversibility method itself is prior art
+
+candidate_registry: [joint_path_reversibility_60, joint_path_reversibility_120]
+
+formula:
+  state: four symbols from excess-return sign crossed with above/below trailing turnover median
+  motif: overlapping three-session state sequence, 64 possible motifs
+  smoothing: Jeffreys pseudocount 0.5 per motif
+  time_reverse: reverse each motif order from abc to cba
+  divergence: Jensen-Shannon divergence between motif distribution and its time reverse
+  candidate: negative divergence
+  expected_sign: positive; less irreversible paths predict higher returns
+  horizons: [60, 120]
+
+neutralization:
+  common_controls: same eleven known baselines as V8/V9
+  candidate_specific_controls:
+    - normalized joint-motif Shannon entropy
+    - return-sign balance
+    - participation-state balance
+    - linear excess-return/participation correlation
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+novelty_boundary: >-
+  Ordinal-pattern and time-irreversibility methods are established. The claim is limited
+  to this exact bivariate four-state, three-session, cross-sectional expected-return
+  specification; literature search cannot prove universal novelty.
+
+adaptive_reuse_disclosure: bucket C is adaptive research data after V7-V9; bucket D remains unopened
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 54
+  current_tests: 2
+  total_tests_after_v10: 56
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+selection_rule: highest validation mean rank IC among candidates passing every gate
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain negative result and keep D closed if no candidate passes

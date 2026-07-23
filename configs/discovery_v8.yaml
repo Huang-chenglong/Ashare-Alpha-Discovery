@@ -1,0 +1,76 @@
+experiment_id: participation-distribution-dominance-v8
+status: frozen_before_v8_bucket_c_evaluation
+frozen_date: 2026-07-23
+claim_type: new primitive candidate; exact Mann-Whitney formulation not found in prior-art search
+
+candidate_registry: [pds_20, pds_60, pds_120]
+
+formula:
+  return_state: sign of daily HFQ log return minus eligible-universe median return
+  participation_state: local TDX turnover fraction
+  statistic: >-
+    Two times the Mann-Whitney probability that a randomly selected positive-return
+    day has higher turnover than a randomly selected negative-return day, minus one.
+  ties: half credit through average ranks
+  minimum_observations: five positive and five negative days
+  horizons: [20, 60, 120]
+  expected_sign: positive
+
+neutralization:
+  common_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - negative_intraday_mean_20
+    - diffuse_turnover_60
+  primitive_specific_controls:
+    - same-window positive-minus-negative day-count balance
+    - same-window signed turnover share (OBV-like level)
+    - same-window linear excess-return/log-turnover correlation
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+adaptive_reuse_disclosure: >-
+  Bucket C has been viewed in V7 and is now an adaptive research set. V7 outcomes were
+  not used to change the sign of V8; V8 is a distinct distributional object. Every V8
+  test is added to the cumulative multiplicity family. Bucket D remains unopened.
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 49
+  current_tests: 3
+  total_tests_after_v8: 52
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+selection_rule: highest validation mean rank IC among candidates passing every gate
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: >-
+  If no candidate passes, retain V8 as negative and do not open D. No sign reversal or
+  post-result threshold change is permitted.

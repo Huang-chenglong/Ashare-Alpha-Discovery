@@ -17,8 +17,23 @@ def evaluate_confirmation(
     required_positive_year: int = 2025,
     mean_net_return_minimum: float = 0.0,
     net_information_ratio_minimum: float = 0.30,
+    portfolio_holdings: int = 100,
+    retention_percentile: float = 0.60,
+    cost_bps_one_way: float = 20.0,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    monthly = buffered_long_only(panel)
+    if (
+        portfolio_holdings == 100
+        and retention_percentile == 0.60
+        and cost_bps_one_way == 20.0
+    ):
+        monthly = buffered_long_only(panel)
+    else:
+        monthly = buffered_long_only(
+            panel,
+            holdings=portfolio_holdings,
+            retention_percentile=retention_percentile,
+            cost_bps_one_way=cost_bps_one_way,
+        )
     statistic, p_value = hac_mean_test(monthly["rank_ic"])
     mean_net = float(monthly["net_active_return"].mean())
     net_standard_deviation = float(monthly["net_active_return"].std(ddof=1))

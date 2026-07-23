@@ -1,0 +1,59 @@
+experiment_id: multiscale-structural-participation-consensus-v19
+status: frozen_before_v19_bucket_c_evaluation
+frozen_date: 2026-07-23
+claim_type: adaptive exact multiscale composite of registered original constructions
+
+candidate_registry: [mspc_equal_weight]
+
+adaptive_origin:
+  disclosure: >-
+    V18 passed every economic and validation criterion but failed cumulative FDR.
+    V19 adds the already-registered 120-day path scale to reduce single-scale
+    sampling noise. No weight search is permitted; all three components have 1/3
+    weight. All 66 prior tests remain in the multiplicity family and D is unopened.
+
+formula:
+  component_one: cross-sectional percentile rank of pds_120
+  component_two: cross-sectional percentile rank of joint_path_reversibility_60
+  component_three: cross-sectional percentile rank of joint_path_reversibility_120
+  candidate: (component_one + component_two + component_three) / 3
+  expected_sign: positive
+
+neutralization:
+  common_controls: eleven known liquidity, reversal, volatility, lottery, momentum, and overnight/intraday baselines
+  component_state_controls:
+    - pds return-sign balance, signed turnover share, and linear correlation at 120 days
+    - motif entropy, return-sign balance, activity balance, and linear correlation at 60 days
+    - motif entropy, return-sign balance, activity balance, and linear correlation at 120 days
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 66
+  current_tests: 1
+  total_tests_after_v19: 67
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain negative result and keep D closed if the candidate fails

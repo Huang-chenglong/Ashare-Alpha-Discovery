@@ -1,0 +1,16 @@
+experiment_id: close-vwap-tail-asymmetry-v13
+status: rejected_before_any_outcome_evaluation
+decision_date: 2026-07-23
+reason: >-
+  The primitive close-minus-VWAP signal is explicit prior art. WorldQuant Alpha#42
+  uses rank(VWAP - close) / rank(VWAP + close), so a rolling tail transformation is
+  too derivative for the requested originality standard even though the exact
+  quantile aggregation was not found.
+candidate_tests_consumed: 0
+research_bucket_opened_for_this_formula: false
+confirmation_bucket_opened: false
+primary_prior_art:
+  title: 101 Formulaic Alphas
+  author: Zura Kakushadze
+  identifier: arXiv:1601.00991
+  conflicting_formula: rank(VWAP - close) / rank(VWAP + close)
