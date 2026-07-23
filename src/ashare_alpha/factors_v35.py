@@ -45,6 +45,21 @@ MAXIMUM_ANNOUNCEMENT_LAG_DAYS_V35 = 365
 MAXIMUM_SIGNAL_AGE_DAYS_V35 = 183
 
 
+def normalize_protocol_periods_v35(
+    periods: dict[str, list[object] | tuple[object, object]],
+) -> dict[str, tuple[pd.Timestamp, pd.Timestamp]]:
+    normalized: dict[str, tuple[pd.Timestamp, pd.Timestamp]] = {}
+    for name in ("discovery", "internal_validation"):
+        bounds = periods.get(name)
+        if bounds is None or len(bounds) != 2:
+            raise ValueError(f"V35 period {name!r} must have exactly two bounds")
+        start, end = (pd.Timestamp(value) for value in bounds)
+        if pd.isna(start) or pd.isna(end) or start > end:
+            raise ValueError(f"V35 period {name!r} has invalid bounds")
+        normalized[name] = (start, end)
+    return normalized
+
+
 def build_quarterly_financial_features_v35(
     financial_history: pd.DataFrame,
 ) -> pd.DataFrame:

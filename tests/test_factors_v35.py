@@ -7,6 +7,7 @@ from ashare_alpha.factors_v35 import (
     attach_point_in_time_financial_v35,
     build_quarterly_financial_features_v35,
     finalize_candidates_v35,
+    normalize_protocol_periods_v35,
 )
 
 
@@ -88,3 +89,20 @@ def test_v35_neutralizes_every_formula_component_and_level() -> None:
         "asset_growth_yoy",
     }
     assert set(FINANCIAL_MAIN_EFFECTS_V35) == required
+
+
+def test_v35_normalizes_yaml_dates_for_pandas_comparison() -> None:
+    periods = {
+        "discovery": [pd.Timestamp("2020-01-01").date(), pd.Timestamp("2022-12-31").date()],
+        "internal_validation": [
+            pd.Timestamp("2023-01-01").date(),
+            pd.Timestamp("2024-12-31").date(),
+        ],
+    }
+    normalized = normalize_protocol_periods_v35(periods)
+    dates = pd.Series(pd.to_datetime(["2019-12-31", "2020-01-01", "2024-12-31"]))
+    selected = dates.between(
+        normalized["discovery"][0],
+        normalized["internal_validation"][1],
+    )
+    assert selected.tolist() == [False, True, True]

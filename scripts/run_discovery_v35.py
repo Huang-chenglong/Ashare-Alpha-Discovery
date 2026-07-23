@@ -28,6 +28,7 @@ from ashare_alpha.factors_v35 import (
     build_monthly_financial_panel_v35,
     build_quarterly_financial_features_v35,
     finalize_candidates_v35,
+    normalize_protocol_periods_v35,
 )
 from ashare_alpha.statistics import hac_mean_test
 from ashare_alpha.tdx_financial import FIELDS_V35
@@ -106,7 +107,7 @@ def main() -> None:
         control_columns=controls,
         minimum_rows=int(protocol["neutralization"]["minimum_rows"]),
     )
-    periods = protocol["periods"]
+    periods = normalize_protocol_periods_v35(protocol["periods"])
     panels = panels[
         panels["date"].between(periods["discovery"][0], periods["internal_validation"][1])
     ].copy()
@@ -134,10 +135,10 @@ def main() -> None:
         candidate_columns=[candidate],
         candidate_definitions=CANDIDATES_V35,
         prior_discovery_p_values=prior["discovery_p_one_sided"],
-        discovery_start=str(periods["discovery"][0]),
-        discovery_end=str(periods["discovery"][1]),
-        validation_start=str(periods["internal_validation"][0]),
-        validation_end=str(periods["internal_validation"][1]),
+        discovery_start=periods["discovery"][0],
+        discovery_end=periods["discovery"][1],
+        validation_start=periods["internal_validation"][0],
+        validation_end=periods["internal_validation"][1],
         portfolio_holdings=int(portfolio["holdings"]),
         retention_percentile=float(portfolio["retention_percentile"]),
         cost_bps_one_way=float(portfolio["cost_bps_one_way"]),
