@@ -14,6 +14,7 @@ dependencies = [
   "pytdx>=1.72,<2",
   "requests>=2.31,<3",
   "scipy>=1.11,<2",
+  "scikit-learn>=1.4,<2",
   "PyYAML>=6,<7",
 ]
 

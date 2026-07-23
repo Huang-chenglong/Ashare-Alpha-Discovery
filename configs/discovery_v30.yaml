@@ -1,0 +1,108 @@
+experiment_id: nonlinear-structural-interaction-model-v30
+status: frozen_before_v30_training_and_bucket_e_validation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: original learned composite factor; no claim of a new primitive anomaly
+
+candidate_registry: [nsim_v30]
+
+training:
+  period: [2020-01-01, 2022-12-31]
+  target: >-
+    next-20-session active return residual after cross-sectional removal of all
+    registered known baselines, log float size, squared log float size, and
+    point-in-time Shenwan L1 industry
+  feature_transform: eligible-universe date percentile ranks; missing novel features become 0.5 with explicit missing indicators
+  estimator: sklearn.ensemble.HistGradientBoostingRegressor
+  fixed_hyperparameters:
+    loss: squared_error
+    learning_rate: 0.03
+    max_iter: 100
+    max_leaf_nodes: 7
+    min_samples_leaf: 100
+    l2_regularization: 10.0
+    max_bins: 63
+    early_stopping: false
+    random_state: 0
+  hyperparameter_search: none
+
+known_features_and_evaluation_controls:
+  - low_turnover_20
+  - low_turnover_vol_60
+  - reversal_20
+  - low_volatility_60
+  - anti_max_return_20
+  - anti_max_return_60
+  - anti_skewness_20
+  - anti_skewness_60
+  - momentum_60_20
+  - momentum_120_20
+  - overnight_mean_20
+  - overnight_mean_60
+  - negative_intraday_mean_20
+  - negative_intraday_mean_60
+
+novel_structural_features:
+  - mepi_60
+  - mepi_90
+  - matched_event_frequency_60
+  - matched_event_frequency_90
+  - asrt_60
+  - asrt_90
+  - mean_stress_resilience_60
+  - mean_stress_resilience_90
+  - fsid_100
+  - fsid_120
+  - mean_completed_residual_return_120
+  - mean_raw_absorption_slope_120
+  - remaining_float_inventory_days_025_control
+  - drra_60
+  - drra_90
+  - tsra_60
+  - tsra_90
+  - mean_lower_shadow_share_60
+  - mean_upper_shadow_share_60
+
+evaluation_neutralization:
+  minimum_rows: 100
+  controls: all fourteen known features listed above
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on the registered discovery statistic
+  prior_tests_included: 82
+  current_tests: 1
+  total_tests_after_v30: 83
+  additional_guard: out-of-training 2023-2024 one-sided HAC p must be no greater than 0.05
+
+periods:
+  discovery_training: [2020-01-01, 2022-12-31]
+  out_of_training_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 32
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+adaptive_reuse_disclosure: >-
+  The feature ideas and validation period have been seen in earlier E experiments,
+  but V30 hyperparameters, feature registry, target residualization, and gate were
+  frozen before training this model. No validation outcome is used for fitting or tuning.
+data_reuse_limitation: E/F were used by an earlier repository for a different formula; F is only formula-new and remains sealed
+failure_rule: reject the fixed model without tuning and keep F sealed if any gate fails
+
