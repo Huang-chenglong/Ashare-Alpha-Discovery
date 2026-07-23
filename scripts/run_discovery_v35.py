@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
 
@@ -18,67 +17,26 @@ from ashare_alpha.evaluate import (
     exposure_diagnostics,
     neutralized_candidate_panels,
 )
-from ashare_alpha.factors_v33 import (
-    CANDIDATES_V33,
-    CANDIDATE_COLUMNS_V33,
-    CONTROL_COLUMNS_BY_CANDIDATE_V33,
-    EXCLUDED_INDUSTRIES_V33,
-    FINANCIAL_MAIN_EFFECTS_V33,
-    MAXIMUM_ANNOUNCEMENT_LAG_DAYS_V33,
-    MAXIMUM_SIGNAL_AGE_DAYS_V33,
-    build_monthly_financial_panel_v33,
-    build_quarterly_financial_features_v33,
-    finalize_candidates_v33,
+from ashare_alpha.factors_v35 import (
+    CANDIDATES_V35,
+    CANDIDATE_COLUMNS_V35,
+    CONTROL_COLUMNS_BY_CANDIDATE_V35,
+    EXCLUDED_INDUSTRIES_V35,
+    FINANCIAL_MAIN_EFFECTS_V35,
+    MAXIMUM_ANNOUNCEMENT_LAG_DAYS_V35,
+    MAXIMUM_SIGNAL_AGE_DAYS_V35,
+    build_monthly_financial_panel_v35,
+    build_quarterly_financial_features_v35,
+    finalize_candidates_v35,
 )
 from ashare_alpha.statistics import hac_mean_test
-from ashare_alpha.tdx_financial import (
-    FIELDS_V33,
-    FinancialPackage,
-    load_financial_history,
-    validate_financial_package,
-)
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
-
-
-def load_validated_financial_history(
-    directory: Path,
-    *,
-    field_map: dict[int, str] = FIELDS_V33,
-) -> tuple[pd.DataFrame, dict[str, object], Path]:
-    manifest_path = directory / "manifest.json"
-    audit = json.loads(manifest_path.read_text(encoding="utf-8"))
-    package_rows = audit.get("packages", [])
-    if audit.get("package_count") != len(package_rows) or not package_rows:
-        raise ValueError("TongdaXin audit manifest has an inconsistent package count")
-    expected_names = {str(row["filename"]) for row in package_rows}
-    actual_names = {path.name for path in directory.glob("gpcw????????.zip")}
-    if actual_names != expected_names:
-        raise ValueError("Financial ZIP set does not exactly match its audit manifest")
-    for row in package_rows:
-        package = FinancialPackage(
-            filename=str(row["filename"]),
-            md5=str(row["md5"]),
-            filesize=int(row["filesize"]),
-            report_date=pd.Timestamp(row["report_date"]),
-        )
-        validate_financial_package(directory / package.filename, package)
-    return (
-        load_financial_history(directory, field_map=field_map),
-        audit,
-        manifest_path,
-    )
+from ashare_alpha.tdx_financial import FIELDS_V35
+from run_discovery_v33 import load_validated_financial_history, sha256
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Run the single frozen V33 cash/profitability interaction."
+        description="Run the frozen V35 self-financed growth-release interaction."
     )
     parser.add_argument("--data", required=True)
     parser.add_argument("--hfq-cache", required=True)
@@ -91,45 +49,46 @@ def main() -> None:
 
     protocol_path = Path(args.protocol)
     protocol = yaml.safe_load(protocol_path.read_text(encoding="utf-8"))
-    if protocol["candidate_registry"] != CANDIDATE_COLUMNS_V33:
-        raise ValueError("V33 protocol candidate registry mismatch")
+    if protocol["candidate_registry"] != CANDIDATE_COLUMNS_V35:
+        raise ValueError("V35 protocol candidate registry mismatch")
     expected_prior = int(protocol["multiplicity"]["prior_tests_included"])
-    expected_total = int(protocol["multiplicity"]["total_tests_after_v33"])
-    if expected_total != expected_prior + len(CANDIDATE_COLUMNS_V33):
-        raise ValueError("V33 protocol multiplicity total is inconsistent")
+    if int(protocol["multiplicity"]["total_tests_after_v35"]) != expected_prior + 1:
+        raise ValueError("V35 protocol multiplicity total is inconsistent")
     filters = protocol["financial_data"]["filters"]
-    if int(filters["announcement_lag_days"][1]) != MAXIMUM_ANNOUNCEMENT_LAG_DAYS_V33:
-        raise ValueError("V33 announcement-lag constant differs from the protocol")
-    if int(filters["maximum_signal_age_days"]) != MAXIMUM_SIGNAL_AGE_DAYS_V33:
-        raise ValueError("V33 staleness constant differs from the protocol")
-    if tuple(filters["excluded_shenwan_l1_codes"]) != EXCLUDED_INDUSTRIES_V33:
-        raise ValueError("V33 industry exclusions differ from the protocol")
-    if protocol["neutralization"]["financial_main_effects"] != FINANCIAL_MAIN_EFFECTS_V33:
-        raise ValueError("V33 financial controls differ from the protocol")
-
+    if int(filters["announcement_lag_days"][1]) != MAXIMUM_ANNOUNCEMENT_LAG_DAYS_V35:
+        raise ValueError("V35 announcement-lag constant differs from protocol")
+    if int(filters["maximum_signal_age_days"]) != MAXIMUM_SIGNAL_AGE_DAYS_V35:
+        raise ValueError("V35 staleness constant differs from protocol")
+    if tuple(filters["excluded_shenwan_l1_codes"]) != EXCLUDED_INDUSTRIES_V35:
+        raise ValueError("V35 industry exclusions differ from protocol")
+    if protocol["neutralization"]["financial_main_effects"] != FINANCIAL_MAIN_EFFECTS_V35:
+        raise ValueError("V35 financial controls differ from protocol")
     prior = pd.concat(
         [pd.read_csv(path) for path in args.prior_summary], ignore_index=True
     )
     if len(prior) != expected_prior or prior["candidate"].nunique() != expected_prior:
-        raise ValueError(f"V33 requires exactly {expected_prior} unique prior tests")
+        raise ValueError(f"V35 requires exactly {expected_prior} unique prior tests")
 
     output = Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
     financial, financial_audit, financial_manifest_path = (
-        load_validated_financial_history(Path(args.financial_directory))
+        load_validated_financial_history(
+            Path(args.financial_directory), field_map=FIELDS_V35
+        )
     )
-    quarterly = build_quarterly_financial_features_v33(financial)
+    quarterly = build_quarterly_financial_features_v35(financial)
     daily, prices = load_formation_daily(args.data, args.hfq_cache)
-    raw_features = build_monthly_financial_panel_v33(daily, financial)
-    aligned = align_industry_history(raw_features, pd.read_parquet(args.industry))
-    features = finalize_candidates_v33(aligned)
-    financial_complete = features[
-        ["cspi_v33", *FINANCIAL_MAIN_EFFECTS_V33]
+    raw = build_monthly_financial_panel_v35(daily, financial)
+    features = finalize_candidates_v35(
+        align_industry_history(raw, pd.read_parquet(args.industry))
+    )
+    complete = features[
+        ["sfgr_v35", *FINANCIAL_MAIN_EFFECTS_V35]
     ].notna().all(axis=1)
-    financial_coverage = (
+    coverage = (
         features.assign(
-            complete_financial=financial_complete,
-            nonzero_interaction=features["cspi_v33"].gt(0.0),
+            complete_financial=complete,
+            nonzero_interaction=features["sfgr_v35"].gt(0.0),
         )
         .groupby("date")
         .agg(
@@ -139,15 +98,18 @@ def main() -> None:
         )
         .reset_index()
     )
-    candidate = CANDIDATE_COLUMNS_V33[0]
-    controls = CONTROL_COLUMNS_BY_CANDIDATE_V33[candidate]
+    candidate = CANDIDATE_COLUMNS_V35[0]
+    controls = CONTROL_COLUMNS_BY_CANDIDATE_V35[candidate]
     panels = neutralized_candidate_panels(
         features,
         candidate_columns=[candidate],
         control_columns=controls,
         minimum_rows=int(protocol["neutralization"]["minimum_rows"]),
     )
-    panels = panels[panels["date"].between("2020-01-01", "2024-12-31")].copy()
+    periods = protocol["periods"]
+    panels = panels[
+        panels["date"].between(periods["discovery"][0], periods["internal_validation"][1])
+    ].copy()
     returns, return_manifest = attach_execution_returns(
         panels[["date", "asset"]].drop_duplicates(), prices, daily["date"]
     )
@@ -163,18 +125,19 @@ def main() -> None:
         "label",
     ]
     evaluated = panels.merge(
-        returns[outcomes],
-        on=["date", "asset"],
-        how="left",
-        validate="many_to_one",
+        returns[outcomes], on=["date", "asset"], how="left", validate="many_to_one"
     )
     gate = protocol["research_gate"]
     portfolio = protocol["portfolio"]
     summary, yearly, monthly = evaluate_research(
         evaluated,
         candidate_columns=[candidate],
-        candidate_definitions=CANDIDATES_V33,
+        candidate_definitions=CANDIDATES_V35,
         prior_discovery_p_values=prior["discovery_p_one_sided"],
+        discovery_start=str(periods["discovery"][0]),
+        discovery_end=str(periods["discovery"][1]),
+        validation_start=str(periods["internal_validation"][0]),
+        validation_end=str(periods["internal_validation"][1]),
         portfolio_holdings=int(portfolio["holdings"]),
         retention_percentile=float(portfolio["retention_percentile"]),
         cost_bps_one_way=float(portfolio["cost_bps_one_way"]),
@@ -191,7 +154,11 @@ def main() -> None:
         ),
     )
     validation_ic = monthly.loc[
-        monthly["date"].between("2023-01-01", "2024-12-31"), "rank_ic"
+        monthly["date"].between(
+            periods["internal_validation"][0],
+            periods["internal_validation"][1],
+        ),
+        "rank_ic",
     ]
     validation_t, validation_p = hac_mean_test(validation_ic)
     summary["validation_hac_t"] = validation_t
@@ -207,9 +174,7 @@ def main() -> None:
     exposures.to_csv(
         output / "exposure_diagnostics.csv", index=False, encoding="utf-8-sig"
     )
-    financial_coverage.to_csv(
-        output / "financial_coverage.csv", index=False, encoding="utf-8-sig"
-    )
+    coverage.to_csv(output / "financial_coverage.csv", index=False, encoding="utf-8-sig")
     passed = bool(summary.iloc[0]["passes_research_gate"])
     selection = {
         "experiment_id": protocol["experiment_id"],
@@ -225,6 +190,7 @@ def main() -> None:
         "financial_vintage_limitation": protocol["financial_data"][
             "vintage_limitation"
         ],
+        "adaptive_reuse_disclosure": protocol["adaptive_reuse_disclosure"],
         "return_manifest": return_manifest,
         "passed_candidates": [candidate] if passed else [],
         "selected_candidate": candidate if passed else None,

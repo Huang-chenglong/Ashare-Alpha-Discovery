@@ -33,6 +33,15 @@ FIELDS_V33 = {
     308: "ttm_parent_net_profit_10k",
     314: "report_announcement_date",
 }
+FIELDS_V35 = {
+    17: "inventory",
+    40: "total_assets",
+    283: "ttm_revenue_10k",
+    296: "receivables_and_notes",
+    307: "ttm_operating_cash_flow",
+    308: "ttm_parent_net_profit_10k",
+    314: "report_announcement_date",
+}
 
 
 @dataclass(frozen=True)
