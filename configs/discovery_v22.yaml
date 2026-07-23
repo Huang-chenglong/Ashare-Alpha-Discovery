@@ -1,0 +1,61 @@
+experiment_id: participation-weighted-range-relaxation-v22
+status: frozen_before_v22_bucket_e_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: exact participation-weighted completed-event characteristic; volume-volatility asymmetry is prior art
+
+candidate_registry: [pwrr_60, pwrr_90]
+
+formula:
+  base_events_and_response: identical completed bottom/top tail events and next-day log-range response registered in V21
+  event_weight: clip(event-day turnover_fraction / prior-60-day median turnover_fraction, 0.5, 3.0)
+  weighted_downside_relaxation: event-weighted mean range response after bottom-tail events
+  weighted_upside_relaxation: event-weighted mean range response after top-tail events
+  candidate: weighted_upside_relaxation minus weighted_downside_relaxation
+  minimum_completed_events_per_tail: 8
+  horizons: [60, 90]
+  expected_sign: positive
+
+neutralization:
+  minimum_rows: 100
+  common_controls: eleven known liquidity, reversal, volatility, lottery, momentum, and overnight/intraday baselines
+  incremental_controls:
+    - the corresponding unweighted V21 DRRA candidate
+    - V21 event-count balance, mean tail response, linear response correlation, and mean event range
+    - bottom-versus-top event-weight balance
+    - unconditional mean event weight
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+data_reuse_limitation: E/F were used by an earlier repository for a different formula; V22 is new to both and F remains sealed
+adaptive_reuse_disclosure: V22 is motivated by V21 results on E; all prior candidate tests remain in BH and F is unopened
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 71
+  current_tests: 2
+  total_tests_after_v22: 73
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 32
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain negative result and keep F closed if no candidate passes
