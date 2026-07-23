@@ -48,6 +48,11 @@ FIELDS_V36 = {
 }
 FIELDS_V37 = dict(FIELDS_V33)
 FIELDS_V38 = dict(FIELDS_V33)
+FIELDS_V39 = {
+    **FIELDS_V35,
+    45: "advance_receipts",
+    434: "contract_liabilities_10k",
+}
 
 
 @dataclass(frozen=True)
