@@ -1,0 +1,17 @@
+from ashare_alpha.factors_v25 import (
+    CANDIDATE_COLUMNS_V25,
+    HORIZONS_V25,
+    MARKET_STATE_LOOKBACK_V25,
+    MARKET_STRESS_QUANTILE_V25,
+    MINIMUM_ACTIVE_STRESS_OBSERVATIONS_V25,
+    MINIMUM_STRESS_OBSERVATIONS_V25,
+)
+
+
+def test_v25_protocol_constants_are_frozen() -> None:
+    assert HORIZONS_V25 == (60, 90)
+    assert CANDIDATE_COLUMNS_V25 == ["asrt_60", "asrt_90"]
+    assert MARKET_STATE_LOOKBACK_V25 == 60
+    assert MARKET_STRESS_QUANTILE_V25 == 0.20
+    assert MINIMUM_STRESS_OBSERVATIONS_V25 == 8
+    assert MINIMUM_ACTIVE_STRESS_OBSERVATIONS_V25 == 4

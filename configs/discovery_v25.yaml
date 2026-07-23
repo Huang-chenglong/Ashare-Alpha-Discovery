@@ -1,0 +1,92 @@
+experiment_id: active-stress-resilience-tilt-v25
+status: frozen_before_v25_bucket_e_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: exact conditional-interaction formula not found in the documented pre-outcome search; universal novelty is not claimed
+
+candidate_registry: [asrt_60, asrt_90]
+
+formula:
+  market_return: eligible-universe median close-to-close log return
+  stress_threshold: 20th percentile of market return over the prior 60 sessions, shifted one session
+  stress_day: current market return is no greater than the frozen trailing threshold
+  resilience: >-
+    stock return minus current market return, divided by 1.4826 times the
+    current eligible cross-sectional median absolute residual, clipped to [-5, 5]
+  activity_surprise: >-
+    current log turnover minus its prior-60-session mean, divided by the
+    corresponding prior standard deviation, clipped to [-3, 3]
+  active_weight: max(activity_surprise, 0)
+  candidate: >-
+    active-weighted mean resilience on stress days minus the equal-weight mean
+    resilience on all stress days in the same horizon
+  minimum_stress_observations: 8
+  minimum_active_stress_observations: 4
+  horizons: [60, 90]
+  expected_sign: positive
+
+neutralization:
+  minimum_rows: 100
+  common_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - negative_intraday_mean_20
+    - diffuse_turnover_60
+  incremental_controls:
+    - equal-weight mean stress-day resilience
+    - mean stress-day activity surprise
+    - active-stress observation fraction
+    - unconditional resilience/activity correlation
+    - downside market beta on the registered stress days
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - Trading Volume and Time Varying Betas, doi:10.1093/rof/rfab014
+    - downside beta and general price-volume research
+  distinction: >-
+    ASRT removes both ordinary stress resilience and ordinary activity, and tests
+    only whether positive abnormal participation tilts toward a stock's resilient
+    stress observations.
+
+data_reuse_limitation: E/F were used by an earlier repository for a different formula; V25 is formula-new to both and F remains sealed
+adaptive_reuse_disclosure: V25 is a distinct market-state mechanism specified after V24 failed on E; all prior candidate tests remain in BH
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 75
+  current_tests: 2
+  total_tests_after_v25: 77
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 32
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain the negative result and keep F closed if neither candidate passes
+
