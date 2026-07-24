@@ -1,0 +1,153 @@
+experiment_id: official-margin-interaction-v48
+status: frozen_before_full_margin_download_and_before_any_return_outcome
+frozen_date: 2026-07-24
+
+new_modality:
+  admitted: financing_and_securities_lending_daily_detail
+  source:
+    SSE: https://query.sse.com.cn/marketdata/tradedata/queryMargin.do
+    SZSE: https://www.szse.cn/api/report/ShowReport
+  grain: exchange_trade_date_security
+  sampling: exact research month-end trading dates
+  units:
+    financing_balance: CNY
+    financing_buy: CNY
+    short_balance_quantity: shares_or_fund_units
+    short_balance_value: CNY_when_published_else_quantity_times_unadjusted_close
+  point_in_time:
+    exchange_publication: previous trading-day detail before the next market open
+    signal_observation: formation-date detail
+    execution: second market open after formation
+    reason: one full session of conservative operational latency
+  start_date: 2019-09-01
+  end_date: 2026-05-31
+
+rejected_modality:
+  name: historical_order_book_or_level2
+  status: unavailable
+  local_audit:
+    l2_engine_configuration_present: true
+    historical_tick_or_order_book_files_present: false
+    sh_sz_bj_minline_files: 0
+    sh_sz_bj_fzline_files: 0
+  rule: daily OHLCV or current quote snapshots must not be relabeled as order-book history
+
+candidates:
+  - candidate: mdar_v48
+    name: margin deleveraging absorption resilience
+    formula: financing_outflow_rank * positive_momentum_rank * financing_leverage_rank
+    direction: higher predicts higher next-month return
+    mechanism: price strength while leveraged positions contract indicates absorption of forced or liquidity-driven selling
+  - candidate: mcar_v48
+    name: margin contrarian absorption resilience
+    formula: financing_inflow_rank * negative_momentum_rank * financing_leverage_rank
+    direction: higher predicts higher next-month return
+    mechanism: leveraged demand entering during price weakness may reveal unexpressed demand after controlling all component main effects
+  - candidate: mlcf_v48
+    name: margin leveraged chase fragility
+    formula: -(financing_inflow_rank * positive_momentum_rank * financing_leverage_rank)
+    direction: higher predicts higher next-month return
+    mechanism: highly levered momentum chasing may unwind; the registered score is signed as an expected-return signal
+
+candidate_registry: [mdar_v48, mcar_v48, mlcf_v48]
+alternative_formulas_permitted_after_outcomes: false
+direction_flipping_permitted_after_outcomes: false
+
+features:
+  financing_leverage: financing_balance / point_in_time_float_market_cap
+  net_financing_flow_to_turnover: month_end_financing_balance_change / trailing_20_session_amount
+  momentum_20: adjusted_close / adjusted_close_lag_20 - 1
+  short_leverage: short_balance_value / point_in_time_float_market_cap
+  short_sell_intensity: month_end_short_sell_quantity / month_end_volume
+  consecutive_months_required_for_balance_change: true
+
+neutralization:
+  size: log_float_market_cap_and_centered_square
+  industry: point_in_time_shenwan_level_1
+  component_main_effects_and_squares:
+    - financing_leverage_rank
+    - financing_inflow_rank
+    - financing_outflow_rank
+    - positive_momentum_rank
+    - negative_momentum_rank
+  short_activity_controls:
+    - short_leverage_rank
+    - short_sell_intensity_rank
+  known_price_volume_controls:
+    - diffuse_turnover_20
+    - diffuse_turnover_60
+    - turnover_burst_reversal_20
+    - turnover_burst_reversal_60
+    - attention_normalization_20_60
+    - float_supply_days_120
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+  minimum_rows: 150
+
+evidence_roles:
+  construction:
+    assets: stable_hash_bucket_A
+    dates: 2020-01-01_to_2023-12-31
+    globally_pristine: false
+    modality_formula_outcomes_previously_seen: false
+  confirmation:
+    assets: stable_hash_bucket_B_disjoint_from_A
+    dates: 2024-01-01_to_2026-05-31
+    asset_disjoint: true
+    future_time_relative_to_construction: true
+    formula_unseen_until_construction_pass: true
+    globally_pristine: false
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+  entry_offset_sessions: 2
+  exit_offset_sessions: 22
+  maximum_execution_delay_sessions: 5
+
+construction_gate:
+  minimum_months: 44
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  family_bh_q_max: 0.10
+  positive_years_min: 3
+  required_positive_year: 2023
+  required_core_years_positive: [2021, 2022, 2023]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_median_margin_coverage: 0.40
+  minimum_monthly_complete_rows: 150
+
+selection:
+  rule: highest mean net active return among complete gate and family-BH passes, then registry order
+  if_none_pass: record all failures and do not calculate bucket_B confirmation outcomes
+  if_pass: freeze exactly one selected formula and construction hashes before confirmation
+
+confirmation_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.025
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+multiplicity:
+  cumulative_directional_tests_before_v48: 108
+  v48_family_tests: 3
+  independent_confirmation_attempt_number_if_opened: 3
+
+claim_rule: >-
+  A V48 formula may be called effective only if it first passes every
+  construction, data-quality, exposure, cost, and family-BH gate and then the
+  single frozen asset-and-time-disjoint confirmation passes every confirmation
+  gate without refitting, threshold tuning, or sign reversal.
