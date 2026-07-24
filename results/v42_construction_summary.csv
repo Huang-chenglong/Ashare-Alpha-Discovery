@@ -1,0 +1,2 @@
+candidate,role,period,months,mean_rank_ic,hac_t,hac_p_one_sided,positive_years,required_year_positive,mean_net_active_return,net_information_ratio,minimum_monthly_return_coverage,minimum_selected_return_coverage,maximum_absolute_neutralized_exposure,passes_construction_gate,bucket_g_opened
+tafs_v42,adaptive_E_plus_F_construction,2023-01-01/2025-12-31,36,0.004701248674029001,1.248693885734581,0.10588851018624149,2,True,0.003811295818320224,0.6437701384081234,1.0,1.0,1.15902119164925e-13,False,False

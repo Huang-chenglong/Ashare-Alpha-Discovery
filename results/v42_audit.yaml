@@ -1,0 +1,33 @@
+experiment_id: tail-aware-funding-structure-v42
+candidate: tafs_v42
+audited_date: 2026-07-24
+decision: failed_construction
+directional_test_number: 95
+bucket_g_opened: false
+reason:
+  mean_rank_ic_below_0_015: true
+  hac_p_above_0_05: true
+  all_required_years_positive: false
+  net_return_gate_passed: true
+  information_ratio_gate_passed: true
+metrics:
+  months: 36
+  mean_rank_ic: 0.004701248674029001
+  hac_t: 1.248693885734581
+  hac_p_one_sided: 0.10588851018624149
+  positive_years: 2
+  mean_net_active_return: 0.003811295818320224
+  net_information_ratio: 0.6437701384081234
+  maximum_absolute_neutralized_exposure: 1.15902119164925e-13
+hashes:
+  protocol: e41a0e44dccfe2d7946b2eebf97b0722eaa78b3f1b1a6de743f7dc55a8ad96f1
+  model: 305851d88e50b5a9a65a53dac3910fc1ffe349fa652b9e773d1d3b977e3d789f
+  summary: 39e70afe4f4b275145b5de2061cf2e113033043d47732df80703c2047147dc21
+  yearly: 68c278cd9da358b4595ec4c789055522fa72bdc9c962b2c5c60153a874d79439
+  monthly: a07025e065e1b684440d7a08e2cb2a7006255866a362d70b6ab56ead874e9140
+  exposures: ead766c03ebec6b88d3cda23d52f65ddb0c8015a523e91ec9c368b13c38550e8
+  metadata: d5c0fe1ff09bc0288a1112845309f4309c22564522c30d6b972d94fd70c92746
+interpretation: >-
+  The top-tail classifier produced a positive cost-adjusted 50-stock portfolio
+  but insufficient monotonic cross-sectional ranking. The frozen conjunctive
+  gate rejects it; no threshold, sign, or portfolio change is permitted.

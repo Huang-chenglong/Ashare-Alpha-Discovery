@@ -1,9 +1,10 @@
 status: no_new_confirmed_factor
 as_of: 2026-07-24
-cumulative_candidate_tests: 94
-latest_version: V41
+cumulative_candidate_tests: 95
+latest_version: V42
 formula_new_confirmation_bucket_f_opened: true
-reason: V41 failed both the adaptive E gate and one-shot asset-disjoint F gate
+sealed_confirmation_bucket_g_opened: false
+reason: V42 failed its adaptive E+F construction gate, so G remains sealed
 
 notable_results:
   fsid_120:
@@ -106,6 +107,14 @@ notable_results:
     confirmation_f_net_information_ratio: -0.6244400829527706
     confirmation_f_passes: false
     joint_effective_factor: false
+  tafs_v42:
+    construction_months: 36
+    construction_mean_ic: 0.004701248674029001
+    construction_hac_p_one_sided: 0.10588851018624149
+    construction_mean_net_active_return: 0.003811295818320224
+    construction_net_information_ratio: 0.6437701384081234
+    construction_passes: false
+    bucket_g_opened: false
 
 required_for_credible_continuation:
   - fresh asset-and-formula-unseen history

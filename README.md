@@ -6,7 +6,7 @@
 
 **截至 2026-07-24，本项目没有发现一个可以诚实称为“新的、通过全部预注册门槛的有效因子”。**
 
-项目累计记录 94 个方向性候选检验。V19 曾通过研究样本，但在一次性资产隔离确认集 D 上方向失效，因此正式作废。V20–V40 在开发样本 E 上继续研究，但没有候选通过完整研究门槛。V41 将 E 明确降级为适应性构造/诊断样本，先冻结结构模型与客户融资动量的 50/50 合成，再对资产完全不重叠的 F 做一次性确认。按照 `E 适应性门槛 AND F 独立确认门槛` 的联合规则，两边均失败，V41 正式作废，F 不再用于调参。
+项目累计记录 95 个方向性候选检验。V19 曾通过研究样本，但在一次性资产隔离确认集 D 上方向失效，因此正式作废。V20–V40 在开发样本 E 上继续研究，但没有候选通过完整研究门槛。V41 将 E 明确降级为适应性构造/诊断样本，先冻结结构模型与客户融资动量的 50/50 合成，再对资产完全不重叠的 F 做一次性确认。按照 `E 适应性门槛 AND F 独立确认门槛` 的联合规则，两边均失败，V41 正式作废。V42 把已消耗的 E+F 用作构造数据，虽取得正的成本后组合收益，但 IC、HAC 和逐年门槛失败，因此第三个资产隔离桶 G 仍保持封存。
 
 这是刻意保留的负结果，不是未完成的回测。仓库拒绝以下做法：
 
@@ -43,6 +43,8 @@ scfc_v41 = 0.5 × rank(neutralized nsim_v30)
 | F，2020–2025 | 一次性资产隔离确认 | 70 | 0.01028 | 0.0299 | −0.2622% | −0.624 | 失败 |
 
 E 还因 2025 年 IC `−0.01129` 和三年一致性失败；F 虽有统计显著的正平均 IC，但低于冻结的 `0.015` 门槛，2024 年 IC 为负且成本后组合明显亏损。联合有效性为 `False AND False = False`。
+
+V42 `tafs_v42` 是第 95 个候选：E+F 的 2023–2025 构造期 IC `0.00470`、HAC p `0.1059`，2024 年 IC 为负；其 50 股组合扣费后月均 `+0.3811%`、IR `0.644`，但联合门槛不允许用组合收益替代 IC 和年度稳定性，所以仍判失败，G 未打开。
 
 ## 研究流程
 
@@ -114,13 +116,15 @@ python scripts/run_adaptive_discovery.py `
 
 ## 可核查证据
 
-- [完整研究账本](docs/research_ledger_v7_v41.md)
+- [完整研究账本](docs/research_ledger_v7_v42.md)
 - [V32–V41 专业财务数据与因子审计](docs/financial_factors_v32_v41.md)
 - [统计与偏差审计](docs/statistical_audit.md)
-- [94 个候选统一表](results/all_candidate_tests.csv)
+- [95 个候选统一表](results/all_candidate_tests.csv)
 - [V41 E/F 联合汇总](results/v41_joint_summary.csv)
 - [V41 逐年结果](results/v41_yearly_results.csv)
 - [V41 完整审计与哈希](results/v41_audit.yaml)
+- [V42 构造汇总](results/v42_construction_summary.csv)
+- [V42 审计与哈希](results/v42_audit.yaml)
 - [最终研究状态](results/research_status.yaml)
 - [材料护照](results/material_passport.yaml)
 
