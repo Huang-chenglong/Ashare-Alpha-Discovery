@@ -1,4 +1,4 @@
-# Research ledger: V7–V45
+# Research ledger: V7–V47
 
 ## Status codes
 
@@ -50,10 +50,13 @@
 | V43 | Residual-rank structural model | 1 | FAILED CONSTRUCTION | Adaptive E+F IC `0.01820`, HAC p=`0.00010`, all three years positive; net `-0.2936%`/month and IR `-0.442` failed. |
 | V44 | Structural/tail consensus family | 3 | FAILED CONSTRUCTION | All passed HAC and yearly direction; 60/40 came closest with IC `0.01477`, net `+0.1583%`/month, IR `0.250`, but missed the IC and IR floors. |
 | V45 | Persistent structural/tail consensus | 3 | FAILED CONFIRMATION | 60/25/15 passed E+F construction, but one-shot G IC `0.01051`, HAC p=`0.0933`, and 2023 IC below zero failed. |
+| V46 | Robust three-month persistence | 3 | FAILED CONSTRUCTION | Median missed IC and economics; floor/range variants had IC near `0.0185` but strongly negative net returns. |
+| V47 | Mild stability penalty | 3 | FAILED CONFIRMATION | 0.10 range penalty passed E+F+G; one-shot H IC `-0.02576`, net `-0.2299%`/month, IR `-1.030`. |
 | F | Formula-new asset-disjoint confirmation | — | OPENED ONCE, THEN CLOSED | V41 used F exactly once under commit-frozen code and gates; F failed and is prohibited from V41 tuning. |
 | G | Formula-unseen asset-disjoint confirmation | — | OPENED ONCE, THEN CLOSED | V45 used G exactly once under a committed formula and gate; confirmation failed and G is prohibited from V45 tuning. |
+| H | Formula-unseen asset-disjoint confirmation | — | OPENED ONCE, THEN CLOSED | V47 used 172 zero-overlap assets exactly once; both 2023 and 2024 IC were negative. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative ledger contains **102 unique directional tests**. V41–V45 are explicitly adaptive on their construction data. V44 and V45 control their three simultaneously frozen variants with internal BH correction. V45 alone earned access to G and failed its one-shot confirmation.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative ledger contains **108 unique directional tests**. V41–V47 are explicitly adaptive on their construction data. V45 and V47 earned access to formula-unseen asset-disjoint buckets and both failed one-shot confirmation.
 
 ## Original precise constructs introduced in this branch
 

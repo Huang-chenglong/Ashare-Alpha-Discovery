@@ -1,10 +1,10 @@
 artifact: Ashare-Alpha-Discovery
-result_version: v45
+result_version: v47
 verification_status: VERIFIED_NEGATIVE_RESULT
 verified_date: 2026-07-24
 
 primary_claim: >-
-  One hundred two directional candidate tests were retained. The pre-V41 research
+  One hundred eight directional candidate tests were retained. The pre-V41 research
   family preserves cumulative multiplicity control; V41 is separately labelled
   adaptive and has no fabricated BH q-value. V41 required both an adaptive
   post-fit E diagnostic and a one-shot asset-disjoint F confirmation to pass.
@@ -13,7 +13,8 @@ primary_claim: >-
   gates. V43 passed IC, HAC, and yearly gates but failed net-return and IR
   gates. All three V44 composites also failed the conjunctive construction
   gate. V45 passed adaptive E+F construction but failed its one-shot,
-  formula-unseen, asset-disjoint G confirmation; no effective factor is claimed.
+  formula-unseen, asset-disjoint G confirmation. V47 later passed adaptive
+  E+F+G construction but reversed sign in H; no effective factor is claimed.
 
 claim_boundary:
   new_confirmed_factor: false
@@ -35,7 +36,7 @@ data:
   industry: point-in-time Shenwan L1 as-of alignment
 
 research:
-  cumulative_directional_tests: 102
+  cumulative_directional_tests: 108
   pre_outcome_rejections_v13_v15_v23_v28: 4
   confirmation_v19_status: failed
   bucket_f_opened_for_v20_v40: false
@@ -43,6 +44,8 @@ research:
   bucket_f_reused_for_v41_tuning: false
   bucket_g_opened_once_for_v45: true
   bucket_g_reused_for_v45_tuning: false
+  bucket_h_opened_once_for_v47: true
+  bucket_h_reused_for_v47_tuning: false
 
 v41_joint_result:
   candidate: scfc_v41

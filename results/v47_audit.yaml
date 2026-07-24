@@ -1,0 +1,46 @@
+experiment_id: mildly-stabilized-persistent-consensus-v47
+audited_date: 2026-07-24
+decision: passed_adaptive_construction_failed_one_shot_H_confirmation
+directional_test_numbers: [106, 107, 108]
+selected_candidate: wpen10_v47
+effective_confirmed_factor: false
+bucket_h_opened: true
+bucket_h_closed_for_v47_tuning: true
+pre_outcome_launch_failure:
+  occurred: true
+  completed_confirmation_output_created: false
+  reason: empty 2025 eligible matrix was passed to sklearn
+  repair: skip prediction years with zero eligible rows
+  formula_or_gate_changed: false
+  regression_tests_added: true
+construction:
+  mean_rank_ic: 0.01754594085238885
+  hac_p_one_sided: 2.8753722995903906e-05
+  family_q_bh: 4.248207343372524e-05
+  mean_net_active_return: 0.002084045361085294
+  net_information_ratio: 0.3712377532514127
+  passes: true
+confirmation_H:
+  months: 22
+  mean_rank_ic: -0.02576390246908762
+  hac_p_one_sided: 0.9955431303523544
+  year_2023_mean_ic: -0.021216095313026862
+  year_2024_mean_ic: -0.029553741765804928
+  mean_net_active_return: -0.002299354357803207
+  net_information_ratio: -1.0298795407283377
+  passes: false
+maximum_absolute_neutralized_exposure:
+  construction: 1.1724010373068931e-14
+  confirmation_H: 5.52891066263328e-14
+hashes:
+  construction_protocol: bb6039b91934ebf294cd1062700ec8cbb805c8babc730171737d217b5a8a9a1b
+  confirmation_protocol: 949773172295d669ebff06080f989436cd405bcc1cc4e61906b55334f77321a8
+  construction_summary: 22fe1da3d4e2ad6905b8301354fec560950e3fe56de72ae16274cb56a3621881
+  construction_yearly: d24634e3e53aba3a226d3415d4a63ffc960e7532b8b1963514bab94fa752d71c
+  construction_monthly: cf70dffcab8f4e26a7b0e67244afab788fd4eaa99a422ce6d215c51d284bfe92
+  construction_exposures: 3d88b68bd8ac890e03995351f7aa13ab1ba2c8815ae9b5582e7c4739f67a290a
+  confirmation_summary: 8dbc685e5e1fbd01f61fe8e59066fc7d18d044516429a65fb5e6cd8aa481970f
+  confirmation_yearly: 017aaca7a961dc13a34f65f9b33df2bcb06455ca8277624e24edba5dc14f4c70
+  confirmation_monthly: b8b81afee117d91b80d66dd0b561cad0f08b1126b3d0a5cf052f59840b795fe4
+  confirmation_exposures: 010acb377d9ac3dd53531be0e4ac006885ba6c4f45565b979b403e40ae1fdd87
+  confirmation_metadata: 68e025a6f35f54cf24f184c5944eccfcc8d3df2e8d2017b961b2220c8e4abf95

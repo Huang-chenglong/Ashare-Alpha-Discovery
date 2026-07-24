@@ -1,10 +1,10 @@
 status: no_new_confirmed_factor
 as_of: 2026-07-24
-cumulative_candidate_tests: 102
-latest_version: V45
+cumulative_candidate_tests: 108
+latest_version: V47
 formula_new_confirmation_bucket_f_opened: true
 sealed_confirmation_bucket_g_opened: true
-reason: V45 passed adaptive E+F construction but failed the one-shot formula-unseen asset-disjoint G confirmation
+reason: V47 passed adaptive E+F+G construction but reversed sign in one-shot asset-disjoint H confirmation
 
 notable_results:
   fsid_120:
@@ -148,6 +148,21 @@ notable_results:
     effective_confirmed_factor: false
     bucket_g_opened: true
     bucket_g_closed_for_v45_tuning: true
+  robust_persistence_v46:
+    family_tests: 3
+    any_construction_passes: false
+    bucket_h_opened: false
+  mildly_stabilized_persistence_v47:
+    family_tests: 3
+    selected_candidate: wpen10_v47
+    construction_mean_ic: 0.01754594085238885
+    construction_passes: true
+    confirmation_h_mean_ic: -0.02576390246908762
+    confirmation_h_mean_net_active_return: -0.002299354357803207
+    confirmation_h_passes: false
+    effective_confirmed_factor: false
+    bucket_h_opened: true
+    bucket_h_closed_for_v47_tuning: true
 
 required_for_credible_continuation:
   - fresh asset-and-formula-unseen history
