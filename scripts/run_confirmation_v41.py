@@ -172,6 +172,12 @@ def main() -> None:
         required_positive_year=int(gate["required_positive_year"]),
         mean_net_return_minimum=float(gate["mean_net_active_return_min"]),
         net_information_ratio_minimum=float(gate["net_information_ratio_min"]),
+        monthly_return_coverage_minimum=float(
+            gate["minimum_monthly_return_coverage"]
+        ),
+        selected_return_coverage_minimum=float(
+            gate["minimum_selected_return_coverage"]
+        ),
         portfolio_holdings=int(portfolio["holdings"]),
         retention_percentile=float(portfolio["retention_percentile"]),
         cost_bps_one_way=float(portfolio["cost_bps_one_way"]),

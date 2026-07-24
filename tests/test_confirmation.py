@@ -24,3 +24,12 @@ def test_confirmation_gate_requires_every_condition(monkeypatch) -> None:
     assert bool(summary.iloc[0]["passes_confirmation_gate"])
     failed, _, _ = evaluate_confirmation(panel, mean_ic_minimum=0.03)
     assert not bool(failed.iloc[0]["passes_confirmation_gate"])
+
+    monthly_failed, _, _ = evaluate_confirmation(
+        panel, monthly_return_coverage_minimum=1.01
+    )
+    selected_failed, _, _ = evaluate_confirmation(
+        panel, selected_return_coverage_minimum=1.01
+    )
+    assert not bool(monthly_failed.iloc[0]["passes_confirmation_gate"])
+    assert not bool(selected_failed.iloc[0]["passes_confirmation_gate"])

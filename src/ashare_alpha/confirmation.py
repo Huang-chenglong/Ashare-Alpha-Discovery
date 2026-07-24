@@ -17,6 +17,8 @@ def evaluate_confirmation(
     required_positive_year: int = 2025,
     mean_net_return_minimum: float = 0.0,
     net_information_ratio_minimum: float = 0.30,
+    monthly_return_coverage_minimum: float = 0.0,
+    selected_return_coverage_minimum: float = 0.0,
     portfolio_holdings: int = 100,
     retention_percentile: float = 0.60,
     cost_bps_one_way: float = 20.0,
@@ -80,5 +82,9 @@ def evaluate_confirmation(
         and values["required_year_positive"]
         and values["mean_net_active_return"] > mean_net_return_minimum
         and values["net_information_ratio"] >= net_information_ratio_minimum
+        and values["minimum_monthly_return_coverage"]
+        >= monthly_return_coverage_minimum
+        and values["minimum_selected_return_coverage"]
+        >= selected_return_coverage_minimum
     )
     return pd.DataFrame([values]), yearly, monthly
