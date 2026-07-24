@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import yaml
 
 from ashare_alpha.stability_v47 import (
     CANDIDATES_V47,
@@ -26,3 +27,12 @@ def test_v47_mild_stability_formulas_are_frozen() -> None:
     assert np.isclose(
         result.loc[2, "wgate20_v47"], weighted * (0.80 + 0.20 * path.min())
     )
+
+
+def test_v47_confirmation_freezes_one_formula_and_core_years() -> None:
+    with open("configs/confirmation_v47.yaml", encoding="utf-8") as handle:
+        protocol = yaml.safe_load(handle)
+    assert protocol["candidate"] == "wpen10_v47"
+    assert protocol["alternative_formulas_permitted"] is False
+    assert protocol["refitting_on_h_permitted"] is False
+    assert protocol["gate"]["required_core_years_positive"] == [2023, 2024]
