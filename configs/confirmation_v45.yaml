@@ -1,0 +1,88 @@
+experiment_id: persistent-structural-tail-consensus-v45-g-confirmation
+status: frozen_before_one_shot_bucket_g_outcomes
+frozen_date: 2026-07-24
+
+candidate: pcs60_25_15_v45
+formula: >-
+  0.60 * consensus60_40(t) + 0.25 * consensus60_40(t-1) +
+  0.15 * consensus60_40(t-2), where consensus60_40 is 0.60 times the
+  within-month rank of the neutralized V43 prediction plus 0.40 times the
+  within-month rank of the neutralized V42 prediction.
+direction: higher_persistent_consensus_predicts_higher_return
+consecutive_months_required: 3
+alternative_formulas_permitted: false
+refitting_on_g_permitted: false
+threshold_tuning_on_g_permitted: false
+
+selection_evidence:
+  construction_family: [pcs70_30_v45, pcs60_25_15_v45, pcg_v45]
+  selection_rule: highest mean net active return among full construction and BH passes
+  construction_summary_sha256: 5b2519386e37fd52c08f112ab0014d22b14be9820b75199e3bb9b72df7c6623d
+  construction_metadata_sha256: 6df74fd9bef916ab22eaff770dbf6f885921ff982bd6450adb5cedcb78d769b4
+  selected_metrics:
+    months: 34
+    mean_rank_ic: 0.017574156896445568
+    hac_p_one_sided: 7.380802368014161e-05
+    family_q_bh: 0.00022142407104042483
+    positive_years: 3
+    mean_net_active_return: 0.0026865648391386585
+    net_information_ratio: 0.515475951493969
+    passes_construction_gate: true
+
+evidence_roles:
+  E: consumed adaptive construction data
+  F: consumed adaptive construction data
+  G: one-shot asset-disjoint and V45-formula-unseen confirmation data
+
+bucket_g:
+  structural_data_sha256: 93ab3874abc07824c65f6676ebf16ff360d5762b961cdd11049d65b64ae781b9
+  assets: 310
+  asset_overlap_with_E_F: 0
+  global_pristine_claim: false
+  formula_unseen_for_v45: true
+  limitation: >-
+    G is asset-disjoint from E/F and was not opened for V42–V45 construction,
+    but its parent CSI 500 source has been used by older unrelated project work.
+    G shares calendar time with E/F and is not a future-time holdout.
+
+models:
+  v42_sha256: 305851d88e50b5a9a65a53dac3910fc1ffe349fa652b9e773d1d3b977e3d789f
+  v43_sha256: 56cf906f8c098f1b37abe03db13fc55db886ad77809b543fc412ce99ac92dd6d
+  training_rule: >-
+    Frozen annual walk-forward artifacts trained only on consumed E+F rows
+    ending before each prediction year; no G label is used for fitting.
+
+neutralization:
+  minimum_rows: 100
+  controls: >-
+    V43 component: fourteen known price-volume effects, size, size-squared, and
+    industry. V42 component and final V45 score: fifty-eight linear/quadratic
+    V42 input ranks, size, size-squared, and Shenwan L1 industry.
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+
+gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_year: 2025
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+freeze:
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+  financial_manifest_sha256: 2c2086c7998c59683451651ce6f32c0e4d0158733fdd6f946dc0ed204a713854
+  construction_cache_sha256: f7a7e421b46da8ae52dfad6bceddfcbda63c0eeef4dcae1cd31a2a849dd1584b
+  cumulative_directional_tests_before_confirmation: 102
+
+decision_rule: >-
+  Call V45 an effective confirmed factor only if this one completed G run passes
+  every gate. Otherwise record a failed confirmation, permanently close G for
+  V45 tuning, and make no effective-factor claim.

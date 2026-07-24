@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import yaml
 
 from ashare_alpha.persistence_v45 import (
     CANDIDATES_V45,
@@ -29,3 +30,12 @@ def test_v45_formulas_require_consecutive_months() -> None:
     assert result.loc[2, "pcs70_30_v45"] != result.loc[2, "pcs70_30_v45"]
     assert result["pcs60_25_15_v45"].isna().all()
     assert np.isclose(result.loc[1, "pcg_v45"], base[1] * (0.5 + 0.5 * base[0]))
+
+
+def test_confirmation_freezes_only_selected_candidate() -> None:
+    with open("configs/confirmation_v45.yaml", encoding="utf-8") as handle:
+        protocol = yaml.safe_load(handle)
+    assert protocol["candidate"] == "pcs60_25_15_v45"
+    assert protocol["alternative_formulas_permitted"] is False
+    assert protocol["refitting_on_g_permitted"] is False
+    assert protocol["threshold_tuning_on_g_permitted"] is False
