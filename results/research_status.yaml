@@ -1,10 +1,10 @@
 status: no_new_confirmed_factor
 as_of: 2026-07-24
-cumulative_candidate_tests: 96
-latest_version: V43
+cumulative_candidate_tests: 99
+latest_version: V44
 formula_new_confirmation_bucket_f_opened: true
 sealed_confirmation_bucket_g_opened: false
-reason: V43 passed IC/HAC/year gates but failed net-return and IR gates, so G remains sealed
+reason: all three V44 composites failed the joint IC/net-return/IR construction gate, so G remains sealed
 
 notable_results:
   fsid_120:
@@ -122,6 +122,16 @@ notable_results:
     construction_mean_net_active_return: -0.0029360587253501846
     construction_net_information_ratio: -0.442318583421359
     construction_passes: false
+    bucket_g_opened: false
+  structural_tail_consensus_v44:
+    family_tests: 3
+    construction_months: 36
+    closest_candidate: rrsm60_tafs40_v44
+    closest_mean_ic: 0.014764962238811737
+    closest_hac_p_one_sided: 4.0936897787917754e-07
+    closest_mean_net_active_return: 0.0015833733146331786
+    closest_net_information_ratio: 0.24953218553304304
+    any_construction_passes: false
     bucket_g_opened: false
 
 required_for_credible_continuation:

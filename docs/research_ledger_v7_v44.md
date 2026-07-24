@@ -1,4 +1,4 @@
-# Research ledger: V7–V43
+# Research ledger: V7–V44
 
 ## Status codes
 
@@ -48,10 +48,11 @@
 | V41 | Structural/customer-financing consensus | 1 | FAILED RESEARCH AND CONFIRMATION | Adaptive E IC `0.00903`, HAC p=`0.1941`, net `-0.1421%`; one-shot F IC `0.01028`, net `-0.2622%`, IR `-0.624`. |
 | V42 | Tail-aware funding/structure classifier | 1 | FAILED CONSTRUCTION | Adaptive E+F IC `0.00470`, HAC p=`0.1059`, 2024 negative; net `+0.3811%`/month and IR `0.644` could not override failed IC/year gates. |
 | V43 | Residual-rank structural model | 1 | FAILED CONSTRUCTION | Adaptive E+F IC `0.01820`, HAC p=`0.00010`, all three years positive; net `-0.2936%`/month and IR `-0.442` failed. |
+| V44 | Structural/tail consensus family | 3 | FAILED CONSTRUCTION | All passed HAC and yearly direction; 60/40 came closest with IC `0.01477`, net `+0.1583%`/month, IR `0.250`, but missed the IC and IR floors. |
 | F | Formula-new asset-disjoint confirmation | — | OPENED ONCE, THEN CLOSED | V41 used F exactly once under commit-frozen code and gates; F failed and is prohibited from V41 tuning. |
-| G | Formula-unseen asset-disjoint confirmation | — | SEALED | V42 and V43 failed construction before any G factor or return metric was computed. |
+| G | Formula-unseen asset-disjoint confirmation | — | SEALED | V42–V44 failed construction before any G factor or return metric was computed. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative ledger contains **96 unique directional tests**. V41–V43 are explicitly adaptive on their construction data and therefore have no fabricated BH q-values.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative ledger contains **99 unique directional tests**. V41–V44 are explicitly adaptive on their construction data. V44 controls its three simultaneously frozen variants with an internal BH correction; no broader out-of-sample claim is made.
 
 ## Original precise constructs introduced in this branch
 
