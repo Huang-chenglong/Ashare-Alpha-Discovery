@@ -1,4 +1,4 @@
-# Research ledger: V7–V40
+# Research ledger: V7–V41
 
 ## Status codes
 
@@ -45,9 +45,10 @@
 | V38 | Cash-confirmed reporting acceleration | 1 | FAILED RESEARCH | Discovery IC `0.00666`; validation IC `0.00304`, net `-0.4366%`/month, and IR `-1.47`. |
 | V39 | Customer-funding/working-capital alignment | 1 | FAILED RESEARCH | Discovery IC `0.01098`, q `0.1875`; validation IC `0.00512`, net `-0.2160%`/month. |
 | V40 | Customer-financing momentum alignment | 1 | FAILED RESEARCH | Discovery IC `0.01616`, q `0.1018`; validation IC `0.00277`, 2023 negative, HAC p=`0.4106`. |
-| F | Formula-new asset-disjoint confirmation | — | SEALED | V20–V40 produced no eligible candidate. |
+| V41 | Structural/customer-financing consensus | 1 | FAILED RESEARCH AND CONFIRMATION | Adaptive E IC `0.00903`, HAC p=`0.1941`, net `-0.1421%`; one-shot F IC `0.01028`, net `-0.2622%`, IR `-0.624`. |
+| F | Formula-new asset-disjoint confirmation | — | OPENED ONCE, THEN CLOSED | V41 used F exactly once under commit-frozen code and gates; F failed and is prohibited from V41 tuning. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative evaluated family contains **93 unique directional tests**.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative ledger contains **94 unique directional tests**. V41 is explicitly adaptive on E and therefore has no fabricated BH q-value.
 
 ## Original precise constructs introduced in this branch
 
@@ -90,6 +91,29 @@ V35 multiplied the positive ranks of revenue growth, year-over-year release of r
 ### FSIM — Fundamental-Structural Interaction Model
 
 V36 used five deterministic asset folds so every 2020–2022 discovery prediction came from a model trained without that asset's labels. A final 2020–2022 model predicted 2023–2024. The score then removed linear and quadratic ranks of all 52 model inputs, 38 missingness effects, size, squared size, and industry. The asset-fold discovery IC was negative and the validation portfolio was cost-negative; the clean exposure diagnostics do not rescue the failed economic and statistical gates.
+
+### SCFC — Structural/Customer-Financing Consensus
+
+V41 combined the frozen V30 structural model score and V40
+customer-financing-momentum interaction using fixed equal weights. Each
+component was neutralized against its frozen controls and converted to a
+within-month percentile rank before combination. The composite was then
+neutralized against fourteen known price/volume factors, fifteen financial main
+effects, log float size, squared size, and point-in-time Shenwan L1 industry.
+
+E was not treated as out-of-sample: V30 was fitted on E during 2020–2022 and
+V20–V40 outcomes had already informed the project. The frozen E gate therefore
+used only 2023–2025 and was labelled an adaptive post-fit diagnostic. It failed
+with 36-month IC `0.00903`, HAC p=`0.1941`, 2025 IC `-0.01129`, net
+`-0.1421%`/month, and IR `-0.390`.
+
+F contained 2,124 assets with zero code overlap with E's 2,149 assets. Its
+one-shot confirmation produced 70-month IC `0.01028` and HAC p=`0.0299`, but
+missed the frozen IC floor `0.015`; 2024 IC was negative, net active return was
+`-0.2622%`/month, and IR was `-0.624`. The registered joint rule was
+`adaptive E pass AND independent F pass`; both operands were false. Maximum
+absolute post-neutralization exposure was `1.13e-14` on E and `2.71e-14` on F,
+so exposure removal succeeded but did not rescue the signal.
 
 ## Prior-art boundary
 

@@ -1,0 +1,72 @@
+experiment_id: structural-customer-financing-consensus-v41
+candidate: scfc_v41
+audited_date: 2026-07-24
+decision: rejected
+effective_factor: false
+joint_rule: adaptive_e_gate AND independent_f_gate
+adaptive_e_gate: false
+independent_f_gate: false
+
+evidence_boundary:
+  bucket_e_role: adaptive post-fit diagnostic; never described as out-of-sample
+  bucket_f_role: one-shot asset-disjoint confirmation; not a future-time holdout
+  bucket_e_assets: 2149
+  bucket_f_assets: 2124
+  asset_intersection_count: 0
+  historical_st_complete: false
+  archived_vintage_fundamentals: false
+
+pre_outcome_git_freeze:
+  factor_and_training_code: 1f6248900619e8efdd778a1e1498ea1242f776fa
+  f_confirmation_protocol: d31d8cfddbf9fa7c507d0e7b9a8cf035c4e63b75
+  e_adaptive_gate: e24888796dbcaf6135a55a8e81da6f08c1bc50f0
+  e_diagnostic_implementation: 61b5859b6b12c7877ccdb77ae82e9ed2b51af5ea
+  note: >-
+    The E gate commit was created before the F process produced any stdout.
+    Its first remote push was delayed by a transient GitHub network reset.
+
+one_shot_execution:
+  formula_changed_after_f_open: false
+  f_reused_for_tuning: false
+  completed_f_run_count: 1
+  interrupted_pre_output_launch_count: 1
+  interruption_note: >-
+    An initial launch was terminated by a one-second command timeout before an
+    output directory existed. The completed run used the identical committed
+    code, protocol, hashes, formula, sign, weights, period, and thresholds.
+
+frozen_hashes:
+  bucket_e_data: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  bucket_f_data: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  industry_history: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+  financial_manifest: 2c2086c7998c59683451651ce6f32c0e4d0158733fdd6f946dc0ed204a713854
+  structural_model: 27d34a855baba9c3270f001677c0fc335e49b0d836fc76f690ce085e14f30f84
+  f_protocol: 12586b76a90f68acdc10aa0f46f6d8253eb408c9335ff6f7f822adac63463c34
+  e_protocol: 55d1ee6e26a89c047f271e9aaf998bb3c9e2d5d724c6181cf32617b232fa6fa7
+
+raw_report_hashes:
+  f_summary: b824fb9a0c61d1770c1b12523df56c34702ce5ebe7f7e3bc5ed907777dd181a5
+  f_yearly: 78f40229f7949003097a739a9d16cf0cc4e22ce0c0b38214efa9321bb851ac58
+  f_monthly: 89034579b19493d81c57ee28763eca237a46090c8a46a12a41ad6c299e62adf9
+  f_exposures: ab179d546d8e793c944814cbd6e4527775a85208a58d41d6f151db1a447b0c48
+  f_metadata: daf6274a27933955fb358db334aa26f7e251c1b7d7005ea3eefd8527859bc1ef
+  e_summary: 0d1b9240afabfe28c24cfd57f490873728e9f05a77a5be6b7b0a9e2f833e62f7
+  e_yearly: 244d064728d4576449df4a392bfa9010ace2e4ca4c61a32bec21ea199b1fc121
+  e_monthly: 379147a601a5ba41f59f98209c438f4740c690927fd498654f70c842c3057f7a
+  e_exposures: 95a369b36c39c89332fc6dc65247cddbde9bbd4e8442880469372c1435bd4ed5
+  e_metadata: da883a96c77e1d09fafbedb50676c23fe930d752e69d6e095fd1cd665391a59d
+
+calculation_qa:
+  independently_recomputed_from_monthly_csv:
+    - months
+    - mean_rank_ic
+    - mean_net_active_return
+    - net_information_ratio
+    - minimum_monthly_return_coverage
+    - minimum_selected_return_coverage
+  discrepancies_found: false
+
+interpretation: >-
+  Neutralization succeeded numerically, but the signal failed strength,
+  stability, and cost-adjusted economic gates. Neither E nor F can support an
+  effectiveness claim, and F is permanently unavailable for V41 tuning.

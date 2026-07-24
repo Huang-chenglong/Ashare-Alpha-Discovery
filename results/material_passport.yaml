@@ -1,12 +1,14 @@
 artifact: Ashare-Alpha-Discovery
-result_version: v40
+result_version: v41
 verification_status: VERIFIED_NEGATIVE_RESULT
-verified_date: 2026-07-23
+verified_date: 2026-07-24
 
 primary_claim: >-
-  Ninety-three directional candidate tests were retained under cumulative
-  multiplicity control. No new V20-V40 factor passed every frozen research gate,
-  so formula-new asset-disjoint bucket F remained sealed.
+  Ninety-four directional candidate tests were retained. The pre-V41 research
+  family preserves cumulative multiplicity control; V41 is separately labelled
+  adaptive and has no fabricated BH q-value. V41 required both an adaptive
+  post-fit E diagnostic and a one-shot asset-disjoint F confirmation to pass.
+  Both failed, so no effective factor is claimed.
 
 claim_boundary:
   new_confirmed_factor: false
@@ -17,7 +19,7 @@ claim_boundary:
 
 data:
   bucket_e_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
-  sealed_bucket_f_sha256: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  bucket_f_sha256: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
   industry_history_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
   bucket_e_assets: 2149
   bucket_f_assets: 2124
@@ -28,19 +30,22 @@ data:
   industry: point-in-time Shenwan L1 as-of alignment
 
 research:
-  cumulative_directional_tests: 93
+  cumulative_directional_tests: 94
   pre_outcome_rejections_v13_v15_v23_v28: 4
   confirmation_v19_status: failed
   bucket_f_opened_for_v20_v40: false
+  bucket_f_opened_once_for_v41: true
+  bucket_f_reused_for_v41_tuning: false
 
-closest_candidate:
-  name: nsim_v30
-  validation_months: 24
-  validation_mean_rank_ic: 0.0164701433435
-  validation_hac_p_one_sided: 0.053523
-  validation_mean_net_active_return: 0.002043
-  validation_net_information_ratio: 0.513499
-  passes_registered_gate: false
+v41_joint_result:
+  candidate: scfc_v41
+  adaptive_e_passes: false
+  adaptive_e_mean_rank_ic: 0.009032137292183866
+  adaptive_e_mean_net_active_return: -0.0014206315660370299
+  confirmation_f_passes: false
+  confirmation_f_mean_rank_ic: 0.010277589588366335
+  confirmation_f_mean_net_active_return: -0.0026218918855465496
+  joint_effective_factor: false
 
 limitations:
   - E/F are asset-disjoint but not globally pristine from all prior projects.

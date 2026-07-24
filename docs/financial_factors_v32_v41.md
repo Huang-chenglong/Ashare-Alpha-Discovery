@@ -1,4 +1,4 @@
-# TongdaXin financial-data extension: V32–V40
+# TongdaXin financial-data extension: V32–V41
 
 ## Data contract
 
@@ -30,8 +30,9 @@ fundamental data.
 | V38 `cora_v38` | faster same-quarter reporting × positive cash improvement × positive cash ROA | IC 0.00666; BH q 0.3531 | IC 0.00304; net −0.4366%/month; IR −1.47 | Failed |
 | V39 `cfwa_v39` | customer-financing growth × receivables/inventory release × revenue growth | IC 0.01098; BH q 0.1875 | IC 0.00512; net −0.2160%/month; HAC p 0.280 | Failed |
 | V40 `cfma_v40` | customer-financing growth × quarterly acceleration × revenue growth | IC 0.01616; BH q 0.1018 | IC 0.00277; net +0.1732%/month; HAC p 0.411 | Failed |
+| V41 `scfc_v41` | 50% frozen structural-model rank × 50% customer-financing-momentum rank | Adaptive E IC 0.00903; HAC p 0.194; net −0.1421%/month | One-shot F IC 0.01028; HAC p 0.0299; net −0.2622%/month; IR −0.624 | Failed both gates |
 
-All four scores remove their ranked components, raw component changes, related
+All V32–V41 scores remove their ranked components, raw component changes, related
 levels and ratios, fourteen registered price/volume factors, log float market
 capitalization, centered squared size, and point-in-time Shenwan L1 industry.
 V33–V35 exclude financial-industry codes 48 and 49 before ranking.
@@ -55,8 +56,9 @@ Relevant primary sources:
 
 ## Decision
 
-None of V32–V40 passed every frozen gate. Confirmation bucket F was never read.
-Further manual variants against the already inspected 2023–2024 interval would
-turn validation into training. A statistically credible continuation needs
-archived-vintage fundamentals, a new prospective period, or genuinely new
+None of V32–V41 passed every frozen gate. V41 opened asset-disjoint bucket F
+exactly once after its model, formula, hashes, portfolio, costs, and thresholds
+were committed. Both its adaptive E diagnostic and F confirmation failed. F is
+therefore closed to further V41 tuning. A statistically credible continuation
+needs archived-vintage fundamentals, a new prospective period, or genuinely new
 intraday/order-book data.

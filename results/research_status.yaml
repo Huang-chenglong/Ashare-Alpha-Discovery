@@ -1,9 +1,9 @@
 status: no_new_confirmed_factor
-as_of: 2026-07-23
-cumulative_candidate_tests: 93
-latest_version: V40
-formula_new_confirmation_bucket_f_opened: false
-reason: no V20-V40 candidate passed every frozen research gate
+as_of: 2026-07-24
+cumulative_candidate_tests: 94
+latest_version: V41
+formula_new_confirmation_bucket_f_opened: true
+reason: V41 failed both the adaptive E gate and one-shot asset-disjoint F gate
 
 notable_results:
   fsid_120:
@@ -91,6 +91,21 @@ notable_results:
     validation_mean_net_active_return: 0.00173174526914341
     validation_net_information_ratio: 0.43643797782853433
     passes: false
+  scfc_v41:
+    evidence_rule: adaptive_e_gate AND independent_f_gate
+    adaptive_e_months: 36
+    adaptive_e_mean_ic: 0.009032137292183866
+    adaptive_e_hac_p_one_sided: 0.1940765995665228
+    adaptive_e_mean_net_active_return: -0.0014206315660370299
+    adaptive_e_net_information_ratio: -0.39020110000874647
+    adaptive_e_passes: false
+    confirmation_f_months: 70
+    confirmation_f_mean_ic: 0.010277589588366335
+    confirmation_f_hac_p_one_sided: 0.029882864943146657
+    confirmation_f_mean_net_active_return: -0.0026218918855465496
+    confirmation_f_net_information_ratio: -0.6244400829527706
+    confirmation_f_passes: false
+    joint_effective_factor: false
 
 required_for_credible_continuation:
   - fresh asset-and-formula-unseen history

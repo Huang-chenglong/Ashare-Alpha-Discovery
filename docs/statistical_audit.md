@@ -4,7 +4,7 @@
 
 The current research verdict is **NO NEW CONFIRMED FACTOR**.
 
-Ninety-three directional candidate tests are retained in the cumulative ledger. No V20–V40 candidate passed every registered discovery, temporal-validation, yearly-consistency, cost, and information-ratio gate. Formula-new confirmation bucket F therefore remains sealed.
+Ninety-four directional candidate tests are retained in the cumulative ledger. No V20–V40 candidate passed every registered discovery, temporal-validation, yearly-consistency, cost, and information-ratio gate. V41 then used the separately frozen joint rule `adaptive E gate AND independent F gate`; both gates failed. Formula-new bucket F was opened once for V41 and is permanently closed to V41 tuning.
 
 V19 is also invalid: it passed research bucket C but failed the one-shot asset-disjoint D confirmation with mean rank IC `-0.00093`, mean net active return `-0.1841%` per month, and IR `-0.280`.
 
@@ -22,14 +22,17 @@ V19 is also invalid: it passed research bucket C but failed the one-shot asset-d
 - V38 had full month coverage but failed magnitude, yearly, HAC, cost, and IR gates: discovery IC `0.00666`, validation IC `0.00304`, HAC p=`0.2726`, and IR `-1.47`.
 - V39 was positive but insufficient: discovery IC `0.01098`, cumulative BH q=`0.1875`, validation IC `0.00512`, HAC p=`0.2796`, and negative cost-adjusted return.
 - V40 met the discovery IC threshold but not the complete gate: cumulative BH q=`0.1018`, validation IC `0.00277`, 2023 IC was negative, and validation HAC p=`0.4106`.
+- V41 is not assigned a fabricated BH q-value because E is explicitly adaptive. Its 2023–2025 E diagnostic failed with IC `0.00903`, HAC p=`0.1941`, 2025 IC `-0.01129`, and IR `-0.390`. Its one-shot asset-disjoint F confirmation also failed: IC `0.01028` versus the frozen `0.015` floor, net `-0.2622%`/month, and IR `-0.624`.
 - V30 missed that additional gate: validation HAC p=`0.05352` versus the frozen `0.05` limit.
 - No sign reversal, weight optimization, alpha search, or threshold relaxation was performed after seeing a result.
 
 ## Exposure controls
 
-All current candidate scores are cross-sectionally residualized against point-in-time log float market capitalization, its centered square, and point-in-time Shenwan L1 industry. V20–V32 additionally remove eleven or more registered liquidity, reversal, volatility, lottery, momentum, overnight/intraday, accounting, ownership, or mechanism-specific controls.
+All current candidate scores are cross-sectionally residualized against point-in-time log float market capitalization, its centered square, and point-in-time Shenwan L1 industry. V20–V41 additionally remove eleven or more registered liquidity, reversal, volatility, lottery, momentum, overnight/intraday, accounting, ownership, or mechanism-specific controls.
 
 The learned V30/V31 target is residualized against fourteen known factors before fitting. Model predictions are residualized against the same fourteen factors again before IC and portfolio evaluation. Their reported validation IC therefore does not come directly from those known main effects.
+
+V41 first residualizes each frozen component against its own controls, ranks both components within date, combines them at fixed 50/50 weights, and residualizes the composite against fourteen price/volume and fifteen financial main effects plus size and industry. Maximum absolute residual exposure was `1.13e-14` on E and `2.71e-14` on F.
 
 ## Fallacy scan
 
@@ -44,7 +47,7 @@ Coverage: **11/11 checked**.
 | Base-rate neglect | Not applicable; this is not a diagnostic classifier. |
 | Regression to the mean | Addressed with temporal and asset-disjoint stages, but adaptive reuse of E remains a limitation. |
 | Survivorship bias | Historical monthly membership and available delisted histories are used; vendor and ST-history gaps remain. |
-| Look-elsewhere effect | Addressed with a cumulative 93-test family and retained failures, not erased. |
+| Look-elsewhere effect | Addressed with 94 retained directional tests. The pre-V41 family keeps cumulative BH results; adaptive V41 is separately disclosed and not assigned a pseudo-independent q-value. |
 | Garden of forking paths | Each version is committed before outcomes; adaptive motivation is disclosed. |
 | Correlation versus causation | No causal claim is made. |
 | Reverse causality | Formation variables precede labels, but latent state can drive both and remains a limitation. |
@@ -57,7 +60,8 @@ Coverage: **11/11 checked**.
 - The equal-weight eligible-universe benchmark is not an official index.
 - Tencent HFQ prices and reconstructed TongdaXin float history are vendor-derived rather than exchange-certified point-in-time databases.
 - GPCW quarterly packages were downloaded in 2026. Announcement-date gating is enforced, but archived vintage values are unavailable, so later corrections/restatements cannot be excluded.
-- The repeated 2023–2024 inspections mean it is now adaptive research data, not a pristine holdout for new manual variants.
+- The repeated 2023–2025 inspections mean E is adaptive research data, not a pristine holdout for new manual variants.
+- F is asset-disjoint from E but shares calendar time, so it is not a future-time holdout.
 
 ## Why research stops here
 

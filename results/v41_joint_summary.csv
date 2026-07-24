@@ -1,0 +1,3 @@
+candidate,dataset,role,period,assets,months,mean_rank_ic,hac_t,hac_p_one_sided,positive_years,year_consistency_gate_passes,mean_net_active_return,net_information_ratio,minimum_monthly_return_coverage,minimum_selected_return_coverage,maximum_absolute_neutralized_exposure,passes_dataset_gate,joint_effective_factor
+scfc_v41,E,adaptive_post_fit_diagnostic,2023-01-01/2025-12-31,2149,36,0.009032137292183866,0.8629713866867735,0.1940765995665228,2,False,-0.0014206315660370299,-0.39020110000874647,1.0,1.0,1.13013383646771e-14,False,False
+scfc_v41,F,one_shot_asset_disjoint_confirmation,2020-01-01/2025-12-31,2124,70,0.010277589588366335,1.8825179143095792,0.029882864943146657,5,True,-0.0026218918855465496,-0.6244400829527706,1.0,1.0,2.70894418008538e-14,False,False
