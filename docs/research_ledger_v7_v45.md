@@ -1,4 +1,4 @@
-# Research ledger: V7–V44
+# Research ledger: V7–V45
 
 ## Status codes
 
@@ -49,10 +49,11 @@
 | V42 | Tail-aware funding/structure classifier | 1 | FAILED CONSTRUCTION | Adaptive E+F IC `0.00470`, HAC p=`0.1059`, 2024 negative; net `+0.3811%`/month and IR `0.644` could not override failed IC/year gates. |
 | V43 | Residual-rank structural model | 1 | FAILED CONSTRUCTION | Adaptive E+F IC `0.01820`, HAC p=`0.00010`, all three years positive; net `-0.2936%`/month and IR `-0.442` failed. |
 | V44 | Structural/tail consensus family | 3 | FAILED CONSTRUCTION | All passed HAC and yearly direction; 60/40 came closest with IC `0.01477`, net `+0.1583%`/month, IR `0.250`, but missed the IC and IR floors. |
+| V45 | Persistent structural/tail consensus | 3 | FAILED CONFIRMATION | 60/25/15 passed E+F construction, but one-shot G IC `0.01051`, HAC p=`0.0933`, and 2023 IC below zero failed. |
 | F | Formula-new asset-disjoint confirmation | — | OPENED ONCE, THEN CLOSED | V41 used F exactly once under commit-frozen code and gates; F failed and is prohibited from V41 tuning. |
-| G | Formula-unseen asset-disjoint confirmation | — | SEALED | V42–V44 failed construction before any G factor or return metric was computed. |
+| G | Formula-unseen asset-disjoint confirmation | — | OPENED ONCE, THEN CLOSED | V45 used G exactly once under a committed formula and gate; confirmation failed and G is prohibited from V45 tuning. |
 
-Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative ledger contains **99 unique directional tests**. V41–V44 are explicitly adaptive on their construction data. V44 controls its three simultaneously frozen variants with an internal BH correction; no broader out-of-sample claim is made.
+Together with the fourteen registered baselines and V1–V6 research candidates, the cumulative ledger contains **102 unique directional tests**. V41–V45 are explicitly adaptive on their construction data. V44 and V45 control their three simultaneously frozen variants with internal BH correction. V45 alone earned access to G and failed its one-shot confirmation.
 
 ## Original precise constructs introduced in this branch
 

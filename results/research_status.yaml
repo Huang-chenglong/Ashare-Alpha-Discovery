@@ -1,10 +1,10 @@
 status: no_new_confirmed_factor
 as_of: 2026-07-24
-cumulative_candidate_tests: 99
-latest_version: V44
+cumulative_candidate_tests: 102
+latest_version: V45
 formula_new_confirmation_bucket_f_opened: true
-sealed_confirmation_bucket_g_opened: false
-reason: all three V44 composites failed the joint IC/net-return/IR construction gate, so G remains sealed
+sealed_confirmation_bucket_g_opened: true
+reason: V45 passed adaptive E+F construction but failed the one-shot formula-unseen asset-disjoint G confirmation
 
 notable_results:
   fsid_120:
@@ -133,6 +133,21 @@ notable_results:
     closest_net_information_ratio: 0.24953218553304304
     any_construction_passes: false
     bucket_g_opened: false
+  persistent_structural_tail_consensus_v45:
+    family_tests: 3
+    selected_candidate: pcs60_25_15_v45
+    construction_mean_ic: 0.017574156896445568
+    construction_mean_net_active_return: 0.0026865648391386585
+    construction_net_information_ratio: 0.515475951493969
+    construction_passes: true
+    confirmation_g_mean_ic: 0.010513935673750193
+    confirmation_g_hac_p_one_sided: 0.09332909408452722
+    confirmation_g_mean_net_active_return: 0.0023546431542953872
+    confirmation_g_net_information_ratio: 0.8035118225085002
+    confirmation_g_passes: false
+    effective_confirmed_factor: false
+    bucket_g_opened: true
+    bucket_g_closed_for_v45_tuning: true
 
 required_for_credible_continuation:
   - fresh asset-and-formula-unseen history
