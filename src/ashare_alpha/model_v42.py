@@ -205,6 +205,8 @@ def predict_walk_forward_v42(
         if year not in models:
             raise ValueError(f"V42 model bundle is missing prediction year {year}")
         selected = dates.dt.year.eq(year) & eligible
+        if not selected.any():
+            continue
         predictions.loc[selected] = models[year].predict_proba(
             matrix.loc[selected]
         )[:, 1]

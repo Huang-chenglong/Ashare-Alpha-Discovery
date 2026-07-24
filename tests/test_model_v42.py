@@ -8,6 +8,7 @@ from ashare_alpha.model_v42 import (
     TOP_TAIL_QUANTILE_V42,
     main_effect_controls_v42,
     make_top_tail_labels_v42,
+    predict_walk_forward_v42,
 )
 
 
@@ -37,3 +38,20 @@ def test_v42_controls_remove_linear_and_quadratic_main_effects() -> None:
     assert columns == ["linear__rank__a", "quadratic__rank__a"]
     assert np.allclose(controls["linear__rank__a"], [-0.4, 0.0, 0.4])
     assert np.allclose(controls["quadratic__rank__a"], [0.16, 0.0, 0.16])
+
+
+def test_v42_prediction_skips_year_with_no_eligible_rows() -> None:
+    panel = pd.DataFrame(
+        {
+            "date": pd.to_datetime(["2023-01-31"]),
+            "float_market_cap": [1.0],
+            "industry_l1": ["10"],
+            **{feature: [np.nan] for feature in FEATURES_V42},
+        }
+    )
+    predictions = predict_walk_forward_v42(
+        panel,
+        pd.DataFrame({"x": [0.0]}),
+        {year: object() for year in PREDICTION_YEARS_V42},
+    )
+    assert predictions.isna().all()

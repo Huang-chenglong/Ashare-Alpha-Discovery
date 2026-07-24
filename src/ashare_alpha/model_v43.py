@@ -121,6 +121,8 @@ def predict_walk_forward_v43(
         if year not in models:
             raise ValueError(f"V43 model bundle is missing prediction year {year}")
         selected = dates.dt.year.eq(year) & eligible
+        if not selected.any():
+            continue
         predictions.loc[selected] = models[year].predict(matrix.loc[selected])
     return predictions
 
