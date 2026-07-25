@@ -1,1 +1,5 @@
 * text=auto eol=lf
+reports/v53_construction/confirmation_freeze.json -text
+reports/v53_construction/construction.json -text
+reports/v53_construction/construction_summary.csv -text
+reports/v53_construction/yearly_results.csv -text

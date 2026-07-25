@@ -1,0 +1,16 @@
+{
+  "experiment_id": "direct-margin-flow-tail-v53-confirmation",
+  "status": "confirmation_authorized_and_frozen",
+  "candidate": "hgb_tail_v53",
+  "model_artifact_sha256": "0a3a11686880f203460a7934c6b025e11842a5afbac6ca7ee596dcc0b7ba7c29",
+  "alternative_models_or_hyperparameters_permitted": false,
+  "direction_flipping_permitted": false,
+  "refitting_permitted": false,
+  "construction_json_sha256": "312f099e18035d928aeaefb84a394b634511478c7d9c0cbda50b08c5f27b85a0",
+  "construction_summary_sha256": "aba3e5852ec231938034334003a4593b5cb2362b0c020f40fdb4660a1aac3795",
+  "protocol_sha256": "8d4c050e41bc309ef7c4961d077ffe99e9d7ff6293ab67f797511413c22d630f",
+  "dense_margin_data_sha256": "0647e540f1598853ad9919883e4b58b01d9ee8555f6ff1042e677ce8bf4b360e",
+  "dense_margin_manifest_sha256": "516e1cdacacfdeb5d897fc6b422f43b55be8cc337067c257330c70ac04a88f10",
+  "confirmation_structural_sha256": "a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9",
+  "confirmation_outcomes_read": false
+}

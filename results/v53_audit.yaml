@@ -1,0 +1,37 @@
+version: V53
+status: passed_adaptive_construction_confirmation_frozen
+as_of: 2026-07-25
+family_tests: 3
+selected_candidate: hgb_tail_v53
+confirmation_authorized: true
+confirmation_outcomes_read: false
+
+construction:
+  months: 34
+  mean_rank_ic: 0.021862774409329006
+  hac_p_one_sided: 0.014369032352262178
+  family_q_bh: 0.04310709705678654
+  positive_years: 3
+  required_core_years_positive: true
+  mean_net_active_return: 0.0015055835624470964
+  net_information_ratio: 0.32042487623329547
+  minimum_monthly_return_coverage: 1.0
+  minimum_selected_return_coverage: 1.0
+  passes_construction_gate: true
+
+data_quality:
+  official_margin_rows: 1084719
+  official_margin_assets: 4483
+  median_new_modality_coverage: 0.471
+  maximum_absolute_neutralized_exposure: 1.0334947715519604e-12
+
+frozen_hashes:
+  model_artifact_sha256: 0a3a11686880f203460a7934c6b025e11842a5afbac6ca7ee596dcc0b7ba7c29
+  construction_json_sha256: 312f099e18035d928aeaefb84a394b634511478c7d9c0cbda50b08c5f27b85a0
+  construction_summary_sha256: aba3e5852ec231938034334003a4593b5cb2362b0c020f40fdb4660a1aac3795
+  protocol_sha256: 8d4c050e41bc309ef7c4961d077ffe99e9d7ff6293ab67f797511413c22d630f
+  confirmation_structural_sha256: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+
+claim: >-
+  This is an adaptive construction pass, not an effective-factor claim.
+  Effectiveness requires the frozen model to pass the one-shot bucket-B gate.
