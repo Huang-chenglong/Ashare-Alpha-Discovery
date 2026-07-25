@@ -1,0 +1,9 @@
+version: V55
+status: failed_adaptive_construction
+candidate: hgb_financing_long_v55
+mean_rank_ic: 0.012126
+hac_p_one_sided: 0.074834
+mean_net_active_return: -0.006827
+net_information_ratio: -0.636807
+C_outcomes_read: false
+D_outcomes_read: false
