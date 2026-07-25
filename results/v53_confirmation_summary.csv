@@ -1,0 +1,2 @@
+candidate,months,mean_rank_ic,hac_t,hac_p_one_sided,positive_years,required_positive_year,required_year_positive,mean_net_active_return,net_information_ratio,mean_monthly_traded_notional,minimum_monthly_return_coverage,minimum_selected_return_coverage,passes_confirmation_gate,required_core_years_positive
+hgb_tail_v53,29,0.02627162654447942,2.3426549135141135,0.009573756950381374,3,2026,True,-0.0004970658005171997,-0.09360392239511942,1.2055172413793105,1.0,1.0,False,True

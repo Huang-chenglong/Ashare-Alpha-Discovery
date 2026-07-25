@@ -1,0 +1,134 @@
+experiment_id: financing-tail-spread-v54
+status: frozen_after_v53_B_economic_failure_before_v54_outcomes
+frozen_date: 2026-07-25
+
+adaptivity_disclosure: >-
+  V54 is adaptive to V53's independent-B result: rank IC remained positive in
+  every year but the long-only top-50 implementation was cost-negative. V54
+  therefore pre-registers a symmetric tail-spread target and market-neutral
+  portfolio. Neither newly built bucket C nor bucket D outcome has been read.
+
+features:
+  inherited: V52 features except short-leverage and short-sale inputs
+  new_financing_inputs:
+    - financing_buy_to_amount
+    - financing_buy_to_balance
+    - financing_buy_surprise_4
+  excluded_sparse_inputs:
+    - short_sell_surprise_4
+    - short_inventory_change_to_amount
+    - short_inventory_path_4
+  normalization: cross_sectional_percentile_rank_each_month
+  missing_values: rows_are_excluded_no_imputation
+
+target:
+  bottom_decile: -1
+  middle_eighty_percent: 0
+  top_decile: 1
+  model_score: probability_top_decile_minus_probability_bottom_decile
+
+models:
+  - candidate: logit_spread_v54
+    specification: StandardScaler_then_balanced_LogisticRegression_C_0.1
+  - candidate: hgb_spread_v54
+    specification: balanced_HGB_150_iterations_7_leaves_min_leaf_40_l2_10
+  - candidate: extra_spread_v54
+    specification: balanced_ExtraTrees_300_depth_5_min_leaf_30_max_features_0.75
+candidate_registry: [logit_spread_v54, hgb_spread_v54, extra_spread_v54]
+alternative_models_or_hyperparameters_permitted_after_outcomes: false
+sign_flipping_permitted_after_outcomes: false
+
+point_in_time_training:
+  construction_prediction_dates: 2021-01-01_to_2023-12-31
+  train_rule: only_rows_with_exit_date_strictly_before_prediction_date
+  minimum_training_rows: 2500
+  final_model_label_cutoff: exit_date_strictly_before_2024-01-01
+  validation_or_confirmation_refitting: none
+
+neutralization:
+  controls: ten_known_price_volume_factors_plus_linear_financing_momentum_and_path_main_effects
+  size: log_float_market_cap_and_centered_square
+  industry: point_in_time_shenwan_level_1
+  minimum_rows_A: 150
+  minimum_rows_C_D: 65
+
+data:
+  training_A_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  validation_C_sha256: dec98133e9bbc0421dad5dda031643d477d3e19578e527f659efa45f9eba6c39
+  confirmation_D_sha256: e612e986eed0c82e1aa0d007ec53a9664cec6651c73b86159e0087c2f869c29a
+  unseen_manifest_sha256: be10a05105adb37bb04f6aac34c30eae9f08a276a9a2117fa94b201f23334c84
+  dense_margin_sha256: 0647e540f1598853ad9919883e4b58b01d9ee8555f6ff1042e677ce8bf4b360e
+  dense_margin_manifest_sha256: 516e1cdacacfdeb5d897fc6b422f43b55be8cc337067c257330c70ac04a88f10
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+
+unseen_buckets:
+  prior_seen_asset_union: 4755
+  remaining_tdx_assets: 479
+  C_assets: 255
+  D_assets: 204
+  C_D_asset_overlap: 0
+  C_D_overlap_with_all_prior_panels: 0
+  validation_C_outcomes_unread: true
+  confirmation_D_outcomes_unread: true
+
+portfolio:
+  holdings_each_side: 10
+  long_retention_percentile: 0.70
+  short_retention_percentile: 0.30
+  gross_exposure: 2.0
+  net_exposure: 0.0
+  cost_bps_one_way: 20.0
+  annual_short_borrow_bps: 800.0
+  entry_offset_sessions: 2
+  exit_offset_sessions: 22
+  maximum_execution_delay_sessions: 5
+
+construction_gate: &gate
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  family_bh_q_max: 0.10
+  positive_years_min: 3
+  required_positive_year: 2023
+  required_core_years_positive: [2021, 2022, 2023]
+  mean_net_spread_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_monthly_complete_rows: 150
+
+validation_C_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_spread_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_monthly_complete_rows: 65
+
+confirmation_D_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.025
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_spread_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_monthly_complete_rows: 65
+
+multiplicity:
+  cumulative_directional_tests_before_v54: 126
+  v54_family_tests: 3
+  cumulative_directional_tests_after_v54: 129
+
+claim_rule: >-
+  An effective-factor claim requires the same frozen candidate and model to
+  pass A construction, formula-unseen C validation, and one-shot D confirmation
+  with no refitting or portfolio changes.
