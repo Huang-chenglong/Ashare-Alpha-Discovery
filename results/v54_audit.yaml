@@ -1,0 +1,10 @@
+version: V54
+status: failed_adaptive_construction
+family_tests: 3
+selected_candidate: null
+C_outcomes_read: false
+D_outcomes_read: false
+decision: >-
+  IC replicated inside A for the HGB and ExtraTrees tail-spread scores, but all
+  three strategies were net negative after 20 bp trading costs and the frozen
+  8% annual short-borrow fee. C and D remain pristine.
