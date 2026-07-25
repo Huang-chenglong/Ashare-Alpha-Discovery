@@ -1,0 +1,20 @@
+version: V53
+status: failed_independent_confirmation
+candidate: hgb_tail_v53
+confirmation:
+  bucket: B
+  assets: 2124
+  asset_disjoint_from_A: true
+  period: 2024-01-01_to_2026-05-31
+  months: 29
+  mean_rank_ic: 0.02627162654447942
+  hac_p_one_sided: 0.009573756950381374
+  all_2024_2025_2026_years_positive: true
+  mean_net_active_return: -0.0004970658005171997
+  net_information_ratio: -0.09360392239511942
+  passes_confirmation_gate: false
+  effective_confirmed_factor: false
+decision: >-
+  Predictive rank evidence replicated, but the frozen long-only economic gate
+  failed after costs. B is closed for V53 tuning and V53 is not an effective
+  confirmed factor.

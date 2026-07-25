@@ -1,0 +1,155 @@
+experiment_id: customer-funding-working-capital-alignment-v39
+status: frozen_before_v39_bucket_e_return_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: >-
+  Original exact interaction of customer-financing growth, asset-side working-
+  capital release, and revenue growth. Advance receipts/deferred revenue,
+  receivables, inventory, and their return predictability are prior art.
+
+candidate_registry: [cfwa_v39]
+expected_sign: positive
+
+formula:
+  customer_financing_cny: >-
+    TongdaXin advance receipts FN45 plus contract liabilities FN434 multiplied
+    by 10000 because FN434 is reported in 10k CNY. Combining both fields bridges
+    the 2020 revenue-standard reclassification.
+  customer_financing_intensity: customer financing divided by TTM revenue
+  customer_financing_growth_yoy: current intensity minus four-quarter-lag intensity
+  working_capital_release_yoy: >-
+    Four-quarter-lag receivables-plus-inventory intensity minus current intensity.
+  revenue_growth_yoy: log current TTM revenue divided by four-quarter-lag TTM revenue
+  transform: >-
+    Strictly positive values of the three components are separately percentile-
+    ranked within each formation date; nonpositive values receive zero.
+  candidate: >-
+    Positive customer-financing-growth rank multiplied by positive working-
+    capital-release rank multiplied by positive revenue-growth rank.
+
+financial_data:
+  source: TongdaXin professional quarterly GPCW packages
+  official_field_reference: https://help.tdx.com.cn/quant/docs/markdown/TdxQuant.md/mindoc-1h10m001ic888.html
+  fields:
+    FN17: inventory in CNY
+    FN40: total assets in CNY
+    FN45: advance receipts in CNY
+    FN283: TTM revenue in 10k CNY
+    FN296: notes and accounts receivable in CNY
+    FN307: TTM operating cash flow in CNY
+    FN308: TTM parent net profit in 10k CNY
+    FN314: report announcement date
+    FN434: contract liabilities in 10k CNY
+  point_in_time_rule: current report is usable only on FN314
+  maximum_signal_age_days: 183
+  excluded_shenwan_l1_codes: ["48", "49"]
+  pre_outcome_coverage_audit:
+    valid_quarterly_rows: 127453
+    assets: 5392
+    positive_customer_financing_growth_rows: 64634
+    positive_working_capital_release_rows: 60236
+    positive_revenue_growth_rows: 79304
+    triple_positive_rows: 18203
+    available_period: [2019-04-08, 2026-05-15]
+    note: calculated without loading or joining any future-return label
+  vintage_limitation: >-
+    Packages were downloaded in 2026 rather than archived at each formation.
+    Announcement gating is enforced, but later corrections or restatements
+    cannot be ruled out.
+
+neutralization:
+  minimum_rows: 100
+  known_price_volume_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_max_return_60
+    - anti_skewness_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - overnight_mean_60
+    - negative_intraday_mean_20
+    - negative_intraday_mean_60
+  financial_main_effects:
+    - positive_customer_financing_growth_rank
+    - positive_working_capital_release_rank
+    - positive_revenue_growth_rank
+    - customer_financing_growth_yoy
+    - advance_receipts_growth_yoy
+    - contract_liabilities_growth_yoy
+    - customer_financing_intensity
+    - advance_receipts_intensity
+    - contract_liabilities_intensity
+    - working_capital_release_yoy
+    - receivables_release_yoy
+    - inventory_release_yoy
+    - revenue_growth_yoy
+    - cash_margin
+    - receivables_intensity
+    - inventory_intensity
+    - profitability_roa
+    - cash_flow_roa
+    - cash_accrual_spread
+    - asset_growth_yoy
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - https://doi.org/10.1080/21697213.2023.2300293
+    - https://doi.org/10.1108/ARA-11-2015-0118
+    - https://doi.org/10.1016/j.intaccaudtax.2021.100441
+    - https://doi.org/10.1016/j.jfineco.2023.103746
+  bounded_search_result: >-
+    Advance receipts and contract liabilities are known A-share return
+    predictors. V39 therefore claims only the exact bilateral funding
+    interaction after separate removal of customer-financing levels and
+    changes, receivables and inventory release, revenue growth, cash quality,
+    known factors, size, and industry. Universal novelty is not claimed.
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on discovery one-sided HAC p-values
+  prior_tests_included: 91
+  current_tests: 1
+  total_tests_after_v39: 92
+  additional_guard: validation one-sided HAC p must be no greater than 0.05
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+adaptive_reuse_disclosure: >-
+  For the exact V39 formula, 2023-2024 is outside construction. At the project
+  level E has been repeatedly inspected through V38 and is adaptively reused
+  internal validation, not a pristine holdout. V39 remains in the cumulative
+  92-test family.
+data_reuse_limitation: >-
+  F remains sealed and may be opened once under a separately frozen protocol
+  only if V39 passes every research gate without a post-outcome change.
+failure_rule: >-
+  Reject V39 without changing the sign, fields, units, four-quarter lag,
+  transforms, bounds, age, exclusions, controls, periods, gates, portfolio, or
+  costs and keep F sealed if any research gate fails.

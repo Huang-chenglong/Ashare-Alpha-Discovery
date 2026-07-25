@@ -1,0 +1,60 @@
+experiment_id: directional-range-acceptance-asymmetry-v17
+status: frozen_before_v17_bucket_c_evaluation
+frozen_date: 2026-07-23
+claim_type: exact conditional overlap construction; range-overlap/congestion indicators are prior art
+
+candidate_registry: [draa_60, draa_90]
+
+formula:
+  center: (high + low) / 2
+  center_residual_change: log(center / prior_center) minus eligible-universe daily median
+  adjacent_intersection: max(0, min(high, prior_high) - max(low, prior_low))
+  adjacent_union: max(high, prior_high) - min(low, prior_low)
+  daily_acceptance: adjacent_intersection / adjacent_union
+  candidate: positive-center-residual mean daily_acceptance minus negative-center-residual mean daily_acceptance
+  minimum_observations: ten positive and ten negative residual days
+  horizons: [60, 90]
+  expected_sign: positive
+
+neutralization:
+  common_controls: eleven known liquidity, reversal, volatility, lottery, momentum, and overnight/intraday baselines
+  candidate_specific_controls:
+    - center-residual sign balance
+    - unconditional mean adjacent range acceptance
+    - unconditional mean absolute center displacement
+    - unconditional mean daily range divided by center
+    - linear center-residual/acceptance correlation
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+adaptive_reuse_disclosure: bucket C is adaptive research data; bucket D remains unopened
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 63
+  current_tests: 2
+  total_tests_after_v17: 65
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain negative result and keep D closed if no candidate passes

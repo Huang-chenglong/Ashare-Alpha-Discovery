@@ -1,0 +1,2 @@
+﻿candidate,months,mean_rank_ic,hac_t,hac_p_one_sided,positive_years,required_positive_year,required_year_positive,mean_net_active_return,net_information_ratio,mean_monthly_traded_notional,minimum_monthly_return_coverage,minimum_selected_return_coverage,passes_confirmation_gate
+mspc_equal_weight,77,-0.0009262831448231713,-0.10227204685236979,0.540729628837636,4,2025,False,-0.0018407001238820507,-0.2797293650372488,0.5285714285714286,1.0,1.0,False

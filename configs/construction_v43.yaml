@@ -1,0 +1,118 @@
+experiment_id: residual-rank-structural-model-v43
+status: frozen_before_E_plus_F_construction_outcomes
+frozen_date: 2026-07-24
+
+candidate: rrsm_v43
+hypothesis: >-
+  A fixed annual walk-forward shallow model of the project's structural
+  price/participation constructs predicts the percentile rank of next-month
+  return residuals. After fourteen known price-volume effects, size, and
+  industry are removed, the remaining structural mapping predicts higher
+  returns.
+direction: higher_predicted_residual_rank_predicts_higher_return
+
+evidence_roles:
+  E: adaptive construction data
+  F: consumed V41 confirmation data, explicitly converted to V43 construction
+  G: sealed V43-only asset-disjoint confirmation; no factor or return metric opened
+
+features:
+  - low_turnover_20
+  - low_turnover_vol_60
+  - reversal_20
+  - low_volatility_60
+  - anti_max_return_20
+  - anti_max_return_60
+  - anti_skewness_20
+  - anti_skewness_60
+  - momentum_60_20
+  - momentum_120_20
+  - overnight_mean_20
+  - overnight_mean_60
+  - negative_intraday_mean_20
+  - negative_intraday_mean_60
+  - mepi_60
+  - mepi_90
+  - matched_event_frequency_60
+  - matched_event_frequency_90
+  - asrt_60
+  - asrt_90
+  - mean_stress_resilience_60
+  - mean_stress_resilience_90
+  - fsid_100
+  - fsid_120
+  - mean_completed_residual_return_120
+  - mean_raw_absorption_slope_120
+  - remaining_float_inventory_days_025_control
+  - drra_60
+  - drra_90
+  - tsra_60
+  - tsra_90
+  - mean_lower_shadow_share_60
+  - mean_upper_shadow_share_60
+
+training:
+  target: within-month percentile rank of future-return residual after fourteen known factors, size, size-squared, and industry
+  scheme: expanding annual walk-forward
+  prediction_years: [2023, 2024, 2025]
+  monthly_weighting: equal total weight per training month
+  fixed_hyperparameters:
+    loss: squared_error
+    learning_rate: 0.03
+    max_iter: 150
+    max_leaf_nodes: 7
+    min_samples_leaf: 200
+    l2_regularization: 20.0
+    max_bins: 63
+    early_stopping: false
+    random_state: 43
+  tuning: none
+
+neutralization:
+  minimum_rows: 300
+  controls: >-
+    Fourteen known price-volume effects, point-in-time log float size, squared
+    log float size, and Shenwan L1 industry. The nineteen project-original
+    structural constructs are candidate inputs rather than borrowed controls.
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+
+gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_year: 2025
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+freeze:
+  construction_data_sha256:
+    - 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+    - a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+  sealed_bucket_g_sha256: 93ab3874abc07824c65f6676ebf16ff360d5762b961cdd11049d65b64ae781b9
+  bucket_g_assets: 310
+  bucket_g_asset_overlap_with_E_F: 0
+  cumulative_directional_tests_after_v43: 96
+
+bounded_prior_art_search:
+  universal_novelty_claim: false
+  related_work:
+    - https://doi.org/10.1080/1540496X.2022.2148464
+    - https://arxiv.org/abs/2012.07149
+  boundary: >-
+    Gradient boosting, return-rank prediction, and annual walk-forward training
+    are prior art. The exact model inputs include project-original MEPI, ASRT,
+    FSID, DRRA, and TSRA constructs; only the complete frozen mapping is claimed
+    as project-specific.
+
+decision_rule: >-
+  Open G only if every construction gate passes. If construction fails, retain
+  the negative result, increment the test ledger, and keep G sealed.

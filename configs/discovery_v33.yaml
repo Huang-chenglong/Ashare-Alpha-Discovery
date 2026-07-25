@@ -1,0 +1,136 @@
+experiment_id: cash-synchronized-profitability-improvement-v33
+status: frozen_before_v33_bucket_e_return_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: >-
+  Exact positive year-over-year profit-ROA improvement multiplied by positive
+  year-over-year operating-cash-ROA improvement, with both main effects removed,
+  was not found in the bounded pre-outcome search. Cash profitability, accruals,
+  profitability, and their return predictability are prior art.
+
+candidate_registry: [cspi_v33]
+expected_sign: positive
+
+formula:
+  reporting_frequency: quarterly
+  comparison: same fiscal quarter one year earlier
+  profitability_roa: 10000 times TTM parent net profit in 10k CNY divided by total assets in CNY
+  cash_flow_roa: TTM operating cash flow in CNY divided by total assets in CNY
+  profitability_improvement: current profitability ROA minus its four-quarter lag
+  cash_improvement: current cash-flow ROA minus its four-quarter lag
+  component_transform: >-
+    Within each formation date after excluding Shenwan industries 48 and 49,
+    each strictly positive improvement is mapped to its percentile rank among
+    positive observations; nonpositive observations receive zero.
+  candidate: positive-profitability-improvement rank multiplied by positive-cash-improvement rank
+  interpretation: >-
+    A nonlinear complementarity test for accounting-profit improvement that is
+    synchronized with cash-generation improvement.
+
+financial_data:
+  source: TongdaXin professional financial-data quarterly GPCW packages
+  official_cdn: http://data.tdx.com.cn/tdxfin/
+  package_period: [2018-03-31, 2026-03-31]
+  package_count: 33
+  package_validation: manifest byte size, MD5, ZIP CRC, and exactly one DAT member
+  fields:
+    col40: total assets in CNY
+    col307: trailing-twelve-month operating cash flow in CNY
+    col308: trailing-twelve-month parent net profit in 10k CNY
+    col314: financial-report announcement date stored as YYMMDD
+  point_in_time_rule: >-
+    A report becomes usable on col314 and is selected only when it is the latest
+    fiscal report announced by the formation date. Later-announced older reports
+    cannot roll the state backward.
+  filters:
+    total_assets_current_and_four_quarters_ago_strictly_positive: true
+    exact_quarter_distance: 4
+    announcement_lag_days: [0, 365]
+    maximum_signal_age_days: 183
+    excluded_shenwan_l1_codes: ["48", "49"]
+  vintage_limitation: >-
+    The packages were downloaded on 2026-07-23 rather than archived on each
+    historical formation date. Announcement gating prevents ordinary release-date
+    look-ahead, but later vendor corrections or restatements cannot be ruled out.
+
+neutralization:
+  minimum_rows: 100
+  known_price_volume_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_max_return_60
+    - anti_skewness_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - overnight_mean_60
+    - negative_intraday_mean_20
+    - negative_intraday_mean_60
+  financial_main_effects:
+    - positive_profitability_improvement_rank
+    - positive_cash_improvement_rank
+    - profitability_improvement_yoy
+    - cash_improvement_yoy
+    - profitability_roa
+    - cash_flow_roa
+    - cash_accrual_spread
+    - asset_growth_yoy
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - https://doi.org/10.1016/j.jfineco.2016.03.002
+    - https://doi.org/10.1016/j.pacfin.2020.101336
+    - https://doi.org/10.1111/j.1468-5957.2006.01425.x
+    - https://doi.org/10.1111/jfir.12244
+  bounded_search_result: >-
+    Prior work directly studies cash-based profitability, accruals, cash-flow
+    surprises, and cash-flow growth. The bounded search did not find this exact
+    directionally truncated two-improvement interaction after full removal of
+    both ranked and raw main effects. This is not proof of universal novelty.
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on discovery one-sided HAC p-values
+  prior_tests_included: 85
+  current_tests: 1
+  total_tests_after_v33: 86
+  additional_guard: validation one-sided HAC p must be no greater than 0.05
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+adaptive_reuse_disclosure: >-
+  V33 was specified after V32 failed. It uses a distinct cash/profitability
+  mechanism; V32 remains failed and all 85 prior tests remain in the BH family.
+  The exact V33 formula was frozen before reading its returns.
+data_reuse_limitation: >-
+  E/F were used by an earlier repository for a different formula. V33 is exact-formula
+  new to both buckets; F remains sealed unless every frozen research gate passes.
+failure_rule: >-
+  Reject V33 without changing transforms, exclusions, sign, or controls and keep
+  F sealed if any research gate fails.

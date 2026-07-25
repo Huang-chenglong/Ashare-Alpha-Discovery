@@ -1,0 +1,18 @@
+experiment_id: robust-persistent-consensus-v46
+audited_date: 2026-07-24
+decision: all_candidates_failed_construction
+directional_test_numbers: [103, 104, 105]
+selected_candidate: null
+bucket_h_opened: false
+summary:
+  pmedian3_v46: {mean_ic: 0.013529493706908084, mean_net: -0.00042552075333033337, net_ir: -0.07250850919382235, passes: false}
+  pfloor3_v46: {mean_ic: 0.018553442828727573, mean_net: -0.003512379861761051, net_ir: -0.8638239890929955, passes: false}
+  pstable3_v46: {mean_ic: 0.01851052673608361, mean_net: -0.003388142250334303, net_ir: -0.7380319676966653, passes: false}
+maximum_absolute_neutralized_exposure: 1.2565083729639914e-14
+hashes:
+  protocol: ad4bb936e7aaec7f909655f31f8dbde29e9c3f6e3e226ca1fd26644fd738c9b3
+  summary: 549dac7803668ca3eca639075a6cf5b72cfd3a121ce150ba6219ecb51cb12eef
+  yearly: 5dbcb4872b104bf4617cda83cec844e7824409a52c1f64eb75845b3523a2f697
+  monthly: 4ee1e2d29f158840f1e8f2b2ba04f2034aabfda7be5a488d13363d3c439a72ec
+  exposures: b95216f0dc5e89e24e51632a54244baec17ecb4dd8a245bd24030fdd01d06db4
+  metadata: 5ec99e9b0c2ff18bfd238aa93799947c1fe02830c97e5d342b0dd0b60bf2ae84

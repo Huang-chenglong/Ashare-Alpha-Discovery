@@ -1,0 +1,15 @@
+version: V56
+status: failed_adaptive_construction
+candidate: hgb_missing_margin_v56
+months: 34
+mean_rank_ic: 0.010635
+hac_p_one_sided: 0.107572
+positive_years: 3
+mean_net_active_return: -0.003625
+net_information_ratio: -0.389872
+passes_construction_gate: false
+C_outcomes_read: false
+D_outcomes_read: false
+decision: >-
+  Native HGB missing-value routing did not restore either the statistical or
+  economic construction gate. Further A-driven tuning is prohibited.

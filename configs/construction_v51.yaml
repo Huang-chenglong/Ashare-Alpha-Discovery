@@ -1,0 +1,110 @@
+experiment_id: persistent-weekly-margin-path-v51
+status: frozen_after_v50_A_failure_before_v51_A_outcomes
+frozen_date: 2026-07-24
+
+adaptivity_disclosure: >-
+  V51 is designed after V50 consumed bucket-A outcomes. mpbr_v50 passed the IC,
+  HAC, family-BH, and yearly-sign gates but failed the cost-adjusted return and
+  information-ratio gates because monthly traded notional remained high.
+  Bucket-B outcomes for V48-V51 remain unread.
+
+base_signal:
+  candidate: mpbr_v50
+  formula: mcar_v48 * fraction_of_last_4_snapshot_flows_positive
+  observed_v50_A_mean_ic: 0.018716
+  observed_v50_A_hac_p_one_sided: 0.000972
+  observed_v50_A_mean_net_active_return: -0.001552
+  observed_v50_A_mean_monthly_traded_notional: 1.265217
+
+candidates:
+  - candidate: mpbr_ema2_v51
+    formula: 0.65 * mpbr_v50(t) + 0.35 * mpbr_v50(t-1)
+  - candidate: mpbr_ema3_v51
+    formula: 0.50 * mpbr_v50(t) + 0.30 * mpbr_v50(t-1) + 0.20 * mpbr_v50(t-2)
+  - candidate: mpbr_stable3_v51
+    formula: mpbr_ema3_v51 - 0.20 * range(mpbr_v50(t), mpbr_v50(t-1), mpbr_v50(t-2))
+candidate_registry: [mpbr_ema2_v51, mpbr_ema3_v51, mpbr_stable3_v51]
+consecutive_calendar_months_required: true
+alternative_formulas_permitted_after_outcomes: false
+direction_flipping_permitted_after_outcomes: false
+
+data:
+  dense_margin_data_sha256: 0647e540f1598853ad9919883e4b58b01d9ee8555f6ff1042e677ce8bf4b360e
+  dense_margin_manifest_sha256: 516e1cdacacfdeb5d897fc6b422f43b55be8cc337067c257330c70ac04a88f10
+  construction_structural_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+
+neutralization:
+  inherit_all_v50_controls: true
+  additional_lagged_main_effects:
+    - financing_leverage_rank_lag1
+    - financing_leverage_rank_lag2
+    - financing_inflow_rank_lag1
+    - financing_inflow_rank_lag2
+    - negative_momentum_rank_lag1
+    - negative_momentum_rank_lag2
+    - path_inflow_breadth_rank_lag1
+    - path_inflow_breadth_rank_lag2
+  minimum_rows: 150
+
+evidence_roles:
+  construction:
+    assets: stable_hash_bucket_A
+    dates: 2020-01-01_to_2023-12-31
+    adaptive: true
+  confirmation:
+    assets: stable_hash_bucket_B_disjoint_from_A
+    dates: 2024-01-01_to_2026-05-31
+    outcomes_unread: true
+    formula_unseen: true
+    future_time_relative_to_construction: true
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  entry_offset_sessions: 2
+  exit_offset_sessions: 22
+  maximum_execution_delay_sessions: 5
+
+construction_gate:
+  minimum_months: 43
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  family_bh_q_max: 0.10
+  positive_years_min: 3
+  required_positive_year: 2023
+  required_core_years_positive: [2021, 2022, 2023]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_median_margin_coverage: 0.40
+  minimum_monthly_complete_rows: 150
+
+selection:
+  rule: highest mean net active return among complete gate and family-BH passes, then registry order
+  if_none_pass: record failures and keep bucket B unread
+  if_pass: freeze exactly one formula and all hashes before opening B
+
+confirmation_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.025
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+multiplicity:
+  cumulative_directional_tests_before_v51: 117
+  v51_family_tests: 3
+  cumulative_directional_tests_after_v51: 120
+
+claim_rule: >-
+  V51 construction is adaptive and cannot establish effectiveness. Only one
+  frozen formula that passes every construction gate may be evaluated once on
+  asset-and-time-disjoint bucket B.

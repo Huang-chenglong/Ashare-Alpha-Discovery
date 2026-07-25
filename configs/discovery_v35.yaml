@@ -1,0 +1,167 @@
+experiment_id: self-financed-growth-release-v35
+status: frozen_before_v35_bucket_e_return_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: >-
+  Exact positive revenue-growth/positive receivables-and-inventory release/
+  positive operating-cash-margin interaction, residualized against every
+  component and level, was not found in the bounded pre-outcome search.
+  Inventory, receivables, accruals, asset growth, and cash profitability are
+  established prior art.
+
+candidate_registry: [sfgr_v35]
+expected_sign: positive
+
+formula:
+  reporting_frequency: quarterly
+  minimum_history: five same-fiscal-quarter observations spanning one year
+  revenue_cny: TongdaXin trailing-twelve-month revenue in 10k CNY multiplied by 10000
+  receivables_intensity: notes-and-accounts-receivable divided by TTM revenue
+  inventory_intensity: inventory divided by TTM revenue
+  working_capital_release_yoy: >-
+    Prior-year receivables-plus-inventory intensity minus current intensity.
+  revenue_growth_yoy: log current TTM revenue divided by its four-quarter lag
+  cash_margin: TTM operating cash flow divided by TTM revenue
+  component_transform: >-
+    Within each formation date after excluding Shenwan industries 48 and 49,
+    each strictly positive component is mapped to its percentile rank among
+    positive observations; nonpositive observations receive zero.
+  candidate: >-
+    Positive working-capital-release rank multiplied by positive revenue-growth
+    rank multiplied by positive cash-margin rank.
+  interpretation: >-
+    A nonlinear complementarity test for companies whose growth releases
+    customer-and-inventory funding while already producing operating cash,
+    rather than growth that consumes working capital.
+
+financial_data:
+  source: TongdaXin professional financial-data quarterly GPCW packages
+  official_cdn: http://data.tdx.com.cn/tdxfin/
+  package_period: [2018-03-31, 2026-03-31]
+  package_count: 33
+  package_validation: manifest byte size, MD5, ZIP CRC, and exactly one DAT member
+  fields:
+    col17: inventory in CNY
+    col40: total assets in CNY
+    col283: trailing-twelve-month revenue in 10k CNY
+    col296: notes and accounts receivable in CNY
+    col307: trailing-twelve-month operating cash flow in CNY
+    col308: trailing-twelve-month parent net profit in 10k CNY
+    col314: financial-report announcement date stored as YYMMDD
+  point_in_time_rule: >-
+    A report becomes usable only on col314. The current report and its exact
+    four-quarter lag must exist; a later-announced older report cannot roll the
+    state backward.
+  filters:
+    exact_year_over_year_quarter_distance: 4
+    announcement_lag_days: [0, 365]
+    maximum_signal_age_days: 183
+    excluded_shenwan_l1_codes: ["48", "49"]
+    receivables_intensity: [0.0, 5.0]
+    inventory_intensity: [0.0, 10.0]
+    working_capital_release_yoy: [-10.0, 10.0]
+    revenue_growth_yoy: [-3.0, 3.0]
+    cash_margin: [-2.0, 2.0]
+    profitability_roa: [-2.0, 2.0]
+  pre_outcome_coverage_audit:
+    valid_quarterly_rows: 127470
+    assets: 5392
+    positive_three_way_rows: 39567
+    note: calculated without loading or joining any future-return label
+  vintage_limitation: >-
+    Packages were downloaded on 2026-07-23 rather than archived at each
+    formation. Announcement gating is enforced, but later corrections or
+    restatements cannot be ruled out.
+
+neutralization:
+  minimum_rows: 100
+  known_price_volume_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_max_return_60
+    - anti_skewness_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - overnight_mean_60
+    - negative_intraday_mean_20
+    - negative_intraday_mean_60
+  financial_main_effects:
+    - positive_working_capital_release_rank
+    - positive_revenue_growth_rank
+    - positive_cash_margin_rank
+    - working_capital_release_yoy
+    - receivables_release_yoy
+    - inventory_release_yoy
+    - revenue_growth_yoy
+    - cash_margin
+    - receivables_intensity
+    - inventory_intensity
+    - profitability_roa
+    - cash_flow_roa
+    - cash_accrual_spread
+    - asset_growth_yoy
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - https://doi.org/10.1016/j.jom.2013.05.002
+    - https://doi.org/10.1016/j.jfineco.2023.103746
+    - https://doi.org/10.1016/j.jfineco.2016.03.002
+    - https://doi.org/10.3386/w8308
+  bounded_search_result: >-
+    Prior work studies abnormal inventory growth, receivables and inventory as
+    asset-growth components, accruals, and cash profitability. The bounded
+    search did not find this directionally truncated three-way interaction
+    after separate removal of both release components, revenue growth, cash
+    margin, accounting levels, known factors, size, and industry. This is not
+    proof of universal novelty.
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on discovery one-sided HAC p-values
+  prior_tests_included: 87
+  current_tests: 1
+  total_tests_after_v35: 88
+  additional_guard: validation one-sided HAC p must be no greater than 0.05
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+adaptive_reuse_disclosure: >-
+  For the exact V35 formula, 2023-2024 is out of the 2020-2022 construction
+  interval. At the project level E is not pristine: V20-V34 outcomes were
+  already inspected. V35 therefore remains in the cumulative 88-test family
+  and E is described only as adaptively reused internal validation.
+data_reuse_limitation: >-
+  E/F were used by an earlier repository for different formulas. F remains
+  unopened for V20-V35 and may be accessed only if V35 passes every frozen
+  discovery and E-validation gate.
+failure_rule: >-
+  Reject V35 without changing the sign, fields, ratio definitions, bounds,
+  transforms, exclusions, controls, periods, portfolio, or costs and keep F
+  sealed if any research gate fails.

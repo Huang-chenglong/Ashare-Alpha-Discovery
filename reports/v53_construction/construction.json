@@ -1,0 +1,112 @@
+{
+  "experiment_id": "direct-margin-flow-tail-classifier-v53",
+  "role": "adaptive_A_walk_forward_tail_construction",
+  "candidates": [
+    "logit_tail_v53",
+    "hgb_tail_v53",
+    "extra_tail_v53"
+  ],
+  "selected_candidate": "hgb_tail_v53",
+  "eligible_to_freeze_confirmation": true,
+  "confirmation_outcomes_read": false,
+  "model_artifact_sha256": "0a3a11686880f203460a7934c6b025e11842a5afbac6ca7ee596dcc0b7ba7c29",
+  "final_training_metadata": {
+    "candidate": "hgb_tail_v53",
+    "feature_columns": [
+      "mdar_v48",
+      "mcar_v48",
+      "mlcf_v48",
+      "mpbr_v50",
+      "mpsr_v50",
+      "mpcs_v50",
+      "financing_leverage",
+      "net_financing_flow_to_turnover",
+      "momentum_20",
+      "short_leverage",
+      "short_sell_intensity",
+      "path_inflow_breadth",
+      "path_signed_ratio",
+      "path_dispersion_ratio",
+      "diffuse_turnover_20",
+      "diffuse_turnover_60",
+      "turnover_burst_reversal_20",
+      "turnover_burst_reversal_60",
+      "attention_normalization_20_60",
+      "float_supply_days_120",
+      "low_turnover_20",
+      "low_turnover_vol_60",
+      "reversal_20",
+      "low_volatility_60",
+      "financing_buy_to_amount",
+      "financing_buy_to_balance",
+      "financing_buy_surprise_4",
+      "short_sell_value_to_amount",
+      "short_sell_surprise_4",
+      "short_inventory_change_to_amount",
+      "short_inventory_path_4"
+    ],
+    "target": "within_month_label_percentile_strictly_above_0.90",
+    "training_rows": 9199,
+    "training_assets": 846,
+    "training_date_min": "2020-03-31",
+    "training_date_max": "2023-10-31",
+    "maximum_training_exit_date": "2023-11-30",
+    "label_available_before": "2024-01-01"
+  },
+  "median_new_modality_coverage": 0.471,
+  "maximum_absolute_neutralized_exposure": 1.0334947715519604e-12,
+  "return_manifest": {
+    "rows": 23999,
+    "return_rows": 23999,
+    "return_coverage": 1.0,
+    "observed_open_to_open": 23984,
+    "entry_unfilled_cash": 7,
+    "exit_stale_close_mark": 8,
+    "unresolved_or_truncated": 0,
+    "maximum_execution_delay_sessions": 5
+  },
+  "hashes": {
+    "structural_data_sha256": "6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13",
+    "industry_sha256": "25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be",
+    "dense_margin_data_sha256": "0647e540f1598853ad9919883e4b58b01d9ee8555f6ff1042e677ce8bf4b360e",
+    "margin_manifest_sha256": "516e1cdacacfdeb5d897fc6b422f43b55be8cc337067c257330c70ac04a88f10",
+    "protocol_sha256": "8d4c050e41bc309ef7c4961d077ffe99e9d7ff6293ab67f797511413c22d630f",
+    "construction_summary_sha256": "aba3e5852ec231938034334003a4593b5cb2362b0c020f40fdb4660a1aac3795"
+  },
+  "margin_admission": {
+    "status": "admitted",
+    "grain": "one row per exchange, trade_date, and security",
+    "rows": 1084719,
+    "assets": 4483,
+    "date_min": "2020-01-03",
+    "date_max": "2026-05-29",
+    "expected_snapshot_dates": 360,
+    "observed_snapshot_dates": 360,
+    "duplicate_primary_keys": 0,
+    "invalid_asset_rows": 0,
+    "negative_values": {
+      "financing_balance": 0,
+      "financing_buy": 0,
+      "short_balance_quantity": 0,
+      "short_sell_quantity": 0,
+      "short_balance_value": 0,
+      "total_margin_balance": 0
+    },
+    "signed_repayment_negative_values": {
+      "financing_repayment": 0,
+      "short_repayment_quantity": 1
+    },
+    "signed_repayment_note": "Repayment fields can be negative because the exchange definition nets rights adjustments and residual-security transfers; these fields are not used by V48-V50 candidates.",
+    "required_null_rate": {
+      "trade_date": 0.0,
+      "asset": 0.0,
+      "exchange": 0.0,
+      "financing_balance": 0.0,
+      "financing_buy": 0.0,
+      "short_balance_quantity": 0.0,
+      "short_sell_quantity": 0.0
+    },
+    "szse_balance_identity_violations": 0,
+    "missing_source_dates": []
+  }
+}

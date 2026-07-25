@@ -1,0 +1,26 @@
+experiment_id: directional-impact-survival-asymmetry-confirmation-v7
+status: locked_until_v7_research_selection
+frozen_date: 2026-07-23
+confirmation_bucket: D
+period: [2020-01-01, 2026-05-31]
+required_asset_overlap_with_C: 0
+
+gate:
+  minimum_months: 75
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 5
+  require_2025_positive: true
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  benchmark: equal-weight common bucket-D formation universe
+  cost_bps_one_way: 20
+
+failure_rule: >-
+  Open bucket D once for the single formula selected by the frozen C rule. If any gate
+  fails, reject it. No sign, horizon, threshold, control, or formula change is allowed.

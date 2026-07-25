@@ -1,0 +1,18 @@
+experiment_id: capital-participation-cohort-breadth-pressure-v23
+status: rejected_before_any_outcome_evaluation
+decision_date: 2026-07-23
+reason: >-
+  The proposed size-by-turnover cohort return gap changes the peer-definition rule,
+  but its economic mechanism and main predictive primitive are already represented
+  by Peer Return Gap and Net Peer Momentum research. That is not sufficiently new
+  for the user's originality standard.
+candidate_tests_consumed: 0
+research_bucket_opened_for_this_formula: false
+confirmation_bucket_opened: false
+primary_prior_art:
+  - title: On cross-stock predictability of peer return gaps in China
+    identifier: doi:10.1016/j.finr.2025.100088
+    conflict: lagged focal-minus-peer return gap predicts Chinese stock returns
+  - title: The gap between you and your peers matters - The net peer momentum effect in China
+    conflict: connected-peer return minus focal-firm return predicts Chinese stock returns
+

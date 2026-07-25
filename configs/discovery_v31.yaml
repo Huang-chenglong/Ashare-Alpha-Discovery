@@ -1,0 +1,66 @@
+experiment_id: regularized-pairwise-structural-interactions-v31
+status: frozen_before_v31_training_and_bucket_e_validation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: original learned interaction factor; no claim of a new primitive anomaly
+
+candidate_registry: [rpsi_v31]
+
+training:
+  period: [2020-01-01, 2022-12-31]
+  target: identical fully residualized next-20-session active-return target registered in V30
+  base_features: identical 14 known and 19 structural date-percentile ranks registered in V30
+  interaction_map: every unordered pair of the 33 centered feature ranks, interaction-only degree 2
+  missingness: nineteen structural-feature missing indicators enter as main effects but not interactions
+  estimator: standard scaler followed by sklearn.linear_model.Ridge
+  fixed_hyperparameters:
+    alpha: 100.0
+    solver: lsqr
+    tol: 0.000001
+    max_iter: 5000
+    fit_intercept: true
+  hyperparameter_search: none
+
+evaluation_neutralization:
+  minimum_rows: 100
+  controls: all fourteen known V30 main effects
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on the registered discovery statistic
+  prior_tests_included: 83
+  current_tests: 1
+  total_tests_after_v31: 84
+  additional_guard: out-of-training 2023-2024 one-sided HAC p must be no greater than 0.05
+
+periods:
+  discovery_training: [2020-01-01, 2022-12-31]
+  out_of_training_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 32
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+adaptive_reuse_disclosure: >-
+  V31 was specified after V30 narrowly missed its frozen validation p-value gate.
+  The model class, complete interaction map, alpha, and gate were frozen before
+  V31 fitting. V30 remains failed and in the cumulative multiplicity family.
+data_reuse_limitation: E/F were used by an earlier repository for a different formula; F is only formula-new and remains sealed
+failure_rule: reject V31 without changing alpha or interaction set and close the model family if any gate fails
+

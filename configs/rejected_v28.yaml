@@ -1,0 +1,16 @@
+experiment_id: directional-price-volume-lead-lag-v28
+status: rejected_before_any_outcome_evaluation
+decision_date: 2026-07-23
+reason: >-
+  Comparing information flow from volume to returns with the reverse direction is
+  established in price-volume Granger-causality and transfer-entropy research.
+  A rolling cross-sectional implementation is not a sufficiently new mechanism.
+candidate_tests_consumed: 0
+research_bucket_opened_for_this_formula: false
+confirmation_bucket_opened: false
+primary_prior_art:
+  - title: Nonlinearity matters - The stock price-trading volume relation revisited
+    conflict: nonlinear directional information transfer between returns and volume growth
+  - title: Two Essays on Lead-Lag Patterns Between Trading Volume and Stock Return in China Stock Markets
+    conflict: direct study of return-volume lead-lag patterns in China
+

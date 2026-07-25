@@ -1,0 +1,89 @@
+experiment_id: float-supply-impact-decay-v26
+status: frozen_before_v26_bucket_e_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: exact completed-event characteristic not found in the documented pre-outcome search; supply shocks and impact decay are prior art
+
+candidate_registry: [fsid_100, fsid_120]
+
+formula:
+  supply_event: daily float_shares increase greater than 0.1 percent of prior float_shares
+  event_weight: event supply fraction clipped to [0.001, 0.50]
+  daily_return: close-to-close log return minus the eligible-universe date median
+  early_window: market sessions 1 through 5 after the supply event; at least 4 valid observations
+  late_window: market sessions 6 through 20 after the supply event; at least 12 valid observations
+  early_impact_efficiency: sum early residual return divided by sum early turnover_fraction
+  late_impact_efficiency: sum late residual return divided by sum late turnover_fraction
+  completed_event_score: clip(late impact efficiency minus early impact efficiency, -5, 5)
+  candidate: supply-fraction-weighted mean completed-event score over the frozen aggregation horizon
+  minimum_completed_events: 1
+  aggregation_horizons: [100, 120]
+  expected_sign: positive
+
+neutralization:
+  minimum_rows: 100
+  common_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - negative_intraday_mean_20
+    - diffuse_turnover_60
+  incremental_controls:
+    - remaining float inventory days at absorption scale 0.25
+    - mean completed-event supply fraction
+    - supply-weighted completed-event cumulative residual return
+    - supply-weighted completed-event cumulative turnover
+    - supply-weighted raw late-minus-early residual-return slope
+    - supply-weighted mean age of completed events
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - share-supply shocks and price impact
+    - restricted-share unlock and free-float event studies
+    - market-impact decay after order flow
+  distinction: >-
+    FSID is a completed-event, daily-float-history characteristic that compares
+    early and late residual price impact per realized turnover and neutralizes
+    the corresponding raw return slope and remaining supply inventory.
+
+data_reuse_limitation: E/F were used by an earlier repository for a different formula; V26 is formula-new to both and F remains sealed
+adaptive_reuse_disclosure: V26 is a distinct corporate-supply mechanism specified after V25 failed on E; all prior candidate tests remain in BH
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 77
+  current_tests: 2
+  total_tests_after_v26: 79
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 32
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain the negative result and keep F closed if neither candidate passes
+

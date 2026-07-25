@@ -1,132 +1,155 @@
 # A-Share Alpha Discovery
 
-一个使用真实 A 股历史数据、严格记录失败路径并进行资产隔离复现的量化研究项目。
+> Latest audit (2026-07-25): 131 directional tests; no factor has passed every
+> frozen gate. The new official margin-financing study is documented in
+> [`docs/margin_orderbook_research_v48_v56.md`](docs/margin_orderbook_research_v48_v56.md).
+> `hgb_tail_v53` independently replicated rank IC in B (`0.02627`, p=`0.00957`)
+> but failed cost-adjusted return and IR, so it is not presented as an effective
+> factor. Newly built zero-overlap buckets C/D remain unopened.
 
-最终产物是 **Supply-Aware Defensive Attention（SADA）**：将五个点时技术/交易行为
-信号等权合成，再用尚未被成交量吸收的流通股供给库存施加单边风险惩罚。SADA 是本仓库
-的新工程复合公式；MAX、低换手、日内反转、低波动和短期反转本身均有既有文献，因此本
-项目不声称发现了全新的基础异象或因果机制。
+一个使用真实 A 股历史数据、点时市值与行业中性化、累计多重检验和封存确认集的因子挖掘审计项目。
 
-## 核心结果
+## 当前结论
 
-| 阶段 | 股票 | 月数 | 平均 Rank IC | HAC p / BH q | 月均净主动收益 | 年化月度 IR |
-|---|---:|---:|---:|---:|---:|---:|
-| A：发现 2020–2022 | 2,149 个历史并集 | 36 | 0.1207 | BH q = 6.17e-14（累计 45 次检验） | — | — |
-| A：内部验证 2023–2024 | 同上 | 24 | 0.1415 | — | 0.6826% | 1.085 |
-| B：资产隔离复现 2020–2026.05 | 2,124 个历史并集 | 77 | 0.1222 | HAC p = 5.72e-22 | 0.5373% | 0.872 |
+**截至 2026-07-24，本项目没有发现一个可以诚实称为“新的、通过全部预注册门槛的有效因子”。**
 
-B 与 A 的股票代码交集为 **0**。组合为月度 top-100 等权，持仓因子分位不低于 60% 时
-保留，交易成本为单边 20bp。未来收益使用下一市场交易日开盘到第 21 个市场交易日开盘；
-最多等待 5 个交易日，无法进场则持有现金，无法按期开盘退出则按登记规则使用最后可得收盘价。
+项目累计记录 108 个方向性候选检验。V19 曾通过研究样本，但在一次性资产隔离确认集 D 上方向失效，因此正式作废。V20–V40 在开发样本 E 上继续研究，但没有候选通过完整研究门槛。V41 的 E 适应性诊断与 F 独立确认均失败。V42–V44 把已消耗的 E+F 用作构造数据但均未通过。V45 首次完整通过 E+F 构造门槛，却在公式未见、资产完全不重叠的 G 上确认失败。V46 把 G 降级为构造数据后仍未通过；V47 虽通过 E+F+G 构造，却在新封存的 172 只资产 H 上显著反向。因此截至当前仍没有可以诚实称为有效的新因子。
 
-重要限制：B 对 SADA 公式是在冻结后首次评估，但这套 B 股票池曾在旧项目中用于其他因子
-研究。因此结果应称为“预注册公式的资产隔离历史复现”，不是全球完全未触碰的纯净 holdout。
-此外，2026 年 1–5 月的 IC 为 -0.0030，净主动收益为 -1.6747%/月，提示近期失效风险。
+这是刻意保留的负结果，不是未完成的回测。仓库拒绝以下做法：
 
-机器可读摘要位于 [`results/`](results/)，完整审计见
-[`docs/statistical_audit.md`](docs/statistical_audit.md)。
+- 看见负号后翻转因子方向；
+- 反复打开确认集调窗口、权重或阈值；
+- 忽略先前失败以缩小多重检验家族；
+- 用市值、行业、低换手或低波动暴露冒充新因子；
+- 把“接近显著”写成“已验证有效”。
 
-## 因子公式
+## 最接近但仍失败的候选
 
-每天在当期合格股票横截面内，对下列分量做 3-MAD 缩尾、z-score，并截断到 `[-5, 5]`：
+| 候选 | 发现期 | 时间外验证 | 成本后表现 | 失败原因 |
+|---|---|---|---|---|
+| `fsid_120` | IC 0.01745，BH q 0.195 | IC 0.01684，24 个月、两年为正 | +0.1433%/月，IR 0.78 | 累计多重检验未通过 |
+| `fsid_100` | IC 0.02826，BH q 0.0487 | IC 0.00866，仅 20 个合格月 | +0.0974%/月，IR 0.55 | 验证 IC、月份数和逐年门槛未通过 |
+| `nsim_v30` | 训练期 IC 0.1532 | IC 0.01647，HAC 单侧 p 0.05352 | +0.2043%/月，IR 0.51 | p 高于冻结上限 0.05 |
 
-1. `anti_max_return_20`：过去 20 日最大市场调整收益的负值；
-2. `low_turnover_20`：过去 20 日平均换手率的负对数；
-3. `negative_intraday_mean_20`：过去 20 日日内市场调整收益均值的负值；
-4. `low_volatility_60`：过去 60 日收益波动率的负值；
-5. `reversal_20`：过去 20 日收益率的负值。
+`fsid`（Float-Supply Impact Decay）是本轮最有研究价值的原创精确构造：在流通股本增加事件完整经过 20 个市场交易日后，比较第 1–5 日与第 6–20 日的市场残差收益/累计换手，衡量新增流通供给的单位换手价格冲击是否衰减。它有经济与时间外信号，但尚未获得足够严格的统计确认。
 
-核心分数是五个 z-score 的等权平均。动态流通股库存按下式递推：
+## V41 双门槛审计
+
+`scfc_v41` 先对两个冻结组件分别做横截面中性化和月内百分位排序，再等权合成：
 
 ```text
-supply_t    = max(float_shares_t - float_shares_{t-1}, 0) / float_shares_t
-inventory_t = (inventory_{t-1} + supply_t) * exp(-turnover_t / 0.25)
-supply_days = -log(1 + inventory_t / mean_turnover_20)
-
-SADA = mean(z_antiMAX, z_lowTurn, z_negIntra, z_lowVol, z_reversal)
-       - 0.25 * max(-z_supply_days, 0)
+scfc_v41 = 0.5 × rank(neutralized nsim_v30)
+          + 0.5 × rank(neutralized cfma_v40)
 ```
 
-月末 SADA 再对点时流通市值对数、其中心化平方项和申万一级行业哑变量做 OLS 残差化，
-最后标准化。B 中规模与行业残余暴露的最大绝对值为 `2.14e-14`。
+最终分数再次剔除 14 个价量主效应、15 个财务主效应、流通市值一次/二次项和申万一级行业。最大绝对残余暴露为 E `1.13e-14`、F `2.71e-14`，因此失败不能归因于未处理中小市值或行业暴露。
 
-## 研究设计
+| 证据 | 角色 | 月数 | 平均 Rank IC | HAC 单侧 p | 扣费后主动收益/月 | IR | 判定 |
+|---|---|---:|---:|---:|---:|---:|---|
+| E，2023–2025 | 适应性 post-fit 诊断，不是样本外 | 36 | 0.00903 | 0.1941 | −0.1421% | −0.390 | 失败 |
+| F，2020–2025 | 一次性资产隔离确认 | 70 | 0.01028 | 0.0299 | −0.2622% | −0.624 | 失败 |
 
-- 真实数据：腾讯后复权 OHLC；通达信成交量、历史流通股本与交易状态；申万历史行业。
-- 点时处理：滚动窗口只向后看，行业使用 `start_date` 向后 as-of 对齐。
-- 样本：每月 500 只高流动性非指数股票；排除当月 CSI 300/500；A/B 用稳定资产哈希切分。
-- 研究期：A 的 2020–2022 为发现、2023–2024 为内部验证。
-- 多重检验：V1–V6 与基准诊断共 45 个方向性检验，统一纳入 BH-FDR。
-- 失败保留：V1–V5 的供给、缺口吸收、尾部集中和非线性交互等失败结果全部写入 `docs/`。
-- 复现：A 选择阶段和 B 复现阶段分别完整重跑，全部 10 个输出文件 SHA-256 字节一致。
-- 测试：18 个单元/回归测试，包含中性化正交、共享日历执行、缺失成交处理和前视不变性。
+E 还因 2025 年 IC `−0.01129` 和三年一致性失败；F 虽有统计显著的正平均 IC，但低于冻结的 `0.015` 门槛，2024 年 IC 为负且成本后组合明显亏损。联合有效性为 `False AND False = False`。
 
-成本压力测试：
+V42 `tafs_v42` 是第 95 个候选：E+F 的 2023–2025 构造期 IC `0.00470`、HAC p `0.1059`，2024 年 IC 为负；其 50 股组合扣费后月均 `+0.3811%`、IR `0.644`，但联合门槛不允许用组合收益替代 IC 和年度稳定性，所以仍判失败，G 未打开。
 
-| 单边成本 | B 月均净主动收益 | 年化月度 IR |
-|---:|---:|---:|
-| 0bp | 0.7604% | 1.235 |
-| 10bp | 0.6488% | 1.053 |
-| 20bp | 0.5373% | 0.872 |
-| 30bp | 0.4258% | 0.691 |
-| 50bp | 0.2028% | 0.329 |
+V43 `rrsm_v43` 是第 96 个候选：构造期 IC `0.01820`、HAC p `0.00010`，2023–2025 三年 IC 均为正；但 2025 年 top-50 月均 `−1.5686%`，全期扣费后月均 `−0.2936%`、IR `−0.442`，仍未通过联合门槛。
 
-## 复现方法
+V44 是第 97–99 个候选。最接近的 `rrsm60_tafs40_v44` 在构造期取得 IC `0.01477`、扣费后月均 `+0.1583%`，但分别低于 `0.015` 的 IC 门槛和 `0.30` 的 IR 门槛（实际 IR `0.250`）；另外两条组合虽然 IC 合格，但成本后收益为负。三条均失败，G 未打开。
+
+V45 是第 100–102 个候选。被预注册规则选中的 `pcs60_25_15_v45` 在 E+F 构造期取得 IC `0.01757`、HAC p `0.000074`、扣费后月均 `+0.2687%`、IR `0.515`，完整通过；但 G 一次性确认只有 IC `0.01051`、HAC p `0.0933`，且 2023 年 IC 为负。G 的扣费后月均 `+0.2355%` 和 IR `0.804` 不能覆盖失败的统计门槛，因此不声明有效因子。
+
+V46–V47 是第 103–108 个候选。V46 的稳健聚合全部在构造期失败。V47 的 `wpen10_v47` 在 E+F+G 上 IC `0.01755`、扣费后月均 `+0.2084%`、IR `0.371`，但 H 一次性确认 IC `−0.02576`，2023/2024 均为负，扣费后月均 `−0.2299%`、IR `−1.030`，正式作废。
+
+## 研究流程
+
+```text
+候选机制与先验检索
+        ↓
+冻结公式、方向、窗口、控制变量和门槛并提交 Git
+        ↓
+开发期 2020–2022 + 明确标记证据角色的后续诊断
+        ↓
+累计 Benjamini–Hochberg + 逐年 IC + 20bp 成本 + IR
+        ↓
+仅按冻结权限一次性打开资产隔离确认集，失败后永久禁止调参复用
+```
+
+每个月末候选分数均剔除：
+
+- 点时流通市值对数及其中心化平方项；
+- 点时申万一级行业哑变量；
+- 候选注册的传统主效应和机制专属控制项。
+
+未来收益为下一个市场交易日开盘到第 21 个市场交易日开盘；最多允许 5 个市场交易日的成交延迟。组合为缓冲 top-100 等权多头，单边成本 20bp。
+
+## 数据
+
+- 行情：腾讯后复权 OHLC；
+- 成交结构：本地通达信实际成交量、成交额与 `gbbq` 历史流通股本；
+- 行业：申万一级历史分类，按 `start_date` 向后 as-of 对齐；
+- 开发 E：2,149 只股票，3,155,290 行，SHA-256 `6a779e87...cec13`；
+- 封存 F：2,124 只股票，与 E 代码交集为 0，SHA-256 `a026ac04...b2f9`。
+
+重要限制：E/F 曾被旧仓库用于另一条 SADA 工程公式，因此它们不是全球完全未触碰的样本。E 的 2023–2025 区间已被适应性查看，只称为内部诊断，不称为纯净样本外。F 与 E 资产不重叠，但共享日历时间，也不是未来时间样本外。历史 ST 状态不完整，当前结构表把 `is_st` 置为 0；这一限制禁止项目宣称全市场无偏或可直接实盘。V32–V41 使用 2026-07-23 下载的通达信专业财务包并按公告日门控，但无法排除后续更正或重述。
+
+## 目录
+
+```text
+configs/    每版冻结协议与看结果前否决记录
+docs/       数据契约、研究协议、完整失败账本与统计审计
+results/    可提交的统一候选表、状态清单与材料护照
+scripts/    数据构建、单因子发现、学习型因子和一次性确认入口
+src/        因子、模型、点时对齐、中性化、组合与统计实现
+tests/      前视不变性、执行规则、统计与协议常量测试
+```
+
+## 复现
 
 Python 3.10+：
 
 ```powershell
 python -m pip install -e ".[dev]"
-$env:PYTHONPATH = "src"
+$env:PYTHONPATH = (Resolve-Path "src").Path
 python -m pytest -q
 ```
 
-先运行 A 研究门：
+单公式版本通过统一入口运行，例如 V29：
 
 ```powershell
-python scripts/run_discovery_v6.py `
+python scripts/run_adaptive_discovery.py `
+  --version 29 `
   --data path/to/liquid_bucket_a_structural_2020_2026.parquet `
   --hfq-cache path/to/tencent_hfq `
   --industry path/to/sw_industry_history.parquet `
-  --prior-summary reports/discovery_v1/candidate_summary.csv `
-  --prior-summary reports/discovery_v2/candidate_summary.csv `
-  --prior-summary reports/discovery_v3/candidate_summary.csv `
-  --prior-summary reports/discovery_v4/candidate_summary.csv `
-  --prior-summary reports/baseline_diagnostics/candidate_summary.csv `
-  --prior-summary reports/discovery_v5/candidate_summary.csv
+  --prior-summary path/to/each_prior_candidate_summary.csv `
+  --protocol configs/discovery_v29.yaml `
+  --output reports/discovery_v29
 ```
 
-仅当 A 的 `selected_candidate` 为 SADA 时，运行一次 B 复现：
+学习型候选分别使用 `scripts/run_model_discovery_v30.py` 和 `scripts/run_model_discovery_v31.py`。命令会校验候选注册表、既往检验数量和冻结超参数；模型验证失败时不会生成确认权限。
 
-```powershell
-python scripts/run_confirmation_v6.py `
-  --research-data path/to/liquid_bucket_a_structural_2020_2026.parquet `
-  --confirmation-data path/to/liquid_bucket_b_structural_2020_2026.parquet `
-  --hfq-cache path/to/tencent_hfq `
-  --industry path/to/sw_industry_history.parquet
-```
+## 可核查证据
 
-原始行情与生成的逐月报告因许可和体积不进入 Git。材料指纹、公开摘要和环境版本记录在
-[`results/material_passport.yaml`](results/material_passport.yaml)。
+- [完整研究账本](docs/research_ledger_v7_v47.md)
+- [V32–V41 专业财务数据与因子审计](docs/financial_factors_v32_v41.md)
+- [统计与偏差审计](docs/statistical_audit.md)
+- [108 个候选统一表](results/all_candidate_tests.csv)
+- [V41 E/F 联合汇总](results/v41_joint_summary.csv)
+- [V41 逐年结果](results/v41_yearly_results.csv)
+- [V41 完整审计与哈希](results/v41_audit.yaml)
+- [V42 构造汇总](results/v42_construction_summary.csv)
+- [V42 审计与哈希](results/v42_audit.yaml)
+- [V43 构造汇总](results/v43_construction_summary.csv)
+- [V43 审计与哈希](results/v43_audit.yaml)
+- [V44 构造汇总](results/v44_construction_summary.csv)
+- [V44 审计与哈希](results/v44_audit.yaml)
+- [V45 构造与 G 确认汇总](results/v45_joint_summary.csv)
+- [V45 完整审计与哈希](results/v45_audit.yaml)
+- [V46 构造汇总与审计](results/v46_construction_summary.csv)
+- [V47 构造与 H 确认汇总](results/v47_joint_summary.csv)
+- [V47 完整审计与哈希](results/v47_audit.yaml)
+- [最终研究状态](results/research_status.yaml)
+- [材料护照](results/material_passport.yaml)
 
-## 目录
-
-```text
-configs/    冻结的 V1–V6 研究与确认门槛
-docs/       协议、每轮负结果、统计谬误与限制审计
-results/    可提交的摘要、成本压力与复现哈希
-scripts/    发现、基准校准和一次性确认入口
-src/        数据对齐、因子、组合、统计检验和确认逻辑
-tests/      单元、边界和前视不变性测试
-```
-
-## 既有研究与新颖性边界
-
-反 MAX 在中国市场已有直接证据，例如 [Nartea, Kong & Wu (2017)](https://doi.org/10.1016/j.jbankfin.2016.12.008)，
-涨跌停环境下的修正 MAX 见 [Yao et al. (2021)](https://doi.org/10.1016/j.iref.2021.01.014)，
-隔夜/日内彩票效应分解见 [Gu, Hu & Xiong (2025)](https://doi.org/10.1111/acfi.13354)，
-中国流通股供给制度背景见 [Fang et al. (2017)](https://doi.org/10.1016/j.jbankfin.2017.08.012)。
-
-SADA 的可主张贡献是：一个完全固定、规模与行业中性的工程公式；一个把动态供给吸收状态
-作为单边风险约束的实现；以及带累计多重检验、失败日志、资产隔离复现和字节级复现证据的
-完整研究流程。它不证明因果、实盘盈利或全球学术原创性。
+本仓库展示的是可信的量化研究流程，而不是保证盈利的策略。历史相关性不证明因果，也不保证未来收益。

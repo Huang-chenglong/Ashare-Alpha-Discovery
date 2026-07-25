@@ -1,0 +1,136 @@
+experiment_id: cash-led-profitability-improvement-v34
+status: frozen_before_v34_bucket_e_return_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: >-
+  Exact positive prior-quarter cash-ROA improvement multiplied by positive
+  current profit-ROA improvement, with current and lagged cash/profit main
+  effects removed, was not found in the bounded pre-outcome search. Earnings,
+  cash-flow predictability, and cash profitability are prior art.
+
+candidate_registry: [clpi_v34]
+expected_sign: positive
+
+formula:
+  reporting_frequency: quarterly
+  minimum_history: five consecutive fiscal quarters
+  current_profit_improvement: current TTM parent-profit ROA minus its four-quarter lag
+  prior_cash_improvement: prior report's TTM operating-cash-flow ROA minus its four-quarter lag
+  component_transform: >-
+    Within each formation date after excluding Shenwan industries 48 and 49,
+    each strictly positive component is mapped to its percentile rank among
+    positive observations; nonpositive observations receive zero.
+  candidate: positive-current-profit-improvement rank multiplied by positive-prior-cash-improvement rank
+  interpretation: >-
+    A one-quarter lead interaction testing whether previously disclosed cash
+    improvement confirms the subsequent accounting-profit improvement.
+
+financial_data:
+  source: TongdaXin professional financial-data quarterly GPCW packages
+  official_cdn: http://data.tdx.com.cn/tdxfin/
+  package_period: [2018-03-31, 2026-03-31]
+  package_count: 33
+  package_validation: manifest byte size, MD5, ZIP CRC, and exactly one DAT member
+  fields:
+    col40: total assets in CNY
+    col307: trailing-twelve-month operating cash flow in CNY
+    col308: trailing-twelve-month parent net profit in 10k CNY
+    col314: financial-report announcement date stored as YYMMDD
+  point_in_time_rule: >-
+    Only current reports announced by formation enter. The prior cash improvement
+    is taken from the immediately preceding fiscal report and was therefore
+    already public before the current announcement.
+  filters:
+    exact_current_to_prior_quarter_distance: 1
+    exact_year_over_year_quarter_distance: 4
+    announcement_lag_days: [0, 365]
+    maximum_signal_age_days: 183
+    excluded_shenwan_l1_codes: ["48", "49"]
+  vintage_limitation: >-
+    Packages were downloaded on 2026-07-23 rather than archived at each historical
+    formation. Announcement gating is enforced, but later corrections/restatements
+    cannot be ruled out.
+
+neutralization:
+  minimum_rows: 100
+  known_price_volume_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_max_return_60
+    - anti_skewness_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - overnight_mean_60
+    - negative_intraday_mean_20
+    - negative_intraday_mean_60
+  financial_main_effects:
+    - positive_current_profit_improvement_rank
+    - positive_prior_cash_improvement_rank
+    - current_profit_improvement_yoy
+    - prior_cash_improvement_yoy
+    - current_cash_improvement_yoy
+    - prior_profit_improvement_yoy
+    - profitability_roa
+    - cash_flow_roa
+    - cash_accrual_spread
+    - asset_growth_yoy
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - https://doi.org/10.1016/j.jacceco.2021.101430
+    - https://doi.org/10.1016/j.jfineco.2016.03.002
+    - https://doi.org/10.1111/j.1468-5957.2006.01425.x
+    - https://doi.org/10.1016/j.jacceco.2020.101313
+  bounded_search_result: >-
+    Prior work compares earnings and cash flows as predictors and studies their
+    return relevance. The bounded search did not find this exact one-quarter
+    lead interaction after removal of current and lagged cash/profit changes.
+    This is not proof of universal novelty.
+
+multiplicity:
+  method: cumulative Benjamini-Hochberg on discovery one-sided HAC p-values
+  prior_tests_included: 86
+  current_tests: 1
+  total_tests_after_v34: 87
+  additional_guard: validation one-sided HAC p must be no greater than 0.05
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_hac_p_one_sided_max: 0.05
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+adaptive_reuse_disclosure: >-
+  V34 was specified after V33 failed and tests a distinct lagged relation. V33
+  remains failed; all 86 prior tests remain in the BH family. The exact V34
+  formula was frozen before reading its returns.
+data_reuse_limitation: >-
+  E/F were used by an earlier repository for another formula. V34 is exact-formula
+  new to both buckets; F remains sealed unless every research gate passes.
+failure_rule: >-
+  Reject V34 without changing the lead, transforms, exclusions, sign, or controls
+  and keep F sealed if any research gate fails.

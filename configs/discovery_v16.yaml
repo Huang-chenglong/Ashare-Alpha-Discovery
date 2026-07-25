@@ -1,0 +1,60 @@
+experiment_id: directional-volume-clock-asymmetry-v16
+status: frozen_before_v16_bucket_c_evaluation
+frozen_date: 2026-07-23
+claim_type: exact daily-bar volume-clock proxy; VWAP and volume-clock concepts are prior art
+
+candidate_registry: [dvca_60, dvca_90]
+
+formula:
+  intraday_residual: log(close / open) minus eligible-universe daily median
+  range: high minus low
+  endpoint_midpoint: (open + close) / 2
+  daily_volume_clock: sign(close - open) * (endpoint_midpoint - adjusted_vwap) / range
+  interpretation: positive means volume was concentrated nearer the opening endpoint along the realized open-to-close direction
+  candidate: positive-residual-day mean daily_volume_clock minus negative-residual-day mean daily_volume_clock
+  minimum_observations: ten positive and ten negative residual days
+  horizons: [60, 90]
+  expected_sign: positive
+
+neutralization:
+  common_controls: eleven known liquidity, reversal, volatility, lottery, momentum, and overnight/intraday baselines
+  candidate_specific_controls:
+    - intraday residual sign balance
+    - unconditional mean daily volume clock
+    - unconditional mean absolute body divided by range
+    - unconditional mean signed midpoint-minus-VWAP position
+    - linear intraday-residual/volume-clock correlation
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+adaptive_reuse_disclosure: bucket C is adaptive research data; bucket D remains unopened
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 61
+  current_tests: 2
+  total_tests_after_v16: 63
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain negative result and keep D closed if no candidate passes

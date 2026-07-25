@@ -1,0 +1,42 @@
+experiment_id: structural-customer-financing-consensus-v41
+status: frozen_before_model_fit_and_before_bucket_f_open
+frozen_date: 2026-07-23
+
+construction_bucket: E/legacy-liquid-hash-A
+construction_period: [2020-01-01, 2022-12-31]
+construction_role: >-
+  E is explicitly treated as adaptive construction data after repeated V20-V40
+  inspections. No V41 claim relies on E as a pristine holdout.
+
+candidate: scfc_v41
+formula:
+  structural_component: >-
+    V30 fixed shallow model fitted on 2020-2022 E residual labels and applied
+    without hyperparameter search.
+  financial_component: >-
+    V40 customer-financing-growth/acceleration/revenue-growth interaction.
+  component_transform: within-date percentile rank after each component's frozen neutralization
+  weights:
+    nsim_v30_score: 0.5
+    cfma_v40_score: 0.5
+  final_neutralization: >-
+    Fourteen known price-volume controls, all fifteen V40 financial component
+    controls, log float size, squared log float size, and point-in-time Shenwan
+    L1 industry.
+
+claim_boundary: >-
+  V41 is an adaptively motivated original composite of internal constructs.
+  Its primitive mechanisms and the E outcomes motivating a cross-domain
+  consensus are not new. Only a one-shot asset-disjoint F result can confirm it.
+
+sealed_confirmation_bucket:
+  id: F/legacy-liquid-hash-B
+  data_sha256: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  asset_overlap_with_E: 0
+  open_rule: >-
+    Fit and hash the structural model, freeze the full confirmation protocol in
+    Git, then open F exactly once. No E gate is claimed for V41.
+
+failure_rule: >-
+  If any frozen F gate fails, reject V41. Do not change component, weight,
+  model, control, sign, period, portfolio, cost, or threshold after opening F.

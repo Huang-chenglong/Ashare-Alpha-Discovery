@@ -1,0 +1,66 @@
+experiment_id: mildly-stabilized-persistent-consensus-v47
+status: frozen_before_E_plus_F_plus_G_construction_outcomes
+frozen_date: 2026-07-24
+
+candidates:
+  - candidate: wpen10_v47
+    formula: weighted_60_25_15 - 0.10 * three_month_range
+  - candidate: wpen20_v47
+    formula: weighted_60_25_15 - 0.20 * three_month_range
+  - candidate: wgate20_v47
+    formula: weighted_60_25_15 * (0.80 + 0.20 * three_month_floor)
+weighted_60_25_15: 0.60 * consensus60_40(t) + 0.25 * consensus60_40(t-1) + 0.15 * consensus60_40(t-2)
+base_consensus: 0.60 * percentile_rank(rrsm_v43_residual) + 0.40 * percentile_rank(tafs_v42_residual)
+consecutive_months_required: 3
+hypothesis: >-
+  Mildly penalizing three-month score dispersion may improve cross-universe
+  portability without destroying the economically useful top tail of the
+  weighted persistent consensus.
+direction: higher_mildly_stabilized_consensus_predicts_higher_return
+adaptivity_disclosure: >-
+  V47 was designed after V46's strong stability penalties produced good IC but
+  negative top-tail returns. E, F, and G are consumed construction data; H is
+  still sealed.
+
+evidence_roles:
+  E: consumed construction data
+  F: consumed construction data
+  G: consumed construction data
+  H: sealed asset-disjoint formula-unseen confirmation data
+
+cache:
+  sha256: b0c1dfffa3596a56bdec147b18af4c8929533418675acbd9f4a9f4892b4a9db8
+  rows: 40759
+  assets: 3258
+  months: 36
+  contains_bucket_h: false
+
+neutralization:
+  minimum_rows_construction: 300
+  minimum_rows_confirmation: 100
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_year: 2025
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  family_bh_q_max: 0.10
+selection:
+  rule: highest mean net active return among complete base-and-BH passes, then registry order
+  if_none_pass: record all failures and keep H sealed
+  if_pass: separately freeze only the selected formula before opening H
+freeze:
+  sealed_bucket_h_sha256: 43e1fbb32e22263269614ac99206029591760ebc19621fe804214ff584205dc7
+  bucket_h_assets: 172
+  bucket_h_asset_overlap_with_E_F_G: 0
+  cumulative_directional_tests_after_v47: 108
+decision_rule: H remains sealed until a complete construction pass and a separately committed confirmation protocol.

@@ -1,0 +1,79 @@
+experiment_id: financing-tail-long-v55
+status: frozen_after_v54_A_failure_before_v55_outcomes
+frozen_date: 2026-07-25
+adaptivity_disclosure: >-
+  V55 is adaptive to V54's economically failed short implementation. It keeps
+  the frozen financing-only feature set and tail-classification mechanism but
+  admits exactly one China-feasible long-only candidate. C and D remain unread.
+
+candidate: hgb_financing_long_v55
+model: HistGradientBoostingClassifier_learning_rate_0.05_iterations_150_leaves_7_min_leaf_40_l2_10_balanced_seed_20260725
+target: within_month_top_decile_of_next_20_session_active_return
+score: predicted_top_decile_probability
+feature_columns: inherit_V54_financing_only
+neutralization: inherit_V54_size_squared_size_industry_and_21_linear_main_effects
+minimum_rows_A: 150
+minimum_rows_C_D: 65
+minimum_training_rows: 2500
+final_label_cutoff: exit_date_strictly_before_2024-01-01
+refitting_after_A: false
+
+data:
+  training_A_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  validation_C_sha256: dec98133e9bbc0421dad5dda031643d477d3e19578e527f659efa45f9eba6c39
+  confirmation_D_sha256: e612e986eed0c82e1aa0d007ec53a9664cec6651c73b86159e0087c2f869c29a
+  unseen_manifest_sha256: be10a05105adb37bb04f6aac34c30eae9f08a276a9a2117fa94b201f23334c84
+  dense_margin_sha256: 0647e540f1598853ad9919883e4b58b01d9ee8555f6ff1042e677ce8bf4b360e
+  dense_margin_manifest_sha256: 516e1cdacacfdeb5d897fc6b422f43b55be8cc337067c257330c70ac04a88f10
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+
+portfolio:
+  holdings: 10
+  retention_percentile: 0.70
+  cost_bps_one_way: 20.0
+  entry_offset_sessions: 2
+  exit_offset_sessions: 22
+  maximum_execution_delay_sessions: 5
+
+construction_gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_year: 2023
+  required_core_years_positive: [2021, 2022, 2023]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+validation_C_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+confirmation_D_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.025
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+multiplicity:
+  cumulative_directional_tests_before_v55: 129
+  v55_tests: 1
+  cumulative_directional_tests_after_v55: 130
+
+claim_rule: A_pass_AND_formula_unseen_C_pass_AND_one_shot_D_pass

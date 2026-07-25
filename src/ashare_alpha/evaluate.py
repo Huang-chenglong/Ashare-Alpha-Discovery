@@ -22,12 +22,14 @@ def _neutralize_cross_section(
     cross_section: pd.DataFrame,
     candidate: str,
     control_columns: list[str] | tuple[str, ...] = CONTROL_COLUMNS,
+    *,
+    minimum_rows: int = 100,
 ) -> pd.DataFrame:
     required = [candidate, "float_market_cap", "industry_l1", *control_columns]
     finite = cross_section[required].replace([np.inf, -np.inf], np.nan)
     valid = finite.notna().all(axis=1) & cross_section["float_market_cap"].gt(0.0)
     rows = cross_section.loc[valid].copy()
-    if len(rows) < 100:
+    if len(rows) < minimum_rows:
         return rows.iloc[0:0]
 
     candidate_values = mad_winsorize(rows[candidate])
@@ -66,12 +68,16 @@ def neutralized_candidate_panels(
     *,
     candidate_columns: list[str] | tuple[str, ...] = CANDIDATE_COLUMNS,
     control_columns: list[str] | tuple[str, ...] = CONTROL_COLUMNS,
+    minimum_rows: int = 100,
 ) -> pd.DataFrame:
     output: list[pd.DataFrame] = []
     for candidate in candidate_columns:
         for _, cross_section in month_end.groupby("date", sort=True):
             neutralized = _neutralize_cross_section(
-                cross_section, candidate, control_columns
+                cross_section,
+                candidate,
+                control_columns,
+                minimum_rows=minimum_rows,
             )
             if not neutralized.empty:
                 output.append(neutralized)
@@ -157,11 +163,24 @@ def evaluate_research(
     discovery_end: str = "2022-12-31",
     validation_start: str = "2023-01-01",
     validation_end: str = "2024-12-31",
+    portfolio_holdings: int = 100,
+    retention_percentile: float = 0.60,
+    cost_bps_one_way: float = 20.0,
+    discovery_minimum_months: int = 34,
+    discovery_mean_ic_minimum: float = 0.015,
+    discovery_q_maximum: float = 0.10,
+    validation_minimum_months: int = 23,
+    validation_mean_ic_minimum: float = 0.010,
+    validation_mean_net_return_minimum: float = 0.0,
+    validation_net_information_ratio_minimum: float = 0.30,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     monthly = pd.concat(
         [
             buffered_long_only(
-                panels_with_returns[panels_with_returns["candidate"].eq(candidate)]
+                panels_with_returns[panels_with_returns["candidate"].eq(candidate)],
+                holdings=portfolio_holdings,
+                retention_percentile=retention_percentile,
+                cost_bps_one_way=cost_bps_one_way,
             )
             for candidate in candidate_columns
         ],
@@ -228,14 +247,18 @@ def evaluate_research(
     summary["discovery_q_bh"] = all_q.iloc[offset:].to_numpy()
     summary["multiplicity_family_size"] = len(all_p)
     summary["passes_research_gate"] = (
-        summary["discovery_months"].ge(34)
-        & summary["discovery_mean_ic"].ge(0.015)
-        & summary["discovery_q_bh"].le(0.10)
-        & summary["validation_months"].ge(23)
-        & summary["validation_mean_ic"].ge(0.010)
+        summary["discovery_months"].ge(discovery_minimum_months)
+        & summary["discovery_mean_ic"].ge(discovery_mean_ic_minimum)
+        & summary["discovery_q_bh"].le(discovery_q_maximum)
+        & summary["validation_months"].ge(validation_minimum_months)
+        & summary["validation_mean_ic"].ge(validation_mean_ic_minimum)
         & summary["validation_2023_2024_positive"]
-        & summary["validation_mean_net_active_return"].gt(0.0)
-        & summary["validation_net_information_ratio"].ge(0.30)
+        & summary["validation_mean_net_active_return"].gt(
+            validation_mean_net_return_minimum
+        )
+        & summary["validation_net_information_ratio"].ge(
+            validation_net_information_ratio_minimum
+        )
     )
     summary = summary.sort_values(
         [

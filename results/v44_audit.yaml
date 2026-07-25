@@ -1,0 +1,50 @@
+experiment_id: structural-tail-consensus-family-v44
+audited_date: 2026-07-24
+decision: all_candidates_failed_construction
+directional_test_numbers: [97, 98, 99]
+selected_candidate: null
+eligible_to_freeze_confirmation: false
+bucket_g_opened: false
+reason:
+  rrsm75_tafs25_v44: net return and information ratio failed
+  rrsm60_tafs40_v44: mean IC and information ratio failed
+  rrsm_tafs_gate_v44: net return and information ratio failed
+metrics:
+  rrsm75_tafs25_v44:
+    months: 36
+    mean_rank_ic: 0.016033441268985746
+    hac_p_one_sided: 6.263010156492203e-06
+    family_q_bh: 6.263010156492204e-06
+    positive_years: 3
+    mean_net_active_return: -0.0015280818527668395
+    net_information_ratio: -0.21923398537011551
+  rrsm60_tafs40_v44:
+    months: 36
+    mean_rank_ic: 0.014764962238811737
+    hac_p_one_sided: 4.0936897787917754e-07
+    family_q_bh: 1.2281069336375327e-06
+    positive_years: 3
+    mean_net_active_return: 0.0015833733146331786
+    net_information_ratio: 0.24953218553304304
+  rrsm_tafs_gate_v44:
+    months: 36
+    mean_rank_ic: 0.017371363932512776
+    hac_p_one_sided: 1.6148120217455542e-06
+    family_q_bh: 2.422218032618331e-06
+    positive_years: 3
+    mean_net_active_return: -0.0007290859733438142
+    net_information_ratio: -0.11094074153640315
+  maximum_absolute_neutralized_exposure: 1.021405182655144e-14
+hashes:
+  protocol: d82c1c52153d2eac0999e43ad6e2428f7d7a4a484e78dad41d34c537d718d713
+  component_model_tafs_v42: 305851d88e50b5a9a65a53dac3910fc1ffe349fa652b9e773d1d3b977e3d789f
+  component_model_rrsm_v43: 56cf906f8c098f1b37abe03db13fc55db886ad77809b543fc412ce99ac92dd6d
+  summary: b409b5b5cc03e4d4ea4f22950ca470b2c241a579b904711f7990d0037e1c07ea
+  yearly: 32161d00c2113c2d041f31eaa3510099cfae05c5bd74e6c92063a6dd8299f822
+  monthly: 5f560bc1b9a659493241fc02d102f4b79b1b0d19b770f5125babcd67e95357dc
+  exposures: 673e25b38f13cbd8db9459537d358a891d363bdeba46cc7c9b44bd6753719904
+  metadata: ccdc22f16210b5ab68fa16d54960f5cb5a95f4cdfd3764e64f3ec10ad47ab193
+interpretation: >-
+  The V44 family confirmed that V42 can improve the economic top tail of V43,
+  but no frozen combination jointly met the IC and cost-adjusted IR floors.
+  The closest 60/40 candidate must remain a negative result; G stays sealed.

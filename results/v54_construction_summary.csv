@@ -1,0 +1,4 @@
+candidate,months,mean_rank_ic,hac_t,hac_p_one_sided,positive_years,required_positive_year,required_year_positive,mean_net_spread_return,net_information_ratio,mean_monthly_traded_notional,minimum_monthly_return_coverage,minimum_selected_return_coverage,family_q_bh,required_core_years_positive,passes_construction_gate_before_family_bh,passes_construction_gate,passes_data_coverage_gate
+logit_spread_v54,34,0.010493,1.223442,0.110581,2,2023,True,-0.019700,-1.237867,2.435294,1.0,1.0,0.110581,False,False,False,True
+hgb_spread_v54,34,0.017965,2.000573,0.022719,3,2023,True,-0.003273,-0.195331,2.729412,1.0,1.0,0.034079,True,False,False,True
+extra_spread_v54,34,0.025203,4.140897,0.000017,3,2023,True,-0.011275,-0.820429,2.482353,1.0,1.0,0.000052,True,False,False,True

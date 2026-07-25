@@ -1,0 +1,10 @@
+candidate,dataset,role,year,mean_rank_ic,mean_net_active_return,months
+scfc_v41,E,adaptive_post_fit_diagnostic,2023,0.007425554195651993,-0.00020258872044963744,12
+scfc_v41,E,adaptive_post_fit_diagnostic,2024,0.03096433568650434,0.001202544310688882,12
+scfc_v41,E,adaptive_post_fit_diagnostic,2025,-0.011293478005604728,-0.005261850288350335,12
+scfc_v41,F,one_shot_asset_disjoint_confirmation,2020,0.01655990506838669,-0.0023323811069573893,10
+scfc_v41,F,one_shot_asset_disjoint_confirmation,2021,0.03116048279225563,0.0064574337982619525,12
+scfc_v41,F,one_shot_asset_disjoint_confirmation,2022,0.004625080472613984,-0.003344079187876737,12
+scfc_v41,F,one_shot_asset_disjoint_confirmation,2023,0.015024887931919943,-0.006005020274044432,12
+scfc_v41,F,one_shot_asset_disjoint_confirmation,2024,-0.006582271619948651,-0.0062527677758004024,12
+scfc_v41,F,one_shot_asset_disjoint_confirmation,2025,0.001924505464973814,-0.0042062849704307655,12

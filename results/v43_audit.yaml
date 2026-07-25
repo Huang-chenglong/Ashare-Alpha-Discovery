@@ -1,0 +1,33 @@
+experiment_id: residual-rank-structural-model-v43
+candidate: rrsm_v43
+audited_date: 2026-07-24
+decision: failed_construction
+directional_test_number: 96
+bucket_g_opened: false
+reason:
+  mean_rank_ic_gate_passed: true
+  hac_gate_passed: true
+  all_required_years_positive: true
+  net_return_below_zero: true
+  information_ratio_below_0_30: true
+metrics:
+  months: 36
+  mean_rank_ic: 0.018202648433527233
+  hac_t: 3.713678602723773
+  hac_p_one_sided: 0.00010212139969349202
+  positive_years: 3
+  mean_net_active_return: -0.0029360587253501846
+  net_information_ratio: -0.442318583421359
+  maximum_absolute_neutralized_exposure: 1.33643096589253e-14
+hashes:
+  protocol: a1d8b91a22f66c56f8aaf9866bd8932c5b8f9f8611b24f1a5e8b33c6a96b46ae
+  model: 56cf906f8c098f1b37abe03db13fc55db886ad77809b543fc412ce99ac92dd6d
+  summary: ad68228567432bb9f01de2189a630c98d9806d61c75ff447278406926be21efa
+  yearly: bf6d40ad6595f37908c6a4747d5395429a63a99337a1c304cba7cb34baa90368
+  monthly: aaefafdc9cce59798d4baf99ec2f77d0b65414eddbf85d43189b2994ab449458
+  exposures: a3429c926d8bf5e8547818b470dd7263e1dc2bb4434800201363272ae812b185
+  metadata: 2b77caf0b2244eb16baaf124ad4e49aa40292e8b0fa1f8b53032ed7291d81d96
+interpretation: >-
+  V43 achieved strong, stable rank IC but its top tail was economically poor,
+  especially in 2025. The conjunctive gate rejects the factor despite its
+  statistical signal; bucket G remains sealed.

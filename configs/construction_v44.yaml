@@ -1,0 +1,90 @@
+experiment_id: structural-tail-consensus-family-v44
+status: frozen_before_E_plus_F_construction_outcomes
+frozen_date: 2026-07-24
+
+candidates:
+  - candidate: rrsm75_tafs25_v44
+    formula: 0.75 * percentile_rank(rrsm_v43_residual) + 0.25 * percentile_rank(tafs_v42_residual)
+  - candidate: rrsm60_tafs40_v44
+    formula: 0.60 * percentile_rank(rrsm_v43_residual) + 0.40 * percentile_rank(tafs_v42_residual)
+  - candidate: rrsm_tafs_gate_v44
+    formula: percentile_rank(rrsm_v43_residual) * (0.50 + 0.50 * percentile_rank(tafs_v42_residual))
+hypothesis: >-
+  V43 supplies statistically stable cross-sectional ordering while V42 supplies
+  economically useful top-tail information. A frozen rank consensus may retain
+  V43's monotonic IC and use V42 to improve the tradable top fifty.
+direction: higher_composite_score_predicts_higher_return
+
+evidence_roles:
+  E: adaptive construction data
+  F: consumed V41 confirmation data, explicitly converted to V44 construction
+  G: sealed formula-unseen asset-disjoint confirmation; no V44 factor or return metric opened
+
+components:
+  rrsm_v43:
+    model_sha256: 56cf906f8c098f1b37abe03db13fc55db886ad77809b543fc412ce99ac92dd6d
+    component_neutralization: fourteen known price-volume effects, size, size-squared, industry
+  tafs_v42:
+    model_sha256: 305851d88e50b5a9a65a53dac3910fc1ffe349fa652b9e773d1d3b977e3d789f
+    component_neutralization: linear and quadratic ranks of all twenty-nine inputs, size, size-squared, industry
+  prediction_years: [2023, 2024, 2025]
+  refitting: none
+  tuning: none
+
+neutralization:
+  minimum_rows_construction: 300
+  minimum_rows_confirmation: 100
+  final_controls: >-
+    Linear and quadratic within-month ranks of all twenty-nine V42 inputs,
+    point-in-time log float size, squared log float size, and Shenwan L1
+    industry. This includes all fourteen known price-volume effects and all
+    fifteen financial main effects.
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+
+gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_year: 2025
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  family_bh_q_max: 0.10
+
+selection:
+  rule: >-
+    Among candidates passing every base gate and the three-test BH gate, select
+    the highest mean cost-adjusted active return; ties follow registry order.
+  if_none_pass: record all three failures and keep G sealed
+  if_one_or_more_pass: freeze only the selected formula and hashes in a separate confirmation protocol before opening G
+
+freeze:
+  construction_data_sha256:
+    - 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+    - a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+  financial_manifest_sha256: 2c2086c7998c59683451651ce6f32c0e4d0158733fdd6f946dc0ed204a713854
+  sealed_bucket_g_sha256: 93ab3874abc07824c65f6676ebf16ff360d5762b961cdd11049d65b64ae781b9
+  bucket_g_assets: 310
+  bucket_g_asset_overlap_with_E_F: 0
+  cumulative_directional_tests_after_v44: 99
+
+bounded_prior_art_search:
+  universal_novelty_claim: false
+  boundary: >-
+    Model ensembling and rank combinations are prior art. Only the exact frozen
+    combination of the project-specific V42 and V43 artifacts, weights, gate,
+    neutralization, and one-shot confirmation protocol is claimed as
+    project-specific.
+
+decision_rule: >-
+  G remains sealed during construction. It may be opened once, for only the
+  selected frozen formula, after a construction pass and a separate committed
+  confirmation protocol.

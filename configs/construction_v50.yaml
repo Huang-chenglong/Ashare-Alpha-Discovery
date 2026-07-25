@@ -1,0 +1,109 @@
+experiment_id: weekly-margin-path-v50
+status: frozen_before_weekly_margin_download_and_before_v50_outcomes
+frozen_date: 2026-07-24
+
+adaptivity_disclosure: >-
+  V50 was designed after V48 and V49 consumed bucket-A month-end margin
+  outcomes. V48 found a statistically positive but unstable and high-turnover
+  contrarian-financing interaction; V49 persistence improved sign consistency
+  and net return but failed the IC and IR thresholds. V50 introduces previously
+  uninspected weekly balance paths. Bucket-B outcomes remain unread.
+
+new_submodality:
+  name: official_weekly_plus_month_end_stock_level_margin_paths
+  dates: last_exchange_trading_date_in_each_W-FRI_week_union_exact_research_month_end
+  point_in_time: only snapshots with trade_date_at_or_before_formation_are_used
+  interval_flow: financing_balance_change / exact_structural_amount_between_snapshots
+  path_window: last_4_consecutive_dense_snapshots
+  source:
+    SSE: https://query.sse.com.cn/marketdata/tradedata/queryMargin.do
+    SZSE: https://www.szse.cn/api/report/ShowReport
+
+base_signal:
+  candidate: mcar_v48
+  formula: financing_inflow_rank * negative_momentum_rank * financing_leverage_rank
+
+candidates:
+  - candidate: mpbr_v50
+    formula: mcar_v48 * fraction_of_last_4_snapshot_flows_positive
+    mechanism: persistent rather than month-end-only financing demand during price weakness
+  - candidate: mpsr_v50
+    formula: mcar_v48 * positive_rank(sum(flow_4) / sum(abs(flow_4)))
+    mechanism: directionally coherent financing demand during price weakness
+  - candidate: mpcs_v50
+    formula: mcar_v48 * positive_flow_breadth_4 * low_flow_dispersion_rank_4
+    mechanism: persistent and stable financing absorption during price weakness
+candidate_registry: [mpbr_v50, mpsr_v50, mpcs_v50]
+alternative_formulas_permitted_after_outcomes: false
+direction_flipping_permitted_after_outcomes: false
+
+neutralization:
+  inherit_all_v48_controls: true
+  path_main_effects_and_squares:
+    - path_inflow_breadth_rank
+    - path_signed_ratio_rank
+    - path_stability_rank
+  minimum_rows: 150
+
+evidence_roles:
+  construction:
+    assets: stable_hash_bucket_A
+    dates: 2020-01-01_to_2023-12-31
+    adaptive_price_and_month_end_margin_outcomes: true
+    weekly_path_outcomes_previously_seen: false
+  confirmation:
+    assets: stable_hash_bucket_B_disjoint_from_A
+    dates: 2024-01-01_to_2026-05-31
+    outcomes_unread: true
+    formula_unseen: true
+    future_time_relative_to_construction: true
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  entry_offset_sessions: 2
+  exit_offset_sessions: 22
+  maximum_execution_delay_sessions: 5
+
+construction_gate:
+  minimum_months: 43
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  family_bh_q_max: 0.10
+  positive_years_min: 3
+  required_positive_year: 2023
+  required_core_years_positive: [2021, 2022, 2023]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_median_margin_coverage: 0.40
+  minimum_monthly_complete_rows: 150
+
+selection:
+  rule: highest mean net active return among complete gate and family-BH passes, then registry order
+  if_none_pass: record failures and keep bucket B unread
+  if_pass: freeze exactly one formula and all hashes before opening B
+
+confirmation_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.025
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+multiplicity:
+  cumulative_directional_tests_before_v50: 114
+  v50_family_tests: 3
+  cumulative_directional_tests_after_v50: 117
+
+claim_rule: >-
+  No V50 construction result can establish effectiveness. Only a complete
+  construction pass followed by the one frozen asset-and-future-time-disjoint
+  bucket-B pass can support an effective-factor claim.

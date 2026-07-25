@@ -1,0 +1,9 @@
+experiment_id: vwap-cross-participation-asymmetry-v15
+status: rejected_before_any_outcome_evaluation
+decision_date: 2026-07-23
+reason: >-
+  Public VWAP-reclaim trading rules explicitly require a reclaim or cross to be
+  confirmed by stronger volume. A rolling cross-sectional version would be an
+  original aggregation but not an original mechanism under the requested standard.
+candidate_tests_consumed: 0
+confirmation_bucket_opened: false

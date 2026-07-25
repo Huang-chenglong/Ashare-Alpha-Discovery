@@ -1,0 +1,50 @@
+experiment_id: joint-path-reversibility-midpoint-v11
+status: frozen_before_v11_bucket_c_evaluation
+frozen_date: 2026-07-23
+claim_type: adaptive one-parameter calibration of the V10 exact joint-motif candidate
+
+candidate_registry: [joint_path_reversibility_90]
+
+formula:
+  inherited_unchanged_from_v10:
+    - four-state excess-return-sign crossed with participation-state alphabet
+    - overlapping three-session motifs
+    - Jeffreys 0.5 smoothing
+    - negative forward/reverse Jensen-Shannon divergence
+    - all common and motif-specific neutralization controls
+  horizon: 90
+  horizon_rule: arithmetic midpoint of the pre-tested 60 and 120 session windows
+  expected_sign: positive
+
+adaptive_reuse_disclosure: >-
+  V11 was chosen after V10 showed stronger validation at 60 and stronger discovery at
+  120. Only the deterministic midpoint 90 is tested; no grid search is permitted. C is
+  adaptive research data. D remains unopened.
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 56
+  current_tests: 1
+  total_tests_after_v11: 57
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: if V11 fails, close the entire joint-path-reversibility family and keep D unopened

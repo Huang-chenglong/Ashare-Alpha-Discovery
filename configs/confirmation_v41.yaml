@@ -1,0 +1,59 @@
+experiment_id: structural-customer-financing-consensus-v41
+status: frozen_before_first_semantic_open_of_bucket_f
+frozen_date: 2026-07-23
+
+candidate: scfc_v41
+construction_role: >-
+  E is adaptive construction data. It is not described as an out-of-sample
+  holdout because V20-V40 outcomes on E informed V41.
+confirmation_role: >-
+  F is a sealed, asset-disjoint, one-shot cross-sectional confirmation set.
+  It shares calendar time with E and is therefore not a future-time holdout.
+
+period: [2020-01-01, 2025-12-31]
+
+freeze:
+  research_code_commit: 1f6248900619e8efdd778a1e1498ea1242f776fa
+  research_data_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  confirmation_data_sha256: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+  financial_manifest_sha256: 2c2086c7998c59683451651ce6f32c0e4d0158733fdd6f946dc0ed204a713854
+  model_sha256: 27d34a855baba9c3270f001677c0fc335e49b0d836fc76f690ce085e14f30f84
+  composite_source_sha256: 9f02dfcdd568d891ea0e95b05f0ceb3a41746e74dab81c03e814bc963c880fe6
+  structural_source_sha256: d3eda202f5d520f991fa7927ac1966bcc1d75455c7e84813d12591f2e1c2bf32
+  financial_source_sha256: a76a05697283ee8a018d8191d22fe7027a82b98b14bac9b75ec102c343987e64
+  required_asset_overlap_with_e: 0
+
+neutralization:
+  minimum_rows: 100
+  controls: >-
+    Fourteen V30 price-volume features, fifteen V40 financial main effects,
+    log float size, squared log float size, and point-in-time Shenwan L1
+    industry.
+
+portfolio:
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+
+gate:
+  minimum_months: 68
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 5
+  required_positive_year: 2025
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+decision_rule: >-
+  Pass only when every frozen gate is satisfied. If any gate fails, reject
+  V41 and do not alter its component definitions, 0.5/0.5 weights, sign,
+  controls, period, portfolio, costs, thresholds, or F asset membership.
+
+opening_rule: >-
+  Commit and publish this protocol before any factor, return, IC, portfolio,
+  yearly, or exposure outcome is computed or inspected on F. Execute exactly
+  once and preserve the complete result regardless of sign or significance.

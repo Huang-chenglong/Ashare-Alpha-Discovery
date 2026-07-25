@@ -1,0 +1,66 @@
+experiment_id: mildly-stabilized-persistent-consensus-v47-h-confirmation
+status: frozen_before_one_shot_bucket_h_outcomes
+frozen_date: 2026-07-24
+candidate: wpen10_v47
+formula: weighted_60_25_15 - 0.10 * three_month_range
+weighted_60_25_15: 0.60 * consensus60_40(t) + 0.25 * consensus60_40(t-1) + 0.15 * consensus60_40(t-2)
+base_consensus: 0.60 * percentile_rank(rrsm_v43_residual) + 0.40 * percentile_rank(tafs_v42_residual)
+consecutive_months_required: 3
+alternative_formulas_permitted: false
+refitting_on_h_permitted: false
+threshold_tuning_on_h_permitted: false
+
+selection_evidence:
+  construction_summary_sha256: 22fe1da3d4e2ad6905b8301354fec560950e3fe56de72ae16274cb56a3621881
+  construction_metadata_sha256: d5a595fb232e77b4a374de00bbc19d7d3a7dfbda957e0c4589fc276a593d47be
+  selected_metrics:
+    months: 34
+    mean_rank_ic: 0.01754594085238885
+    hac_p_one_sided: 2.8753722995903906e-05
+    family_q_bh: 4.248207343372524e-05
+    mean_net_active_return: 0.002084045361085294
+    net_information_ratio: 0.3712377532514127
+    passes_construction_gate: true
+
+bucket_h:
+  structural_data_sha256: 43e1fbb32e22263269614ac99206029591760ebc19621fe804214ff584205dc7
+  assets: 172
+  asset_overlap_with_E_F_G: 0
+  date_min: 2019-01-02
+  date_max: 2025-02-28
+  formula_unseen_for_v47: true
+  global_pristine_claim: false
+  limitation: >-
+    H is asset-disjoint and formula-unseen for V47 but derives from an older
+    CSI300 source and is not globally pristine. It shares calendar time with
+    construction data and is not a future-time holdout.
+
+models:
+  v42_sha256: 305851d88e50b5a9a65a53dac3910fc1ffe349fa652b9e773d1d3b977e3d789f
+  v43_sha256: 56cf906f8c098f1b37abe03db13fc55db886ad77809b543fc412ce99ac92dd6d
+  refitting: none
+neutralization:
+  minimum_rows: 100
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+gate:
+  minimum_months: 22
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 2
+  required_positive_year: 2024
+  required_core_years_positive: [2023, 2024]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+freeze:
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+  financial_manifest_sha256: 2c2086c7998c59683451651ce6f32c0e4d0158733fdd6f946dc0ed204a713854
+  cumulative_directional_tests_before_confirmation: 108
+decision_rule: >-
+  Call V47 effective only if the single completed H run passes every gate,
+  including positive mean IC in both complete core years 2023 and 2024.

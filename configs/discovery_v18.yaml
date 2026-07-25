@@ -1,0 +1,65 @@
+experiment_id: structural-participation-irreversibility-composite-v18
+status: frozen_before_v18_bucket_c_evaluation
+frozen_date: 2026-07-23
+claim_type: adaptive exact composite of two previously registered original constructions
+
+candidate_registry: [spic_equal_weight]
+
+adaptive_origin:
+  disclosure: >-
+    Components were chosen after observing bucket-C V8 and V10 results. This is a
+    single adaptive synthesis, not an independent discovery claim; all 65 prior
+    tests remain in the multiplicity family and bucket D remains unopened.
+  component_one: pds_120
+  component_two: joint_path_reversibility_60
+  selection_reason: complementary distributional and temporal structures missed different research gates
+
+formula:
+  component_one: cross-sectional percentile rank of 120-day Mann-Whitney turnover dominance on positive versus negative residual-return days
+  component_two: cross-sectional percentile rank of negative Jensen-Shannon divergence between three-day joint return/participation motifs and their time reversals over 60 days
+  candidate: 0.5 * component_one + 0.5 * component_two
+  permitted_weights: [0.5, 0.5]
+  expected_sign: positive
+
+neutralization:
+  common_controls: eleven known liquidity, reversal, volatility, lottery, momentum, and overnight/intraday baselines
+  component_state_controls:
+    - pds return-sign balance
+    - pds signed turnover share
+    - pds linear return-turnover correlation
+    - joint motif entropy
+    - joint return-sign balance
+    - joint activity-state balance
+    - joint linear return-turnover correlation
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 65
+  current_tests: 1
+  total_tests_after_v18: 66
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain negative result and keep D closed if the candidate fails

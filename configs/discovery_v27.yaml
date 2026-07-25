@@ -1,0 +1,67 @@
+experiment_id: multiscale-float-supply-impact-consensus-v27
+status: frozen_before_v27_bucket_e_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: adaptive equal-weight synthesis of the original V26 FSID components; not a claim of a new primitive anomaly
+
+candidate_registry: [mfsic_equal_weight]
+
+formula:
+  components: [fsid_100, fsid_120]
+  transform: eligible-universe daily percentile rank for each component
+  candidate: >-
+    0.5 times rank(fsid_120) plus 0.5 times rank(fsid_100); when fsid_100
+    is unavailable but fsid_120 is available, the fsid_120 rank is used for both terms
+  availability_requirement: fsid_120 must be available
+  expected_sign: positive
+
+neutralization:
+  minimum_rows: 100
+  common_controls: eleven registered liquidity, reversal, volatility, lottery, momentum, and overnight/intraday controls
+  incremental_controls:
+    - V26 remaining float inventory days at absorption scale 0.25
+    - availability-preserving equal-weight mean completed-event supply fraction
+    - availability-preserving equal-weight mean completed-event cumulative residual return
+    - availability-preserving equal-weight mean completed-event cumulative turnover
+    - availability-preserving equal-weight raw absorption slope
+    - availability-preserving equal-weight completed-event age
+    - indicator that fsid_100 is available
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+adaptive_reuse_disclosure: >-
+  V27 was proposed after observing V26 on E. The weights, missing-value rule, and
+  gate are frozen before V27 evaluation; V26 remains failed and both of its tests
+  remain in the cumulative BH family. This family ends if V27 fails.
+data_reuse_limitation: E/F were used by an earlier repository for a different formula; V27 is formula-new to both and F remains sealed
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 79
+  current_tests: 1
+  total_tests_after_v27: 80
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 32
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain the negative result, close this factor family, and keep F sealed if the candidate fails
+

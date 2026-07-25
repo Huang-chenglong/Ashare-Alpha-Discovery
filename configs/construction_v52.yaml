@@ -1,0 +1,113 @@
+experiment_id: nonlinear-margin-path-model-v52
+status: frozen_after_v51_A_failure_before_v52_A_model_outcomes
+frozen_date: 2026-07-24
+
+adaptivity_disclosure: >-
+  V52 follows V50-V51 bucket-A diagnostics showing a positive overall IC but a
+  non-monotone extreme top tail. No bucket-B margin-factor outcome has been
+  calculated. V52 replaces manual hump-shaped formula tuning with three
+  pre-registered, strongly regularized model classes and point-in-time
+  expanding-window prediction.
+
+features:
+  margin_interactions: [mdar_v48, mcar_v48, mlcf_v48, mpbr_v50, mpsr_v50, mpcs_v50]
+  margin_main_effects:
+    - financing_leverage
+    - net_financing_flow_to_turnover
+    - short_leverage
+    - short_sell_intensity
+    - path_inflow_breadth
+    - path_signed_ratio
+    - path_dispersion_ratio
+  price_and_volume_main_effects: inherit_v48_known_factor_controls
+  normalization: cross_sectional_percentile_rank_each_month
+  missing_values: rows_are_excluded_no_imputation
+
+models:
+  - candidate: ridge10_v52
+    specification: StandardScaler then Ridge(alpha=10)
+  - candidate: hgb7_v52
+    specification: HistGradientBoostingRegressor(learning_rate=0.05,max_iter=150,max_leaf_nodes=7,min_samples_leaf=80,l2_regularization=10,early_stopping=false,random_state=20260724)
+  - candidate: extra4_v52
+    specification: ExtraTreesRegressor(n_estimators=300,max_depth=4,min_samples_leaf=50,max_features=0.75,bootstrap=false,random_state=20260724)
+candidate_registry: [ridge10_v52, hgb7_v52, extra4_v52]
+alternative_models_or_hyperparameters_permitted_after_outcomes: false
+sign_flipping_permitted_after_outcomes: false
+
+point_in_time_training:
+  construction_prediction_dates: 2021-01-01_to_2023-12-31
+  train_rule: only_rows_with_exit_date_strictly_before_prediction_date
+  window: expanding
+  minimum_training_rows: 2500
+  target: next_20_session_open_to_open_return_minus_same_month_research_universe_mean
+  final_model_label_cutoff: exit_date_strictly_before_2024-01-01
+  confirmation_refitting: none
+
+final_score_neutralization:
+  controls: all_v50_price_volume_and_margin_path_main_effects
+  size: log_float_market_cap_and_centered_square
+  industry: point_in_time_shenwan_level_1
+  minimum_rows: 150
+
+data:
+  dense_margin_data_sha256: 0647e540f1598853ad9919883e4b58b01d9ee8555f6ff1042e677ce8bf4b360e
+  dense_margin_manifest_sha256: 516e1cdacacfdeb5d897fc6b422f43b55be8cc337067c257330c70ac04a88f10
+  construction_structural_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  confirmation_structural_sha256: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+
+evidence_roles:
+  construction:
+    assets: stable_hash_bucket_A
+    model_predictions: 2021-2023_walk_forward
+    adaptive: true
+  confirmation:
+    assets: stable_hash_bucket_B_disjoint_from_A
+    dates: 2024-01-01_to_2026-05-31
+    outcomes_unread: true
+    model_and_features_unseen: true
+    fixed_model_no_refitting: true
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  entry_offset_sessions: 2
+  exit_offset_sessions: 22
+  maximum_execution_delay_sessions: 5
+
+construction_gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  family_bh_q_max: 0.10
+  positive_years_min: 3
+  required_positive_year: 2023
+  required_core_years_positive: [2021, 2022, 2023]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_monthly_complete_rows: 150
+
+confirmation_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.025
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+multiplicity:
+  cumulative_directional_tests_before_v52: 120
+  v52_family_tests: 3
+  cumulative_directional_tests_after_v52: 123
+
+claim_rule: >-
+  V52 construction is adaptive. Effectiveness requires one selected and frozen
+  model artifact to pass the single asset-and-future-time-disjoint bucket-B
+  confirmation without refitting or hyperparameter changes.

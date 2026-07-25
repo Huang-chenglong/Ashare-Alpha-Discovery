@@ -1,0 +1,53 @@
+experiment_id: persistent-structural-tail-consensus-v45
+audited_date: 2026-07-24
+decision: passed_adaptive_construction_failed_one_shot_G_confirmation
+directional_test_numbers: [100, 101, 102]
+selected_candidate: pcs60_25_15_v45
+effective_confirmed_factor: false
+bucket_g_opened: true
+bucket_g_closed_for_v45_tuning: true
+construction:
+  selected_months: 34
+  selected_mean_rank_ic: 0.017574156896445568
+  selected_hac_p_one_sided: 7.380802368014161e-05
+  selected_family_q_bh: 0.00022142407104042483
+  selected_positive_years: 3
+  selected_mean_net_active_return: 0.0026865648391386585
+  selected_net_information_ratio: 0.515475951493969
+  selected_passes: true
+  maximum_absolute_neutralized_exposure: 4.4214631955696866e-14
+confirmation_G:
+  months: 34
+  mean_rank_ic: 0.010513935673750193
+  hac_t: 1.3205298155072829
+  hac_p_one_sided: 0.09332909408452722
+  positive_years: 2
+  year_2023_mean_ic: -0.00034438546276323035
+  mean_net_active_return: 0.0023546431542953872
+  net_information_ratio: 0.8035118225085002
+  minimum_monthly_return_coverage: 1.0
+  minimum_selected_return_coverage: 1.0
+  maximum_absolute_neutralized_exposure: 2.5035529205297283e-14
+  passes: false
+failure_reasons:
+  confirmation_mean_ic_below_0_015: true
+  confirmation_hac_p_above_0_05: true
+  confirmation_all_years_positive: false
+hashes:
+  construction_protocol: 7add8760fb24e0e9872ee3f2a15e11013a923a4cc5f492cdd34418a8eb935216
+  confirmation_protocol: 4a091deb778b36790ed0f73f676770fa2ca9aaa6233b61047fa0f0416e2cc144
+  construction_summary: 5b2519386e37fd52c08f112ab0014d22b14be9820b75199e3bb9b72df7c6623d
+  construction_yearly: f1fe79ca6f60d372ee037110586b4d15556369f06b69475c49a657e5f559a940
+  construction_monthly: 35ad6301e434e6eb1aa8e2537ed8922e0237c6a745d85792af2bb8fab48965d6
+  construction_exposures: a331f687997870499eb483f8af1303360248ff184a3d26d66f87a1c4bebcf252
+  construction_metadata: 6df74fd9bef916ab22eaff770dbf6f885921ff982bd6450adb5cedcb78d769b4
+  confirmation_summary: f9aea9e3c43fd5e4e08068bf5557ac13582406f5ec14bd2150f2e8e7f476559d
+  confirmation_yearly: 4ba8194523616fbf0964f80ddd05877915fbc1199d257638c935e881c512dd49
+  confirmation_monthly: c788498e22a7e62a9fa013575f8a2e21ea891f3422f1e4de0495e2dc5e6d53d3
+  confirmation_exposures: 8345750eca5f07520cd2cc156fb8a8ea89e9e08659533d796c693435a4f7ffa6
+  confirmation_metadata: 1b445c80ce5aa1c4b5857ad788151674d9c5ee117bb8ccaadf73b3d56fab7257
+interpretation: >-
+  Persistence repaired the construction portfolio and passed every frozen E+F
+  gate, but the formula-unseen asset-disjoint G result did not meet the IC,
+  HAC, or three-positive-year requirements. Positive G net return and IR do not
+  override the conjunctive gate. V45 is not an effective confirmed factor.

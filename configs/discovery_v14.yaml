@@ -1,0 +1,70 @@
+experiment_id: vwap-state-transition-imbalance-v14
+status: frozen_before_v14_bucket_c_evaluation
+frozen_date: 2026-07-23
+claim_type: exact state-transition construction; VWAP and crossing rules themselves are prior art
+
+candidate_registry: [vsti_60, vsti_120]
+
+data_construction:
+  raw_vwap: TongdaXin_amount / TongdaXin_volume
+  adjustment_factor: Tencent_HFQ_close / TongdaXin_raw_close
+  adjusted_vwap: raw_vwap * adjustment_factor
+  physical_validation: adjusted VWAP must lie within adjusted daily low/high with 0.5 percent tolerance for at least 99.99 percent of valid rows
+
+state_definition:
+  below: open < adjusted_vwap and close < adjusted_vwap
+  up_cross: open <= adjusted_vwap and close >= adjusted_vwap and close > open
+  above: open > adjusted_vwap and close > adjusted_vwap
+  down_cross: open >= adjusted_vwap and close <= adjusted_vwap and close < open
+  equality_tie_break: equality belongs to a crossing state only when close differs from open; otherwise the state is missing
+
+formula:
+  positive_transitions: [below_to_up_cross, up_cross_to_above]
+  negative_transitions: [above_to_down_cross, down_cross_to_below]
+  daily_transition_score: positive_transition_indicator minus negative_transition_indicator
+  candidate: rolling sum(daily_transition_score) divided by rolling adjacent_transition_count
+  minimum_active_directional_transitions: 5
+  horizons: [60, 120]
+  expected_sign: positive
+
+neutralization:
+  common_controls: eleven known liquidity, reversal, volatility, lottery, momentum, and overnight/intraday baselines
+  candidate_specific_controls:
+    - mean signed open position relative to VWAP
+    - mean signed close position relative to VWAP
+    - up-cross minus down-cross frequency
+    - all-state transition activity
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+adaptive_reuse_disclosure: bucket C is adaptive research data; bucket D remains unopened
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 59
+  current_tests: 2
+  total_tests_after_v14: 61
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 34
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 20
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain negative result and keep D closed if no candidate passes

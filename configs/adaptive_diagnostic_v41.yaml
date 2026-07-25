@@ -1,0 +1,37 @@
+experiment_id: structural-customer-financing-consensus-v41
+status: frozen_while_bucket_f_run_has_no_result_output
+frozen_date: 2026-07-23
+
+candidate: scfc_v41
+dataset: E/legacy-liquid-hash-A
+data_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+role: >-
+  Adaptive post-fit diagnostic only. E was used to fit the structural component
+  during 2020-2022, and repeated V20-V40 inspections informed V41. This result
+  is therefore not independent confirmation and is never labelled
+  out-of-sample.
+
+evaluation_period: [2023-01-01, 2025-12-31]
+excluded_training_period: [2020-01-01, 2022-12-31]
+
+portfolio:
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+
+gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.010
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_years: [2023, 2024, 2025]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+joint_claim_rule: >-
+  V41 may be described as an effective factor only if every adaptive E gate in
+  this file and every independent F gate in confirmation_v41.yaml passes.
+  Failure of either side rejects the effectiveness claim.

@@ -1,0 +1,171 @@
+status: no_new_confirmed_factor
+as_of: 2026-07-25
+cumulative_candidate_tests: 131
+latest_version: V56
+formula_new_confirmation_bucket_f_opened: true
+sealed_confirmation_bucket_g_opened: true
+reason: V53 replicated rank IC in independent B but failed the frozen net-return and IR gates; V54-V56 failed A construction and pristine C/D remain unread
+
+notable_results:
+  fsid_120:
+    discovery_mean_ic: 0.017445167636492225
+    discovery_bh_q: 0.19529061705460285
+    validation_mean_ic: 0.0168367287863
+    validation_mean_net_active_return: 0.001433
+    validation_net_information_ratio: 0.776118
+    passes: false
+  nsim_v30:
+    validation_mean_ic: 0.0164701433435
+    validation_hac_p_one_sided: 0.053523
+    validation_mean_net_active_return: 0.002043
+    validation_net_information_ratio: 0.513499
+    passes: false
+  diba_v32:
+    discovery_mean_ic: 0.005225727440267708
+    discovery_bh_q: 0.5358953004840183
+    validation_mean_ic: 0.011331308422922038
+    validation_hac_p_one_sided: 0.1781430581818328
+    validation_mean_net_active_return: -0.0013877432219661819
+    validation_net_information_ratio: -0.48014355869707204
+    passes: false
+  cspi_v33:
+    discovery_mean_ic: 0.014869141522559311
+    discovery_bh_q: 0.06231110751430508
+    validation_mean_ic: -0.007154785296347834
+    validation_hac_p_one_sided: 0.8125454130780616
+    validation_mean_net_active_return: -0.0016767065095998165
+    validation_net_information_ratio: -0.6910558322323862
+    passes: false
+  clpi_v34:
+    discovery_mean_ic: 0.011140674186163361
+    discovery_bh_q: 0.19851032555451412
+    validation_mean_ic: -0.0012715944296762295
+    validation_hac_p_one_sided: 0.5697609202934955
+    validation_mean_net_active_return: 0.0005639707963172319
+    validation_net_information_ratio: 0.21645361714022654
+    passes: false
+  sfgr_v35:
+    discovery_mean_ic: -0.0038336549753727293
+    discovery_bh_q: 0.8960755127012183
+    validation_mean_ic: 0.015044698883011165
+    validation_hac_p_one_sided: 0.12548104897695844
+    validation_mean_net_active_return: -0.002072962668077483
+    validation_net_information_ratio: -0.6898750153053735
+    passes: false
+  fsim_v36:
+    discovery_mean_ic: -0.0017182943091817319
+    discovery_bh_q: 0.8182344192980324
+    validation_mean_ic: 0.01011224457546686
+    validation_hac_p_one_sided: 0.1555894028080554
+    validation_mean_net_active_return: -0.000872163530809406
+    validation_net_information_ratio: -0.2508406583515403
+    passes: false
+  clua_v37:
+    discovery_mean_ic: 0.007304920658372063
+    discovery_bh_q: 0.3872141972321068
+    validation_mean_ic: -0.019757115846039695
+    validation_hac_p_one_sided: 0.9601980163035945
+    validation_mean_net_active_return: -0.0050237051875097385
+    validation_net_information_ratio: -1.9043096031527542
+    passes: false
+  cora_v38:
+    discovery_mean_ic: 0.006655931662727362
+    discovery_bh_q: 0.35313830854540856
+    validation_mean_ic: 0.0030369749182617965
+    validation_hac_p_one_sided: 0.272570809573658
+    validation_mean_net_active_return: -0.004365526802876542
+    validation_net_information_ratio: -1.4653305424995597
+    passes: false
+  cfwa_v39:
+    discovery_mean_ic: 0.010977740248741842
+    discovery_bh_q: 0.18748060908092677
+    validation_mean_ic: 0.005123154646917287
+    validation_hac_p_one_sided: 0.27956978483476935
+    validation_mean_net_active_return: -0.002160063585304398
+    validation_net_information_ratio: -0.6178335160025302
+    passes: false
+  cfma_v40:
+    discovery_mean_ic: 0.016163651504975703
+    discovery_bh_q: 0.10178826173534144
+    validation_mean_ic: 0.0027749324207288803
+    validation_hac_p_one_sided: 0.41059164244173935
+    validation_mean_net_active_return: 0.00173174526914341
+    validation_net_information_ratio: 0.43643797782853433
+    passes: false
+  scfc_v41:
+    evidence_rule: adaptive_e_gate AND independent_f_gate
+    adaptive_e_months: 36
+    adaptive_e_mean_ic: 0.009032137292183866
+    adaptive_e_hac_p_one_sided: 0.1940765995665228
+    adaptive_e_mean_net_active_return: -0.0014206315660370299
+    adaptive_e_net_information_ratio: -0.39020110000874647
+    adaptive_e_passes: false
+    confirmation_f_months: 70
+    confirmation_f_mean_ic: 0.010277589588366335
+    confirmation_f_hac_p_one_sided: 0.029882864943146657
+    confirmation_f_mean_net_active_return: -0.0026218918855465496
+    confirmation_f_net_information_ratio: -0.6244400829527706
+    confirmation_f_passes: false
+    joint_effective_factor: false
+  tafs_v42:
+    construction_months: 36
+    construction_mean_ic: 0.004701248674029001
+    construction_hac_p_one_sided: 0.10588851018624149
+    construction_mean_net_active_return: 0.003811295818320224
+    construction_net_information_ratio: 0.6437701384081234
+    construction_passes: false
+    bucket_g_opened: false
+  rrsm_v43:
+    construction_months: 36
+    construction_mean_ic: 0.018202648433527233
+    construction_hac_p_one_sided: 0.00010212139969349202
+    construction_mean_net_active_return: -0.0029360587253501846
+    construction_net_information_ratio: -0.442318583421359
+    construction_passes: false
+    bucket_g_opened: false
+  structural_tail_consensus_v44:
+    family_tests: 3
+    construction_months: 36
+    closest_candidate: rrsm60_tafs40_v44
+    closest_mean_ic: 0.014764962238811737
+    closest_hac_p_one_sided: 4.0936897787917754e-07
+    closest_mean_net_active_return: 0.0015833733146331786
+    closest_net_information_ratio: 0.24953218553304304
+    any_construction_passes: false
+    bucket_g_opened: false
+  persistent_structural_tail_consensus_v45:
+    family_tests: 3
+    selected_candidate: pcs60_25_15_v45
+    construction_mean_ic: 0.017574156896445568
+    construction_mean_net_active_return: 0.0026865648391386585
+    construction_net_information_ratio: 0.515475951493969
+    construction_passes: true
+    confirmation_g_mean_ic: 0.010513935673750193
+    confirmation_g_hac_p_one_sided: 0.09332909408452722
+    confirmation_g_mean_net_active_return: 0.0023546431542953872
+    confirmation_g_net_information_ratio: 0.8035118225085002
+    confirmation_g_passes: false
+    effective_confirmed_factor: false
+    bucket_g_opened: true
+    bucket_g_closed_for_v45_tuning: true
+  robust_persistence_v46:
+    family_tests: 3
+    any_construction_passes: false
+    bucket_h_opened: false
+  mildly_stabilized_persistence_v47:
+    family_tests: 3
+    selected_candidate: wpen10_v47
+    construction_mean_ic: 0.01754594085238885
+    construction_passes: true
+    confirmation_h_mean_ic: -0.02576390246908762
+    confirmation_h_mean_net_active_return: -0.002299354357803207
+    confirmation_h_passes: false
+    effective_confirmed_factor: false
+    bucket_h_opened: true
+    bucket_h_closed_for_v47_tuning: true
+
+required_for_credible_continuation:
+  - fresh asset-and-formula-unseen history
+  - archived-vintage point-in-time fundamentals or shareholder data
+  - intraday or order-book history
+  - or a prospectively frozen paper-trading period

@@ -1,0 +1,86 @@
+experiment_id: matched-excursion-participation-imbalance-v24
+status: frozen_before_v24_bucket_e_evaluation
+frozen_date: 2026-07-23
+research_bucket: E/legacy-liquid-hash-A
+claim_type: exact formula not found in the documented pre-outcome search; universal novelty is not claimed
+
+candidate_registry: [mepi_60, mepi_90]
+
+formula:
+  daily_return: close-to-close log return minus the eligible-universe date median
+  completed_excursion: >-
+    Adjacent eligible sessions have opposite-signed residual returns and
+    abs(r_t + r_t-1) / (abs(r_t) + abs(r_t-1)) <= 0.25.
+  match_quality: 1 minus the cancellation ratio
+  participation_imbalance: >-
+    sign(r_t) * (turnover_t - turnover_t-1) / (turnover_t + turnover_t-1),
+    which is positive exactly when the positive-return leg has higher turnover.
+  candidate: match-quality-weighted mean participation imbalance over the frozen horizon
+  minimum_completed_events: 8
+  horizons: [60, 90]
+  expected_sign: positive
+
+neutralization:
+  minimum_rows: 100
+  common_controls:
+    - low_turnover_20
+    - low_turnover_vol_60
+    - reversal_20
+    - low_volatility_60
+    - anti_max_return_20
+    - anti_skewness_60
+    - momentum_60_20
+    - momentum_120_20
+    - overnight_mean_20
+    - negative_intraday_mean_20
+    - diffuse_turnover_60
+  incremental_controls:
+    - matched-event frequency
+    - mean match quality
+    - positive-leg-second event-order balance
+    - mean matched-excursion magnitude
+    - unconditional signed turnover-change pressure
+    - linear residual-return/turnover-change correlation
+  structural_controls:
+    - z_log_float_market_cap
+    - centered_squared_z_log_float_market_cap
+    - point_in_time_Shenwan_L1_dummies
+
+prior_art_boundary:
+  related_but_not_exact:
+    - general return-volume relation and technical price-volume divergence
+    - return-sign sequences and subsequent trading volume
+    - overnight-versus-daytime tug-of-war return predictability
+  rejected_nearby_family: V23 peer-return gap, rejected without outcome access
+
+data_reuse_limitation: E/F were used by an earlier repository for a different formula; V24 is formula-new to both and F remains sealed
+adaptive_reuse_disclosure: all earlier tested candidates remain in the cumulative BH family; V24 was specified after V20-V22 failures on E
+
+multiplicity:
+  method: Benjamini-Hochberg
+  prior_tests_included: 73
+  current_tests: 2
+  total_tests_after_v24: 75
+
+periods:
+  discovery: [2020-01-01, 2022-12-31]
+  internal_validation: [2023-01-01, 2024-12-31]
+
+research_gate:
+  discovery_minimum_months: 32
+  discovery_mean_rank_ic_min: 0.015
+  discovery_bh_fdr_max: 0.10
+  validation_minimum_months: 23
+  validation_mean_rank_ic_min: 0.010
+  validation_2023_and_2024_positive: true
+  validation_mean_net_active_return_min: 0.0
+  validation_net_information_ratio_min: 0.30
+
+portfolio:
+  type: buffered equal-weight long-only
+  holdings: 100
+  retention_percentile: 0.60
+  cost_bps_one_way: 20
+
+failure_rule: retain the negative result and keep F closed if neither candidate passes
+

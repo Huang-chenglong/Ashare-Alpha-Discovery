@@ -1,0 +1,118 @@
+experiment_id: tail-aware-funding-structure-v42
+status: frozen_before_E_plus_F_construction_outcomes
+frozen_date: 2026-07-24
+
+candidate: tafs_v42
+hypothesis: >-
+  A fixed shallow classifier of price-volume state and customer-financing/cash
+  quality state estimates the probability of entering the next-month
+  cross-sectional top residual-return quintile. After every input's linear and
+  quadratic ranked main effect, size, and industry are removed, the remaining
+  interaction probability predicts higher returns.
+direction: higher_probability_predicts_higher_return
+
+evidence_roles:
+  E: adaptive construction data
+  F: consumed V41 confirmation data, explicitly converted to V42 construction
+  G: sealed V42-only asset-disjoint confirmation; no factor or return metric opened
+
+features:
+  - low_turnover_20
+  - low_turnover_vol_60
+  - reversal_20
+  - low_volatility_60
+  - anti_max_return_20
+  - anti_max_return_60
+  - anti_skewness_20
+  - anti_skewness_60
+  - momentum_60_20
+  - momentum_120_20
+  - overnight_mean_20
+  - overnight_mean_60
+  - negative_intraday_mean_20
+  - negative_intraday_mean_60
+  - positive_customer_financing_growth_rank
+  - positive_customer_financing_acceleration_rank
+  - positive_revenue_growth_rank
+  - customer_financing_growth_yoy
+  - prior_quarter_customer_financing_growth_yoy
+  - customer_financing_acceleration
+  - customer_financing_intensity
+  - advance_receipts_intensity
+  - contract_liabilities_intensity
+  - revenue_growth_yoy
+  - cash_margin
+  - profitability_roa
+  - cash_flow_roa
+  - cash_accrual_spread
+  - asset_growth_yoy
+
+training:
+  target: top 20% of same-month future-return residual after all 29 inputs, size, size-squared, and industry
+  top_tail_quantile: 0.80
+  scheme: expanding annual walk-forward
+  prediction_years: [2023, 2024, 2025]
+  fixed_hyperparameters:
+    loss: log_loss
+    learning_rate: 0.03
+    max_iter: 150
+    max_leaf_nodes: 7
+    min_samples_leaf: 200
+    l2_regularization: 20.0
+    max_bins: 63
+    early_stopping: false
+    random_state: 42
+  tuning: none
+
+neutralization:
+  minimum_rows: 300
+  controls: >-
+    Linear and quadratic within-month ranks of all 29 model inputs, point-in-time
+    log float size, squared log float size, and Shenwan L1 industry.
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  weighting: equal_weight
+
+gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  positive_years_min: 3
+  required_positive_year: 2025
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+freeze:
+  construction_data_sha256:
+    - 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+    - a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+  financial_manifest_sha256: 2c2086c7998c59683451651ce6f32c0e4d0158733fdd6f946dc0ed204a713854
+  sealed_bucket_g_sha256: 93ab3874abc07824c65f6676ebf16ff360d5762b961cdd11049d65b64ae781b9
+  bucket_g_assets: 310
+  bucket_g_asset_overlap_with_E_F: 0
+  cumulative_directional_tests_after_v42: 95
+
+bounded_prior_art_search:
+  exact_combination_found: false
+  universal_novelty_claim: false
+  related_work:
+    - https://doi.org/10.1080/1540496X.2022.2148464
+    - https://arxiv.org/abs/1806.01743
+    - https://arxiv.org/abs/2012.07149
+    - https://doi.org/10.1080/21697213.2023.2300293
+  boundary: >-
+    Gradient boosting, stock classification, learning-to-rank, technical and
+    fundamental predictors, and customer financing are prior art. Only this
+    exact feature registry, residual top-tail target, annual walk-forward rule,
+    hyperparameters, and double main-effect neutralization are registered as the
+    project-specific construct.
+
+decision_rule: >-
+  Open G only if every construction gate passes. If construction fails, retain
+  the negative result, increment the test ledger, and keep G sealed.
