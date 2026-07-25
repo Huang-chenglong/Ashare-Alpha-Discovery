@@ -72,3 +72,39 @@ def test_audit_margin_history_rejects_duplicate_keys() -> None:
     assert audit["status"] == "rejected"
     assert audit["duplicate_primary_keys"] == 1
     assert audit["invalid_asset_rows"] == 0
+
+
+def test_audit_allows_signed_repayment_adjustment() -> None:
+    rows = [
+        {
+            "trade_date": pd.Timestamp("2024-01-02"),
+            "asset": "600000",
+            "exchange": "SSE",
+            "security_name": "浦发银行",
+            "financing_balance": 1000.0,
+            "financing_buy": 100.0,
+            "financing_repayment": 80.0,
+            "short_balance_quantity": 20.0,
+            "short_sell_quantity": 5.0,
+            "short_repayment_quantity": -3.0,
+            "short_balance_value": pd.NA,
+            "total_margin_balance": pd.NA,
+        },
+        {
+            "trade_date": pd.Timestamp("2024-01-02"),
+            "asset": "000001",
+            "exchange": "SZSE",
+            "security_name": "平安银行",
+            "financing_balance": 900.0,
+            "financing_buy": 90.0,
+            "financing_repayment": pd.NA,
+            "short_balance_quantity": 10.0,
+            "short_sell_quantity": 2.0,
+            "short_repayment_quantity": pd.NA,
+            "short_balance_value": 50.0,
+            "total_margin_balance": 950.0,
+        },
+    ]
+    audit, _ = audit_margin_history(pd.DataFrame(rows), ["2024-01-02"])
+    assert audit["status"] == "admitted"
+    assert audit["signed_repayment_negative_values"]["short_repayment_quantity"] == 1

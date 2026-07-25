@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 import time
+import warnings
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
@@ -33,12 +34,15 @@ MARGIN_COLUMNS = [
 NONNEGATIVE_COLUMNS = [
     "financing_balance",
     "financing_buy",
-    "financing_repayment",
     "short_balance_quantity",
     "short_sell_quantity",
-    "short_repayment_quantity",
     "short_balance_value",
     "total_margin_balance",
+]
+
+SIGNED_REPAYMENT_COLUMNS = [
+    "financing_repayment",
+    "short_repayment_quantity",
 ]
 
 
@@ -244,11 +248,17 @@ def fetch_szse_margin_detail(
         attempts=attempts,
         timeout_seconds=timeout_seconds,
     )
-    table = pd.read_excel(
-        io.BytesIO(response.content),
-        engine="openpyxl",
-        dtype="string",
-    )
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message="Workbook contains no default style",
+            category=UserWarning,
+        )
+        table = pd.read_excel(
+            io.BytesIO(response.content),
+            engine="openpyxl",
+            dtype="string",
+        )
     return normalize_szse_margin_table(table, date_text), response.content
 
 
@@ -259,7 +269,13 @@ def _read_cached_sse(path: Path, trade_date: pd.Timestamp) -> pd.DataFrame:
 
 
 def _read_cached_szse(path: Path, trade_date: pd.Timestamp) -> pd.DataFrame:
-    table = pd.read_excel(path, engine="openpyxl", dtype="string")
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message="Workbook contains no default style",
+            category=UserWarning,
+        )
+        table = pd.read_excel(path, engine="openpyxl", dtype="string")
     return normalize_szse_margin_table(table, trade_date)
 
 
@@ -278,6 +294,10 @@ def audit_margin_history(
     negative_by_column = {
         column: int(frame[column].dropna().lt(0.0).sum())
         for column in NONNEGATIVE_COLUMNS
+    }
+    signed_repayment_negative_values = {
+        column: int(frame[column].dropna().lt(0.0).sum())
+        for column in SIGNED_REPAYMENT_COLUMNS
     }
     required_null_rate = {
         column: float(frame[column].isna().mean())
@@ -344,6 +364,12 @@ def audit_margin_history(
         "duplicate_primary_keys": duplicate_rows,
         "invalid_asset_rows": invalid_asset_rows,
         "negative_values": negative_by_column,
+        "signed_repayment_negative_values": signed_repayment_negative_values,
+        "signed_repayment_note": (
+            "Repayment fields can be negative because the exchange definition "
+            "nets rights adjustments and residual-security transfers; these "
+            "fields are not used by V48-V50 candidates."
+        ),
         "required_null_rate": required_null_rate,
         "szse_balance_identity_violations": relation_violations,
         "missing_source_dates": [
