@@ -1,0 +1,4 @@
+candidate,months,mean_rank_ic,hac_t,hac_p_one_sided,positive_years,required_positive_year,required_year_positive,mean_net_active_return,net_information_ratio,mean_monthly_traded_notional,minimum_monthly_return_coverage,minimum_selected_return_coverage,family_q_bh,required_core_years_positive,passes_construction_gate_before_family_bh,passes_construction_gate,passes_data_coverage_gate
+ridge10_v52,34,-0.009060953217249172,-1.1195233200219812,0.8685415260480365,1,2023,True,-0.008247062665364173,-2.2182242903060296,1.128235294117647,1.0,1.0,0.8685415260480364,False,False,False,True
+hgb7_v52,34,0.013693651950269916,1.307995315201339,0.0954374491410902,2,2023,False,-0.004612766099880838,-0.9715855979454059,1.0470588235294118,1.0,1.0,0.23241712086704963,False,False,False,True
+extra4_v52,34,0.006100854654751977,1.0154539346335976,0.15494474724469975,3,2023,True,-0.0054704885425129295,-1.4751082759738756,1.0188235294117647,1.0,1.0,0.23241712086704963,True,False,False,True

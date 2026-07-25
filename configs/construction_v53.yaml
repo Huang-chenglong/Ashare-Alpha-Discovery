@@ -1,0 +1,128 @@
+experiment_id: direct-margin-flow-tail-classifier-v53
+status: frozen_after_v52_A_failure_before_v53_A_outcomes
+frozen_date: 2026-07-25
+
+adaptivity_disclosure: >-
+  V53 is motivated by V52's failure: regression losses produced weak or
+  negative top-50 economics even where average rank IC was positive. Bucket A
+  is therefore adaptive. No bucket-B margin outcome has been calculated. V53
+  changes the target to a fixed within-month top-decile event and introduces
+  direct financing-buy, short-sale, and short-inventory path fields that were
+  previously controls or unused raw columns.
+
+new_modalities:
+  financing_buy_to_amount: same-day financing purchases divided by same-day stock turnover
+  financing_buy_to_balance: same-day financing purchases divided by financing balance
+  financing_buy_surprise_4: current purchase intensity divided by prior-four-snapshot mean minus one
+  short_sell_value_to_amount: short-sale quantity times raw close divided by same-day turnover
+  short_sell_surprise_4: current short-sale intensity divided by prior-four-snapshot mean minus one
+  short_inventory_change_to_amount: consecutive-snapshot short-inventory quantity change valued at current raw close divided by interval turnover
+  short_inventory_path_4: four-snapshot sum of short-inventory change intensity
+  snapshot_consecutiveness: global official snapshot order must be consecutive
+  unavailable_order_book_fields: none_are_substituted_or_imputed
+
+features:
+  inherited: all_v52_price_volume_margin_interaction_and_path_features
+  added: all_new_modalities_above
+  normalization: cross_sectional_percentile_rank_each_month
+  missing_values: rows_are_excluded_no_imputation
+
+target:
+  definition: one_if_label_is_strictly_above_its_formation_month_90th_percentile
+  label: next_20_session_open_to_open_return_minus_same_month_research_universe_mean
+  rationale: align_training_loss_with_the_pre_registered_top_50_economic_test
+
+models:
+  - candidate: logit_tail_v53
+    specification: StandardScaler then LogisticRegression(C=0.1,penalty=l2,class_weight=balanced,solver=lbfgs,max_iter=1000,random_state=20260724)
+  - candidate: hgb_tail_v53
+    specification: HistGradientBoostingClassifier(learning_rate=0.05,max_iter=150,max_leaf_nodes=7,min_samples_leaf=80,l2_regularization=10,early_stopping=false,class_weight=balanced,random_state=20260724)
+  - candidate: extra_tail_v53
+    specification: ExtraTreesClassifier(n_estimators=300,max_depth=5,min_samples_leaf=50,max_features=0.75,bootstrap=false,class_weight=balanced,random_state=20260724)
+candidate_registry: [logit_tail_v53, hgb_tail_v53, extra_tail_v53]
+alternative_models_or_hyperparameters_permitted_after_outcomes: false
+sign_flipping_permitted_after_outcomes: false
+
+point_in_time_training:
+  construction_prediction_dates: 2021-01-01_to_2023-12-31
+  train_rule: only_rows_with_exit_date_strictly_before_prediction_date
+  window: expanding
+  minimum_training_rows: 2000
+  minimum_training_rows_basis: >-
+    Frozen from pre-outcome feature-availability counts: 2,074 complete rows
+    precede the March 2021 formation date, while 2,500 would make the
+    34-month construction gate mechanically impossible.
+  final_model_label_cutoff: exit_date_strictly_before_2024-01-01
+  confirmation_refitting: none
+
+final_score_neutralization:
+  controls: >-
+    all V50 known price-volume and margin-path main effects plus linear and
+    squared cross-sectional ranks of every new V53 modality
+  size: log_float_market_cap_and_centered_square
+  industry: point_in_time_shenwan_level_1
+  minimum_rows: 150
+
+data:
+  dense_margin_data_sha256: 0647e540f1598853ad9919883e4b58b01d9ee8555f6ff1042e677ce8bf4b360e
+  dense_margin_manifest_sha256: 516e1cdacacfdeb5d897fc6b422f43b55be8cc337067c257330c70ac04a88f10
+  construction_structural_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  confirmation_structural_sha256: a026ac044491e104d62198e74a3047048d0b147399efa97ee1dcf416dad2b2f9
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+
+evidence_roles:
+  construction:
+    assets: stable_hash_bucket_A
+    model_predictions: 2021-2023_walk_forward
+    adaptive: true
+  confirmation:
+    assets: stable_hash_bucket_B_disjoint_from_A
+    dates: 2024-01-01_to_2026-05-31
+    outcomes_unread: true
+    model_and_features_unseen: true
+    fixed_model_no_refitting: true
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  entry_offset_sessions: 2
+  exit_offset_sessions: 22
+  maximum_execution_delay_sessions: 5
+
+construction_gate:
+  minimum_months: 34
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  family_bh_q_max: 0.10
+  positive_years_min: 3
+  required_positive_year: 2023
+  required_core_years_positive: [2021, 2022, 2023]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_monthly_complete_rows: 150
+  minimum_median_new_modality_coverage: 0.45
+
+confirmation_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.025
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+multiplicity:
+  cumulative_directional_tests_before_v53: 123
+  v53_family_tests: 3
+  cumulative_directional_tests_after_v53: 126
+
+claim_rule: >-
+  V53 construction is adaptive. Effectiveness requires one selected and frozen
+  model artifact to pass the single asset-and-future-time-disjoint bucket-B
+  confirmation without refitting, sign changes, or hyperparameter changes.
