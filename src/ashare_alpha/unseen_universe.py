@@ -370,7 +370,16 @@ def build_bucket_panel(
     structure["float_market_cap"] = structure["raw_close"] * structure["float_shares"]
     structure["turnover_fraction"] = structure["tdx_volume"] / structure["float_shares"]
     panel = panel.drop(columns=["raw_close"], errors="ignore").merge(
-        structure[["date", "asset", "float_shares", "float_market_cap", "turnover_fraction"]],
+        structure[
+            [
+                "date",
+                "asset",
+                "raw_close",
+                "float_shares",
+                "float_market_cap",
+                "turnover_fraction",
+            ]
+        ],
         on=["date", "asset"],
         how="left",
         validate="one_to_one",
