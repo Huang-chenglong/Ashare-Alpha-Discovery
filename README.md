@@ -1,5 +1,12 @@
 # A-Share Alpha Discovery
 
+> Latest audit (2026-07-25): 131 directional tests; no factor has passed every
+> frozen gate. The new official margin-financing study is documented in
+> [`docs/margin_orderbook_research_v48_v56.md`](docs/margin_orderbook_research_v48_v56.md).
+> `hgb_tail_v53` independently replicated rank IC in B (`0.02627`, p=`0.00957`)
+> but failed cost-adjusted return and IR, so it is not presented as an effective
+> factor. Newly built zero-overlap buckets C/D remain unopened.
+
 一个使用真实 A 股历史数据、点时市值与行业中性化、累计多重检验和封存确认集的因子挖掘审计项目。
 
 ## 当前结论

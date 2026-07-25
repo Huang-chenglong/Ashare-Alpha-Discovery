@@ -1,10 +1,10 @@
 status: no_new_confirmed_factor
-as_of: 2026-07-24
-cumulative_candidate_tests: 108
-latest_version: V47
+as_of: 2026-07-25
+cumulative_candidate_tests: 131
+latest_version: V56
 formula_new_confirmation_bucket_f_opened: true
 sealed_confirmation_bucket_g_opened: true
-reason: V47 passed adaptive E+F+G construction but reversed sign in one-shot asset-disjoint H confirmation
+reason: V53 replicated rank IC in independent B but failed the frozen net-return and IR gates; V54-V56 failed A construction and pristine C/D remain unread
 
 notable_results:
   fsid_120:

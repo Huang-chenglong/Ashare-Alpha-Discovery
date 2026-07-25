@@ -40,3 +40,31 @@ Required columns are `asset,start_date,industry_l1`. Alignment uses the most rec
 
 The input hashes used for the published result are in
 [`results/material_passport.yaml`](../results/material_passport.yaml).
+
+## Official margin-financing history
+
+V48-V56 use a locally cached, non-redistributed Parquet assembled directly from the
+SSE and SZSE published security-level margin tables. Its grain is one exchange,
+trading date, and six-digit security code. Required fields are financing balance,
+financing purchases, short balance quantity, short-sale quantity, and the source
+exchange. Balance and purchase fields must be non-negative. Repayment fields remain
+signed because exchange adjustments can make them negative; no registered candidate
+uses a repayment field.
+
+The admitted weekly-plus-month-end snapshot contains 1,084,719 rows, 4,483 assets,
+and all 360 expected dates from 2020-01-03 through 2026-05-29. Its SHA-256 is
+`0647e540f1598853ad9919883e4b58b01d9ee8555f6ff1042e677ce8bf4b360e`.
+
+## Unseen C/D asset buckets
+
+The V54 continuation excludes the asset union of all thirteen earlier real panels
+before selecting any stock. The 479 remaining local TDX securities are divided by
+`sha256(asset) mod 2`:
+
+- C: 255 assets, panel SHA-256 `dec98133...eba6c39`;
+- D: 204 assets, panel SHA-256 `e612e986...69c29a`;
+- C/D overlap: zero; overlap with all 4,755 previously used assets: zero.
+
+Tencent HFQ prices, local TDX amount/volume, and local TDX `gbbq` float-share
+histories have 100% source coverage in both panels. C and D outcomes were not opened
+because V54-V56 did not earn validation permission.
