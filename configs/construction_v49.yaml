@@ -1,0 +1,109 @@
+experiment_id: persistent-margin-contrarian-v49
+status: frozen_after_v48_A_failure_before_v49_A_outcomes
+frozen_date: 2026-07-24
+
+adaptivity_disclosure: >-
+  V49 was designed after V48 showed that mcar_v48 had positive mean IC and
+  passed its three-formula BH screen but failed 2021 sign consistency and the
+  cost-adjusted portfolio gates. Bucket A is therefore adaptive construction
+  data. No bucket-B V48 or V49 return, IC, yearly, or portfolio outcome has
+  been calculated.
+
+base_signal:
+  candidate: mcar_v48
+  formula: financing_inflow_rank * negative_momentum_rank * financing_leverage_rank
+  observed_v48_A_mean_ic: 0.016285
+  observed_v48_A_mean_net_active_return: -0.000353
+  observed_v48_A_mean_monthly_traded_notional: 1.291304
+
+candidates:
+  - candidate: mcar_ema2_v49
+    formula: 0.65 * mcar_v48(t) + 0.35 * mcar_v48(t-1)
+  - candidate: mcar_ema3_v49
+    formula: 0.50 * mcar_v48(t) + 0.30 * mcar_v48(t-1) + 0.20 * mcar_v48(t-2)
+  - candidate: mcar_stable3_v49
+    formula: mcar_ema3_v49 - 0.20 * range(mcar_v48(t), mcar_v48(t-1), mcar_v48(t-2))
+candidate_registry: [mcar_ema2_v49, mcar_ema3_v49, mcar_stable3_v49]
+consecutive_calendar_months_required: true
+alternative_formulas_permitted_after_outcomes: false
+direction_flipping_permitted_after_outcomes: false
+
+data:
+  source_protocol: configs/construction_v48.yaml
+  margin_data_sha256: 7fe1171d9a51c9ebed5b19c940f1b8291e16de033be343710acdf2bdab5d6986
+  margin_manifest_sha256: 3c4b9f5528309ea28fd5b670dcffe7b31ddea5be13f55f2813d05bbab45e36e5
+  construction_structural_sha256: 6a779e87ca39a27a1c616d906fd090ef6e8e90429e55ae20b8f38ef02fccec13
+  industry_sha256: 25f50629fb8baf978ec79306d5aee67e64deb604430fe096dbf040a8af4c35be
+
+neutralization:
+  inherit_all_v48_controls: true
+  additional_lagged_main_effects:
+    - financing_leverage_rank_lag1
+    - financing_leverage_rank_lag2
+    - financing_inflow_rank_lag1
+    - financing_inflow_rank_lag2
+    - negative_momentum_rank_lag1
+    - negative_momentum_rank_lag2
+  minimum_rows: 150
+
+evidence_roles:
+  construction:
+    assets: stable_hash_bucket_A
+    dates: 2020-01-01_to_2023-12-31
+    adaptive: true
+  confirmation:
+    assets: stable_hash_bucket_B_disjoint_from_A
+    dates: 2024-01-01_to_2026-05-31
+    outcomes_unread: true
+    formula_unseen: true
+    future_time_relative_to_construction: true
+
+portfolio:
+  holdings: 50
+  retention_percentile: 0.60
+  cost_bps_one_way: 20.0
+  entry_offset_sessions: 2
+  exit_offset_sessions: 22
+  maximum_execution_delay_sessions: 5
+
+construction_gate:
+  minimum_months: 43
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.05
+  family_bh_q_max: 0.10
+  positive_years_min: 3
+  required_positive_year: 2023
+  required_core_years_positive: [2021, 2022, 2023]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+  minimum_median_margin_coverage: 0.40
+  minimum_monthly_complete_rows: 150
+
+selection:
+  rule: highest mean net active return among complete gate and family-BH passes, then registry order
+  if_none_pass: record failures and keep bucket B unread
+  if_pass: freeze exactly one formula and all material hashes before opening B
+
+confirmation_gate:
+  minimum_months: 27
+  mean_rank_ic_min: 0.015
+  hac_p_one_sided_max: 0.025
+  positive_years_min: 3
+  required_positive_year: 2026
+  required_core_years_positive: [2024, 2025, 2026]
+  mean_net_active_return_min: 0.0
+  net_information_ratio_min: 0.30
+  minimum_monthly_return_coverage: 0.95
+  minimum_selected_return_coverage: 0.95
+
+multiplicity:
+  cumulative_directional_tests_before_v49: 111
+  v49_family_tests: 3
+  cumulative_directional_tests_after_v49: 114
+
+claim_rule: >-
+  V49 construction evidence is adaptive and cannot establish effectiveness.
+  Only a complete construction pass followed by a single frozen bucket-B
+  2024-2026 confirmation pass can support an effective-factor claim.
